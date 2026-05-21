@@ -1,0 +1,17 @@
+/Users/aman/ecom-order-system/product-service/src/main/java/com/ecom/productservice/exception/ResourceNotFoundException.java
+/Users/aman/ecom-order-system/product-service/src/main/java/com/ecom/productservice/exception/GlobalExceptionHandler.java
+/Users/aman/ecom-order-system/product-service/src/main/java/com/ecom/productservice/security/JwtUtil.java
+/Users/aman/ecom-order-system/product-service/src/main/java/com/ecom/productservice/dto/ProductResponse.java
+/Users/aman/ecom-order-system/product-service/src/main/java/com/ecom/productservice/config/JwtProperties.java
+/Users/aman/ecom-order-system/product-service/src/main/java/com/ecom/productservice/security/SecurityConfig.java
+/Users/aman/ecom-order-system/product-service/src/main/java/com/ecom/productservice/repository/ProductRepository.java
+/Users/aman/ecom-order-system/product-service/src/main/java/com/ecom/productservice/security/JwtAuthFilter.java
+/Users/aman/ecom-order-system/product-service/src/main/java/com/ecom/productservice/config/AppConfig.java
+/Users/aman/ecom-order-system/product-service/src/main/java/com/ecom/productservice/dto/StockRequest.java
+/Users/aman/ecom-order-system/product-service/src/main/java/com/ecom/productservice/dto/ApiResponse.java
+/Users/aman/ecom-order-system/product-service/src/main/java/com/ecom/productservice/service/ProductService.java
+/Users/aman/ecom-order-system/product-service/src/main/java/com/ecom/productservice/dto/ProductRequest.java
+/Users/aman/ecom-order-system/product-service/src/main/java/com/ecom/productservice/ProductServiceApplication.java
+/Users/aman/ecom-order-system/product-service/src/main/java/com/ecom/productservice/exception/InsufficientStockException.java
+/Users/aman/ecom-order-system/product-service/src/main/java/com/ecom/productservice/entity/Product.java
+/Users/aman/ecom-order-system/product-service/src/main/java/com/ecom/productservice/controller/ProductController.java

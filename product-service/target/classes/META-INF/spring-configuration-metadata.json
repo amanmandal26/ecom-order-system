@@ -1,0 +1,23 @@
+{
+  "groups": [
+    {
+      "name": "jwt",
+      "type": "com.ecom.productservice.config.JwtProperties",
+      "sourceType": "com.ecom.productservice.config.JwtProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "jwt.expiration",
+      "type": "java.lang.Long",
+      "sourceType": "com.ecom.productservice.config.JwtProperties",
+      "defaultValue": 0
+    },
+    {
+      "name": "jwt.secret",
+      "type": "java.lang.String",
+      "sourceType": "com.ecom.productservice.config.JwtProperties"
+    }
+  ],
+  "hints": []
+}

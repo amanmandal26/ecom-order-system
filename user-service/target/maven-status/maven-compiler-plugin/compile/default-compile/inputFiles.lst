@@ -1,0 +1,17 @@
+/Users/aman/ecom-order-system/user-service/src/main/java/com/ecom/userservice/config/JwtProperties.java
+/Users/aman/ecom-order-system/user-service/src/main/java/com/ecom/userservice/controller/AuthController.java
+/Users/aman/ecom-order-system/user-service/src/main/java/com/ecom/userservice/exception/UserAlreadyExistsException.java
+/Users/aman/ecom-order-system/user-service/src/main/java/com/ecom/userservice/security/JwtUtil.java
+/Users/aman/ecom-order-system/user-service/src/main/java/com/ecom/userservice/repository/UserRepository.java
+/Users/aman/ecom-order-system/user-service/src/main/java/com/ecom/userservice/exception/ResourceNotFoundException.java
+/Users/aman/ecom-order-system/user-service/src/main/java/com/ecom/userservice/config/AppConfig.java
+/Users/aman/ecom-order-system/user-service/src/main/java/com/ecom/userservice/security/SecurityConfig.java
+/Users/aman/ecom-order-system/user-service/src/main/java/com/ecom/userservice/entity/User.java
+/Users/aman/ecom-order-system/user-service/src/main/java/com/ecom/userservice/UserServiceApplication.java
+/Users/aman/ecom-order-system/user-service/src/main/java/com/ecom/userservice/dto/ApiResponse.java
+/Users/aman/ecom-order-system/user-service/src/main/java/com/ecom/userservice/dto/AuthResponse.java
+/Users/aman/ecom-order-system/user-service/src/main/java/com/ecom/userservice/exception/GlobalExceptionHandler.java
+/Users/aman/ecom-order-system/user-service/src/main/java/com/ecom/userservice/dto/RegisterRequest.java
+/Users/aman/ecom-order-system/user-service/src/main/java/com/ecom/userservice/security/JwtAuthFilter.java
+/Users/aman/ecom-order-system/user-service/src/main/java/com/ecom/userservice/dto/LoginRequest.java
+/Users/aman/ecom-order-system/user-service/src/main/java/com/ecom/userservice/service/UserService.java
