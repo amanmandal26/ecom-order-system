@@ -1,10 +1,12 @@
 package com.ecom.orderservice.service;
 
 import com.ecom.orderservice.client.ProductClient;
+import com.ecom.orderservice.config.RabbitMQConfig;
 import com.ecom.orderservice.dto.*;
 import com.ecom.orderservice.entity.Order;
 import com.ecom.orderservice.entity.OrderItem;
 import com.ecom.orderservice.entity.OrderStatus;
+import com.ecom.orderservice.event.OrderPlacedEvent;
 import com.ecom.orderservice.exception.InsufficientStockException;
 import com.ecom.orderservice.exception.OrderCancellationException;
 import com.ecom.orderservice.exception.ResourceNotFoundException;
@@ -12,6 +14,7 @@ import com.ecom.orderservice.repository.OrderRepository;
 import feign.FeignException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,6 +31,7 @@ public class OrderService {
 
     private final OrderRepository orderRepository;
     private final ProductClient productClient;
+    private final RabbitTemplate rabbitTemplate;
 
     public OrderResponse placeOrder(OrderRequest request, Long userId, String userEmail) {
         log.info("Placing order for userId={} email={}", userId, userEmail);
@@ -80,6 +84,11 @@ public class OrderService {
 
         order = orderRepository.save(order);
         log.info("Order {} placed for userId={}", order.getId(), userId);
+
+        OrderPlacedEvent event = buildEvent(order);
+        rabbitTemplate.convertAndSend(RabbitMQConfig.EXCHANGE, RabbitMQConfig.KEY_PLACED, event);
+        log.info("Published order.placed event for order {}", order.getId());
+
         return OrderResponse.fromOrder(order);
     }
 
@@ -118,6 +127,13 @@ public class OrderService {
         log.info("Updating order {} to status {}", id, status);
         Order order = findOrderOrThrow(id);
         order.setStatus(status);
+
+        if (status == OrderStatus.SHIPPED) {
+            OrderPlacedEvent event = buildEvent(order);
+            rabbitTemplate.convertAndSend(RabbitMQConfig.EXCHANGE, RabbitMQConfig.KEY_SHIPPED, event);
+            log.info("Published order.shipped event for order {}", order.getId());
+        }
+
         return OrderResponse.fromOrder(order);
     }
 
@@ -150,5 +166,23 @@ public class OrderService {
     private Order findOrderOrThrow(Long id) {
         return orderRepository.findById(id)
             .orElseThrow(() -> new ResourceNotFoundException("Order", id));
+    }
+
+    private OrderPlacedEvent buildEvent(Order order) {
+        List<OrderPlacedEvent.OrderItemInfo> itemInfos = order.getOrderItems().stream()
+            .map(item -> OrderPlacedEvent.OrderItemInfo.builder()
+                .productName(item.getProductName())
+                .quantity(item.getQuantity())
+                .unitPrice(item.getUnitPrice())
+                .build())
+            .toList();
+
+        return OrderPlacedEvent.builder()
+            .orderId(order.getId())
+            .userEmail(order.getUserEmail())
+            .userName(order.getUserEmail())
+            .totalAmount(order.getTotalAmount())
+            .items(itemInfos)
+            .build();
     }
 }

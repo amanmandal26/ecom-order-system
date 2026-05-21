@@ -1,13 +1,16 @@
 com/ecom/orderservice/controller/OrderController.class
+com/ecom/orderservice/event/OrderPlacedEvent$OrderItemInfo$OrderItemInfoBuilder.class
 com/ecom/orderservice/dto/OrderResponse$OrderResponseBuilder.class
 com/ecom/orderservice/dto/OrderItemResponse$OrderItemResponseBuilder.class
 com/ecom/orderservice/dto/OrderItemResponse.class
 com/ecom/orderservice/OrderServiceApplication.class
 com/ecom/orderservice/entity/OrderItem$OrderItemBuilder.class
 com/ecom/orderservice/entity/Order.class
+com/ecom/orderservice/event/OrderPlacedEvent.class
 com/ecom/orderservice/entity/OrderStatus.class
 com/ecom/orderservice/security/JwtUtil.class
 com/ecom/orderservice/entity/Order$OrderBuilder.class
+com/ecom/orderservice/config/RabbitMQConfig.class
 com/ecom/orderservice/entity/OrderItem.class
 com/ecom/orderservice/exception/OrderCancellationException.class
 com/ecom/orderservice/security/JwtAuthFilter.class
@@ -25,6 +28,8 @@ com/ecom/orderservice/dto/OrderRequest.class
 com/ecom/orderservice/client/ProductClient.class
 com/ecom/orderservice/repository/OrderRepository.class
 com/ecom/orderservice/dto/OrderResponse.class
+com/ecom/orderservice/event/OrderPlacedEvent$OrderItemInfo.class
+com/ecom/orderservice/event/OrderPlacedEvent$OrderPlacedEventBuilder.class
 com/ecom/orderservice/service/OrderService.class
 com/ecom/orderservice/config/JwtProperties.class
 com/ecom/orderservice/exception/ResourceNotFoundException.class
