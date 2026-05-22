@@ -1,0 +1,185 @@
+services:
+
+  # ─── Databases ────────────────────────────────────────────────────────────────
+
+  mysql-users:
+    image: mysql:8.0
+    container_name: mysql-users
+    environment:
+      MYSQL_DATABASE: users_db
+      MYSQL_ROOT_PASSWORD: root123
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql-users-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-proot123"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - ecom-network
+
+  mysql-products:
+    image: mysql:8.0
+    container_name: mysql-products
+    environment:
+      MYSQL_DATABASE: products_db
+      MYSQL_ROOT_PASSWORD: root123
+    ports:
+      - "3308:3306"
+    volumes:
+      - mysql-products-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-proot123"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - ecom-network
+
+  mysql-orders:
+    image: mysql:8.0
+    container_name: mysql-orders
+    environment:
+      MYSQL_DATABASE: orders_db
+      MYSQL_ROOT_PASSWORD: root123
+    ports:
+      - "3309:3306"
+    volumes:
+      - mysql-orders-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-proot123"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - ecom-network
+
+  # ─── Message Broker ───────────────────────────────────────────────────────────
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - rabbitmq-data:/var/lib/rabbitmq
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - ecom-network
+
+  # ─── Infrastructure ───────────────────────────────────────────────────────────
+
+  eureka-server:
+    build: ./eureka-server
+    container_name: eureka-server
+    ports:
+      - "8761:8761"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    networks:
+      - ecom-network
+
+  api-gateway:
+    build: ./api-gateway
+    container_name: api-gateway
+    ports:
+      - "8080:8080"
+    environment:
+      - EUREKA_URL=http://eureka-server:8761/eureka/
+    depends_on:
+      - eureka-server
+    networks:
+      - ecom-network
+
+  # ─── Microservices ────────────────────────────────────────────────────────────
+
+  user-service:
+    build: ./user-service
+    container_name: user-service
+    ports:
+      - "8081:8081"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql-users:3306/users_db?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+      - SPRING_DATASOURCE_PASSWORD=root123
+      - EUREKA_URL=http://eureka-server:8761/eureka/
+    depends_on:
+      mysql-users:
+        condition: service_healthy
+      eureka-server:
+        condition: service_started
+    networks:
+      - ecom-network
+
+  product-service:
+    build: ./product-service
+    container_name: product-service
+    ports:
+      - "8082:8082"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql-products:3306/products_db?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+      - SPRING_DATASOURCE_PASSWORD=root123
+      - EUREKA_URL=http://eureka-server:8761/eureka/
+    depends_on:
+      mysql-products:
+        condition: service_healthy
+      eureka-server:
+        condition: service_started
+    networks:
+      - ecom-network
+
+  order-service:
+    build: ./order-service
+    container_name: order-service
+    ports:
+      - "8083:8083"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql-orders:3306/orders_db?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+      - SPRING_DATASOURCE_PASSWORD=root123
+      - EUREKA_URL=http://eureka-server:8761/eureka/
+      - RABBITMQ_HOST=rabbitmq
+    depends_on:
+      mysql-orders:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+      eureka-server:
+        condition: service_started
+    networks:
+      - ecom-network
+
+  notification-service:
+    build: ./notification-service
+    container_name: notification-service
+    ports:
+      - "8084:8084"
+    environment:
+      - EUREKA_URL=http://eureka-server:8761/eureka/
+      - RABBITMQ_HOST=rabbitmq
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      eureka-server:
+        condition: service_started
+    networks:
+      - ecom-network
+
+# ─── Volumes ──────────────────────────────────────────────────────────────────
+
+volumes:
+  mysql-users-data:
+  mysql-products-data:
+  mysql-orders-data:
+  rabbitmq-data:
+
+# ─── Network ──────────────────────────────────────────────────────────────────
+
+networks:
+  ecom-network:
+    driver: bridge

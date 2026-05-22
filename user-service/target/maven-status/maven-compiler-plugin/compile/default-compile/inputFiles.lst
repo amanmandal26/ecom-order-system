@@ -13,5 +13,6 @@
 /Users/aman/ecom-order-system/user-service/src/main/java/com/ecom/userservice/exception/GlobalExceptionHandler.java
 /Users/aman/ecom-order-system/user-service/src/main/java/com/ecom/userservice/dto/RegisterRequest.java
 /Users/aman/ecom-order-system/user-service/src/main/java/com/ecom/userservice/security/JwtAuthFilter.java
+/Users/aman/ecom-order-system/user-service/src/main/java/com/ecom/userservice/config/SwaggerConfig.java
 /Users/aman/ecom-order-system/user-service/src/main/java/com/ecom/userservice/dto/LoginRequest.java
 /Users/aman/ecom-order-system/user-service/src/main/java/com/ecom/userservice/service/UserService.java

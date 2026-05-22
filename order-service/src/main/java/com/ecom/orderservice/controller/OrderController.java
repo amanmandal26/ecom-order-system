@@ -5,6 +5,9 @@ import com.ecom.orderservice.dto.OrderRequest;
 import com.ecom.orderservice.dto.OrderResponse;
 import com.ecom.orderservice.entity.OrderStatus;
 import com.ecom.orderservice.service.OrderService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -21,10 +24,13 @@ import java.util.List;
 @RequestMapping("/api/orders")
 @RequiredArgsConstructor
 @Slf4j
+@Tag(name = "Orders", description = "Order lifecycle management — all endpoints require a JWT token")
 public class OrderController {
 
     private final OrderService orderService;
 
+    @Operation(summary = "Place a new order", description = "Deducts stock from product-service and creates the order. Publishes an event to RabbitMQ.")
+    @SecurityRequirement(name = "bearerAuth")
     @PostMapping
     public ResponseEntity<ApiResponse<OrderResponse>> placeOrder(
             @Valid @RequestBody OrderRequest request,
@@ -47,6 +53,8 @@ public class OrderController {
             .body(ApiResponse.ok("Order placed successfully", response));
     }
 
+    @Operation(summary = "Get my orders", description = "Returns all orders placed by the authenticated user, newest first.")
+    @SecurityRequirement(name = "bearerAuth")
     @GetMapping("/my-orders")
     public ResponseEntity<ApiResponse<List<OrderResponse>>> getMyOrders(HttpServletRequest httpRequest) {
         Long userId = (Long) httpRequest.getAttribute("userId");
@@ -60,6 +68,8 @@ public class OrderController {
         return ResponseEntity.ok(ApiResponse.ok("Orders fetched successfully", orders));
     }
 
+    @Operation(summary = "Get order by ID", description = "Admins can view any order; customers can only view their own.")
+    @SecurityRequirement(name = "bearerAuth")
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse<OrderResponse>> getOrderById(
             @PathVariable Long id,
@@ -71,6 +81,8 @@ public class OrderController {
             orderService.getOrderById(id, userId, userEmail, role)));
     }
 
+    @Operation(summary = "Update order status — ADMIN only", description = "Moves order through the lifecycle. Publishing SHIPPED status triggers a notification email.")
+    @SecurityRequirement(name = "bearerAuth")
     @PutMapping("/{id}/status")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ApiResponse<OrderResponse>> updateOrderStatus(
@@ -81,6 +93,8 @@ public class OrderController {
             orderService.updateOrderStatus(id, status)));
     }
 
+    @Operation(summary = "Cancel order", description = "Cancels a PENDING order and restores stock. Only the order owner can cancel.")
+    @SecurityRequirement(name = "bearerAuth")
     @PutMapping("/{id}/cancel")
     public ResponseEntity<ApiResponse<OrderResponse>> cancelOrder(
             @PathVariable Long id,

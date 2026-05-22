@@ -1,6 +1,7 @@
 /Users/aman/ecom-order-system/order-service/src/main/java/com/ecom/orderservice/exception/InsufficientStockException.java
 /Users/aman/ecom-order-system/order-service/src/main/java/com/ecom/orderservice/dto/OrderResponse.java
 /Users/aman/ecom-order-system/order-service/src/main/java/com/ecom/orderservice/config/RabbitMQConfig.java
+/Users/aman/ecom-order-system/order-service/src/main/java/com/ecom/orderservice/config/SwaggerConfig.java
 /Users/aman/ecom-order-system/order-service/src/main/java/com/ecom/orderservice/dto/StockRequest.java
 /Users/aman/ecom-order-system/order-service/src/main/java/com/ecom/orderservice/exception/OrderCancellationException.java
 /Users/aman/ecom-order-system/order-service/src/main/java/com/ecom/orderservice/security/SecurityConfig.java

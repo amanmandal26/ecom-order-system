@@ -5,6 +5,9 @@ import com.ecom.productservice.dto.ProductRequest;
 import com.ecom.productservice.dto.ProductResponse;
 import com.ecom.productservice.dto.StockRequest;
 import com.ecom.productservice.service.ProductService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,17 +22,20 @@ import java.util.List;
 @RequestMapping("/api/products")
 @RequiredArgsConstructor
 @Slf4j
+@Tag(name = "Products", description = "Product catalog — GET endpoints are public, write operations require ADMIN JWT")
 public class ProductController {
 
     private final ProductService productService;
 
     // ─── Public (authenticated) endpoints ─────────────────────────────────────
 
+    @Operation(summary = "Get all products", description = "Returns the full product catalog. No authentication required.")
     @GetMapping
     public ResponseEntity<ApiResponse<List<ProductResponse>>> getAllProducts() {
         return ResponseEntity.ok(ApiResponse.ok("Products fetched successfully", productService.getAllProducts()));
     }
 
+    @Operation(summary = "Get product by ID", description = "Returns a single product. No authentication required.")
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse<ProductResponse>> getProductById(@PathVariable Long id) {
         return ResponseEntity.ok(ApiResponse.ok("Product fetched successfully", productService.getProductById(id)));
@@ -37,6 +43,8 @@ public class ProductController {
 
     // ─── ADMIN-only endpoints ──────────────────────────────────────────────────
 
+    @Operation(summary = "Create product — ADMIN only", description = "Creates a new product in the catalog.")
+    @SecurityRequirement(name = "bearerAuth")
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ApiResponse<ProductResponse>> createProduct(@Valid @RequestBody ProductRequest request) {
@@ -46,6 +54,8 @@ public class ProductController {
             .body(ApiResponse.ok("Product created successfully", productService.createProduct(request)));
     }
 
+    @Operation(summary = "Update product — ADMIN only")
+    @SecurityRequirement(name = "bearerAuth")
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ApiResponse<ProductResponse>> updateProduct(
@@ -54,6 +64,8 @@ public class ProductController {
         return ResponseEntity.ok(ApiResponse.ok("Product updated successfully", productService.updateProduct(id, request)));
     }
 
+    @Operation(summary = "Delete product — ADMIN only")
+    @SecurityRequirement(name = "bearerAuth")
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ApiResponse<Void>> deleteProduct(@PathVariable Long id) {

@@ -20,3 +20,4 @@ com/ecom/productservice/dto/ProductResponse.class
 com/ecom/productservice/repository/ProductRepository.class
 com/ecom/productservice/security/JwtUtil.class
 com/ecom/productservice/dto/ProductRequest.class
+com/ecom/productservice/config/SwaggerConfig.class

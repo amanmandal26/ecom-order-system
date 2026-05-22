@@ -1,3 +1,4 @@
+/Users/aman/ecom-order-system/product-service/src/main/java/com/ecom/productservice/config/SwaggerConfig.java
 /Users/aman/ecom-order-system/product-service/src/main/java/com/ecom/productservice/exception/ResourceNotFoundException.java
 /Users/aman/ecom-order-system/product-service/src/main/java/com/ecom/productservice/exception/GlobalExceptionHandler.java
 /Users/aman/ecom-order-system/product-service/src/main/java/com/ecom/productservice/security/JwtUtil.java
