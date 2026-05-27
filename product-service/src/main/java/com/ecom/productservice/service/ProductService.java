@@ -109,7 +109,7 @@ public class ProductService {
 
     // ─── Internal (order-service) ──────────────────────────────────────────────
 
-    public void reduceStock(Long productId, Integer quantity) {
+    public ProductResponse reduceStock(Long productId, Integer quantity) {
         Product product = findProductOrThrow(productId);
         if (product.getStockQuantity() < quantity) {
             throw new InsufficientStockException(productId, quantity, product.getStockQuantity());
@@ -117,6 +117,8 @@ public class ProductService {
         product.setStockQuantity(product.getStockQuantity() - quantity);
         log.info("Stock reduced for product {}: -{} (remaining: {})",
             productId, quantity, product.getStockQuantity());
+        // Return the updated product so order-service gets remaining stock in the same call
+        return ProductResponse.fromProduct(product);
     }
 
     public void restoreStock(Long productId, Integer quantity) {

@@ -34,58 +34,66 @@
  =========|_|==============|___/=/_/_/_/
 [32m :: Spring Boot :: [39m              [2m (v3.2.4)[0;39m
 
-[2m2026-05-27T23:36:27.702+05:30[0;39m [32m INFO[0;39m [35m48790[0;39m [2m---[0;39m [2m[user-service] [           main][0;39m [2m[0;39m[36mc.e.userservice.UserServiceApplication  [0;39m [2m:[0;39m Starting UserServiceApplication using Java 23.0.2 with PID 48790 (/Users/aman/ecom-order-system/user-service/target/classes started by aman in /Users/aman/ecom-order-system/user-service)
-[2m2026-05-27T23:36:27.704+05:30[0;39m [32m INFO[0;39m [35m48790[0;39m [2m---[0;39m [2m[user-service] [           main][0;39m [2m[0;39m[36mc.e.userservice.UserServiceApplication  [0;39m [2m:[0;39m No active profile set, falling back to 1 default profile: "default"
-[2m2026-05-27T23:36:28.690+05:30[0;39m [32m INFO[0;39m [35m48790[0;39m [2m---[0;39m [2m[user-service] [           main][0;39m [2m[0;39m[36m.s.d.r.c.RepositoryConfigurationDelegate[0;39m [2m:[0;39m Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-[2m2026-05-27T23:36:28.811+05:30[0;39m [32m INFO[0;39m [35m48790[0;39m [2m---[0;39m [2m[user-service] [           main][0;39m [2m[0;39m[36m.s.d.r.c.RepositoryConfigurationDelegate[0;39m [2m:[0;39m Finished Spring Data repository scanning in 116 ms. Found 2 JPA repository interfaces.
-[2m2026-05-27T23:36:28.954+05:30[0;39m [32m INFO[0;39m [35m48790[0;39m [2m---[0;39m [2m[user-service] [           main][0;39m [2m[0;39m[36mo.s.cloud.context.scope.GenericScope    [0;39m [2m:[0;39m BeanFactory id=98e37e09-bf4e-3060-b080-442e59d77313
-[2m2026-05-27T23:36:29.232+05:30[0;39m [33m WARN[0;39m [35m48790[0;39m [2m---[0;39m [2m[user-service] [           main][0;39m [2m[0;39m[36mtrationDelegate$BeanPostProcessorChecker[0;39m [2m:[0;39m Bean 'org.springframework.cloud.client.loadbalancer.LoadBalancerAutoConfiguration$DeferringLoadBalancerInterceptorConfig' of type [org.springframework.cloud.client.loadbalancer.LoadBalancerAutoConfiguration$DeferringLoadBalancerInterceptorConfig] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). The currently created BeanPostProcessor [lbRestClientPostProcessor] is declared through a non-static factory method on that class; consider declaring it as static instead.
-[2m2026-05-27T23:36:29.235+05:30[0;39m [33m WARN[0;39m [35m48790[0;39m [2m---[0;39m [2m[user-service] [           main][0;39m [2m[0;39m[36mtrationDelegate$BeanPostProcessorChecker[0;39m [2m:[0;39m Bean 'deferringLoadBalancerInterceptor' of type [org.springframework.cloud.client.loadbalancer.DeferringLoadBalancerInterceptor] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [lbRestClientPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
-[2m2026-05-27T23:36:29.434+05:30[0;39m [32m INFO[0;39m [35m48790[0;39m [2m---[0;39m [2m[user-service] [           main][0;39m [2m[0;39m[36mo.s.b.w.embedded.tomcat.TomcatWebServer [0;39m [2m:[0;39m Tomcat initialized with port 8081 (http)
-[2m2026-05-27T23:36:29.440+05:30[0;39m [32m INFO[0;39m [35m48790[0;39m [2m---[0;39m [2m[user-service] [           main][0;39m [2m[0;39m[36mo.apache.catalina.core.StandardService  [0;39m [2m:[0;39m Starting service [Tomcat]
-[2m2026-05-27T23:36:29.441+05:30[0;39m [32m INFO[0;39m [35m48790[0;39m [2m---[0;39m [2m[user-service] [           main][0;39m [2m[0;39m[36mo.apache.catalina.core.StandardEngine   [0;39m [2m:[0;39m Starting Servlet engine: [Apache Tomcat/10.1.19]
-[2m2026-05-27T23:36:29.480+05:30[0;39m [32m INFO[0;39m [35m48790[0;39m [2m---[0;39m [2m[user-service] [           main][0;39m [2m[0;39m[36mo.a.c.c.C.[Tomcat].[localhost].[/]      [0;39m [2m:[0;39m Initializing Spring embedded WebApplicationContext
-[2m2026-05-27T23:36:29.481+05:30[0;39m [32m INFO[0;39m [35m48790[0;39m [2m---[0;39m [2m[user-service] [           main][0;39m [2m[0;39m[36mw.s.c.ServletWebServerApplicationContext[0;39m [2m:[0;39m Root WebApplicationContext: initialization completed in 1710 ms
-[2m2026-05-27T23:36:29.755+05:30[0;39m [32m INFO[0;39m [35m48790[0;39m [2m---[0;39m [2m[user-service] [           main][0;39m [2m[0;39m[36mo.hibernate.jpa.internal.util.LogHelper [0;39m [2m:[0;39m HHH000204: Processing PersistenceUnitInfo [name: default]
-[2m2026-05-27T23:36:29.807+05:30[0;39m [32m INFO[0;39m [35m48790[0;39m [2m---[0;39m [2m[user-service] [           main][0;39m [2m[0;39m[36morg.hibernate.Version                   [0;39m [2m:[0;39m HHH000412: Hibernate ORM core version 6.4.4.Final
-[2m2026-05-27T23:36:29.832+05:30[0;39m [32m INFO[0;39m [35m48790[0;39m [2m---[0;39m [2m[user-service] [           main][0;39m [2m[0;39m[36mo.h.c.internal.RegionFactoryInitiator   [0;39m [2m:[0;39m HHH000026: Second-level cache disabled
-[2m2026-05-27T23:36:29.992+05:30[0;39m [32m INFO[0;39m [35m48790[0;39m [2m---[0;39m [2m[user-service] [           main][0;39m [2m[0;39m[36mo.s.o.j.p.SpringPersistenceUnitInfo     [0;39m [2m:[0;39m No LoadTimeWeaver setup: ignoring JPA class transformer
-[2m2026-05-27T23:36:30.011+05:30[0;39m [32m INFO[0;39m [35m48790[0;39m [2m---[0;39m [2m[user-service] [           main][0;39m [2m[0;39m[36mcom.zaxxer.hikari.HikariDataSource      [0;39m [2m:[0;39m HikariPool-1 - Starting...
-[2m2026-05-27T23:36:30.168+05:30[0;39m [32m INFO[0;39m [35m48790[0;39m [2m---[0;39m [2m[user-service] [           main][0;39m [2m[0;39m[36mcom.zaxxer.hikari.pool.HikariPool       [0;39m [2m:[0;39m HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@2a341e3d
-[2m2026-05-27T23:36:30.170+05:30[0;39m [32m INFO[0;39m [35m48790[0;39m [2m---[0;39m [2m[user-service] [           main][0;39m [2m[0;39m[36mcom.zaxxer.hikari.HikariDataSource      [0;39m [2m:[0;39m HikariPool-1 - Start completed.
-[2m2026-05-27T23:36:30.226+05:30[0;39m [33m WARN[0;39m [35m48790[0;39m [2m---[0;39m [2m[user-service] [           main][0;39m [2m[0;39m[36morg.hibernate.orm.deprecation           [0;39m [2m:[0;39m HHH90000025: MySQL8Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-[2m2026-05-27T23:36:30.227+05:30[0;39m [33m WARN[0;39m [35m48790[0;39m [2m---[0;39m [2m[user-service] [           main][0;39m [2m[0;39m[36morg.hibernate.orm.deprecation           [0;39m [2m:[0;39m HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
-[2m2026-05-27T23:36:30.765+05:30[0;39m [32m INFO[0;39m [35m48790[0;39m [2m---[0;39m [2m[user-service] [           main][0;39m [2m[0;39m[36mo.h.e.t.j.p.i.JtaPlatformInitiator      [0;39m [2m:[0;39m HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
-[2m2026-05-27T23:36:30.852+05:30[0;39m [32m INFO[0;39m [35m48790[0;39m [2m---[0;39m [2m[user-service] [           main][0;39m [2m[0;39m[36mj.LocalContainerEntityManagerFactoryBean[0;39m [2m:[0;39m Initialized JPA EntityManagerFactory for persistence unit 'default'
-[2m2026-05-27T23:36:31.246+05:30[0;39m [33m WARN[0;39m [35m48790[0;39m [2m---[0;39m [2m[user-service] [           main][0;39m [2m[0;39m[36mJpaBaseConfiguration$JpaWebConfiguration[0;39m [2m:[0;39m spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-[2m2026-05-27T23:36:31.630+05:30[0;39m [32m INFO[0;39m [35m48790[0;39m [2m---[0;39m [2m[user-service] [           main][0;39m [2m[0;39m[36mo.s.b.a.e.web.EndpointLinksResolver     [0;39m [2m:[0;39m Exposing 2 endpoint(s) beneath base path '/actuator'
-[2m2026-05-27T23:36:31.691+05:30[0;39m [32m INFO[0;39m [35m48790[0;39m [2m---[0;39m [2m[user-service] [           main][0;39m [2m[0;39m[36mo.s.s.web.DefaultSecurityFilterChain    [0;39m [2m:[0;39m Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@1f9009d3, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@4c9ed40, org.springframework.security.web.context.SecurityContextHolderFilter@7dbe9654, org.springframework.security.web.header.HeaderWriterFilter@25e01756, org.springframework.web.filter.CorsFilter@56394880, org.springframework.security.web.authentication.logout.LogoutFilter@7d7f49f3, com.ecom.userservice.security.JwtAuthFilter@56d4481f, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@2d7fe300, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@50dfceff, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@23c3f787, org.springframework.security.web.session.SessionManagementFilter@5d3b0f8a, org.springframework.security.web.access.ExceptionTranslationFilter@47c14360, org.springframework.security.web.access.intercept.AuthorizationFilter@14432052]
-[2m2026-05-27T23:36:32.054+05:30[0;39m [32m INFO[0;39m [35m48790[0;39m [2m---[0;39m [2m[user-service] [           main][0;39m [2m[0;39m[36mDiscoveryClientOptionalArgsConfiguration[0;39m [2m:[0;39m Eureka HTTP Client uses RestTemplate.
-[2m2026-05-27T23:36:32.093+05:30[0;39m [33m WARN[0;39m [35m48790[0;39m [2m---[0;39m [2m[user-service] [           main][0;39m [2m[0;39m[36miguration$LoadBalancerCaffeineWarnLogger[0;39m [2m:[0;39m Spring Cloud LoadBalancer is currently working with the default cache. While this cache implementation is useful for development and tests, it's recommended to use Caffeine cache in production.You can switch to using Caffeine cache, by adding it and org.springframework.cache.caffeine.CaffeineCacheManager to the classpath.
-[2m2026-05-27T23:36:32.135+05:30[0;39m [32m INFO[0;39m [35m48790[0;39m [2m---[0;39m [2m[user-service] [           main][0;39m [2m[0;39m[36mo.s.c.n.eureka.InstanceInfoFactory      [0;39m [2m:[0;39m Setting initial instance status as: STARTING
-[2m2026-05-27T23:36:32.186+05:30[0;39m [32m INFO[0;39m [35m48790[0;39m [2m---[0;39m [2m[user-service] [           main][0;39m [2m[0;39m[36mcom.netflix.discovery.DiscoveryClient   [0;39m [2m:[0;39m Initializing Eureka in region us-east-1
-[2m2026-05-27T23:36:32.188+05:30[0;39m [32m INFO[0;39m [35m48790[0;39m [2m---[0;39m [2m[user-service] [           main][0;39m [2m[0;39m[36mc.n.d.s.r.aws.ConfigClusterResolver     [0;39m [2m:[0;39m Resolving eureka endpoints via configuration
-[2m2026-05-27T23:36:32.199+05:30[0;39m [32m INFO[0;39m [35m48790[0;39m [2m---[0;39m [2m[user-service] [           main][0;39m [2m[0;39m[36mcom.netflix.discovery.DiscoveryClient   [0;39m [2m:[0;39m Disable delta property : false
-[2m2026-05-27T23:36:32.199+05:30[0;39m [32m INFO[0;39m [35m48790[0;39m [2m---[0;39m [2m[user-service] [           main][0;39m [2m[0;39m[36mcom.netflix.discovery.DiscoveryClient   [0;39m [2m:[0;39m Single vip registry refresh property : null
-[2m2026-05-27T23:36:32.199+05:30[0;39m [32m INFO[0;39m [35m48790[0;39m [2m---[0;39m [2m[user-service] [           main][0;39m [2m[0;39m[36mcom.netflix.discovery.DiscoveryClient   [0;39m [2m:[0;39m Force full registry fetch : false
-[2m2026-05-27T23:36:32.199+05:30[0;39m [32m INFO[0;39m [35m48790[0;39m [2m---[0;39m [2m[user-service] [           main][0;39m [2m[0;39m[36mcom.netflix.discovery.DiscoveryClient   [0;39m [2m:[0;39m Application is null : false
-[2m2026-05-27T23:36:32.199+05:30[0;39m [32m INFO[0;39m [35m48790[0;39m [2m---[0;39m [2m[user-service] [           main][0;39m [2m[0;39m[36mcom.netflix.discovery.DiscoveryClient   [0;39m [2m:[0;39m Registered Applications size is zero : true
-[2m2026-05-27T23:36:32.199+05:30[0;39m [32m INFO[0;39m [35m48790[0;39m [2m---[0;39m [2m[user-service] [           main][0;39m [2m[0;39m[36mcom.netflix.discovery.DiscoveryClient   [0;39m [2m:[0;39m Application version is -1: true
-[2m2026-05-27T23:36:32.199+05:30[0;39m [32m INFO[0;39m [35m48790[0;39m [2m---[0;39m [2m[user-service] [           main][0;39m [2m[0;39m[36mcom.netflix.discovery.DiscoveryClient   [0;39m [2m:[0;39m Getting all instance registry info from the eureka server
-[2m2026-05-27T23:36:32.395+05:30[0;39m [32m INFO[0;39m [35m48790[0;39m [2m---[0;39m [2m[user-service] [           main][0;39m [2m[0;39m[36mcom.netflix.discovery.DiscoveryClient   [0;39m [2m:[0;39m The response status is 200
-[2m2026-05-27T23:36:32.396+05:30[0;39m [32m INFO[0;39m [35m48790[0;39m [2m---[0;39m [2m[user-service] [           main][0;39m [2m[0;39m[36mcom.netflix.discovery.DiscoveryClient   [0;39m [2m:[0;39m Starting heartbeat executor: renew interval is: 30
-[2m2026-05-27T23:36:32.398+05:30[0;39m [32m INFO[0;39m [35m48790[0;39m [2m---[0;39m [2m[user-service] [           main][0;39m [2m[0;39m[36mc.n.discovery.InstanceInfoReplicator    [0;39m [2m:[0;39m InstanceInfoReplicator onDemand update allowed rate per min is 4
-[2m2026-05-27T23:36:32.401+05:30[0;39m [32m INFO[0;39m [35m48790[0;39m [2m---[0;39m [2m[user-service] [           main][0;39m [2m[0;39m[36mcom.netflix.discovery.DiscoveryClient   [0;39m [2m:[0;39m Discovery Client initialized at timestamp 1779905192400 with initial instances count: 1
-[2m2026-05-27T23:36:32.405+05:30[0;39m [32m INFO[0;39m [35m48790[0;39m [2m---[0;39m [2m[user-service] [           main][0;39m [2m[0;39m[36mo.s.c.n.e.s.EurekaServiceRegistry       [0;39m [2m:[0;39m Registering application USER-SERVICE with eureka with status UP
-[2m2026-05-27T23:36:32.406+05:30[0;39m [32m INFO[0;39m [35m48790[0;39m [2m---[0;39m [2m[user-service] [           main][0;39m [2m[0;39m[36mcom.netflix.discovery.DiscoveryClient   [0;39m [2m:[0;39m Saw local status change event StatusChangeEvent [timestamp=1779905192406, current=UP, previous=STARTING]
-[2m2026-05-27T23:36:32.407+05:30[0;39m [32m INFO[0;39m [35m48790[0;39m [2m---[0;39m [2m[user-service] [nfoReplicator-0][0;39m [2m[0;39m[36mcom.netflix.discovery.DiscoveryClient   [0;39m [2m:[0;39m DiscoveryClient_USER-SERVICE/192.168.1.41:user-service:8081: registering service...
-[2m2026-05-27T23:36:32.418+05:30[0;39m [32m INFO[0;39m [35m48790[0;39m [2m---[0;39m [2m[user-service] [           main][0;39m [2m[0;39m[36mo.s.b.w.embedded.tomcat.TomcatWebServer [0;39m [2m:[0;39m Tomcat started on port 8081 (http) with context path ''
-[2m2026-05-27T23:36:32.418+05:30[0;39m [32m INFO[0;39m [35m48790[0;39m [2m---[0;39m [2m[user-service] [           main][0;39m [2m[0;39m[36m.s.c.n.e.s.EurekaAutoServiceRegistration[0;39m [2m:[0;39m Updating port to 8081
-[2m2026-05-27T23:36:32.431+05:30[0;39m [32m INFO[0;39m [35m48790[0;39m [2m---[0;39m [2m[user-service] [nfoReplicator-0][0;39m [2m[0;39m[36mcom.netflix.discovery.DiscoveryClient   [0;39m [2m:[0;39m DiscoveryClient_USER-SERVICE/192.168.1.41:user-service:8081 - registration status: 204
-[2m2026-05-27T23:36:32.433+05:30[0;39m [32m INFO[0;39m [35m48790[0;39m [2m---[0;39m [2m[user-service] [           main][0;39m [2m[0;39m[36mc.e.userservice.UserServiceApplication  [0;39m [2m:[0;39m Started UserServiceApplication in 5.098 seconds (process running for 5.386)
-[2m2026-05-27T23:37:32.091+05:30[0;39m [32m INFO[0;39m [35m48790[0;39m [2m---[0;39m [2m[user-service] [nio-8081-exec-1][0;39m [2m[0;39m[36mo.a.c.c.C.[Tomcat].[localhost].[/]      [0;39m [2m:[0;39m Initializing Spring DispatcherServlet 'dispatcherServlet'
-[2m2026-05-27T23:37:32.092+05:30[0;39m [32m INFO[0;39m [35m48790[0;39m [2m---[0;39m [2m[user-service] [nio-8081-exec-1][0;39m [2m[0;39m[36mo.s.web.servlet.DispatcherServlet       [0;39m [2m:[0;39m Initializing Servlet 'dispatcherServlet'
-[2m2026-05-27T23:37:32.096+05:30[0;39m [32m INFO[0;39m [35m48790[0;39m [2m---[0;39m [2m[user-service] [nio-8081-exec-1][0;39m [2m[0;39m[36mo.s.web.servlet.DispatcherServlet       [0;39m [2m:[0;39m Completed initialization in 4 ms
+[2m2026-05-28T00:02:14.998+05:30[0;39m [32m INFO[0;39m [35m55054[0;39m [2m---[0;39m [2m[user-service] [           main][0;39m [2m[0;39m[36mc.e.userservice.UserServiceApplication  [0;39m [2m:[0;39m Starting UserServiceApplication using Java 23.0.2 with PID 55054 (/Users/aman/ecom-order-system/user-service/target/classes started by aman in /Users/aman/ecom-order-system/user-service)
+[2m2026-05-28T00:02:14.999+05:30[0;39m [32m INFO[0;39m [35m55054[0;39m [2m---[0;39m [2m[user-service] [           main][0;39m [2m[0;39m[36mc.e.userservice.UserServiceApplication  [0;39m [2m:[0;39m No active profile set, falling back to 1 default profile: "default"
+[2m2026-05-28T00:02:15.790+05:30[0;39m [32m INFO[0;39m [35m55054[0;39m [2m---[0;39m [2m[user-service] [           main][0;39m [2m[0;39m[36m.s.d.r.c.RepositoryConfigurationDelegate[0;39m [2m:[0;39m Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+[2m2026-05-28T00:02:15.873+05:30[0;39m [32m INFO[0;39m [35m55054[0;39m [2m---[0;39m [2m[user-service] [           main][0;39m [2m[0;39m[36m.s.d.r.c.RepositoryConfigurationDelegate[0;39m [2m:[0;39m Finished Spring Data repository scanning in 78 ms. Found 2 JPA repository interfaces.
+[2m2026-05-28T00:02:16.013+05:30[0;39m [32m INFO[0;39m [35m55054[0;39m [2m---[0;39m [2m[user-service] [           main][0;39m [2m[0;39m[36mo.s.cloud.context.scope.GenericScope    [0;39m [2m:[0;39m BeanFactory id=98e37e09-bf4e-3060-b080-442e59d77313
+[2m2026-05-28T00:02:16.275+05:30[0;39m [33m WARN[0;39m [35m55054[0;39m [2m---[0;39m [2m[user-service] [           main][0;39m [2m[0;39m[36mtrationDelegate$BeanPostProcessorChecker[0;39m [2m:[0;39m Bean 'org.springframework.cloud.client.loadbalancer.LoadBalancerAutoConfiguration$DeferringLoadBalancerInterceptorConfig' of type [org.springframework.cloud.client.loadbalancer.LoadBalancerAutoConfiguration$DeferringLoadBalancerInterceptorConfig] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). The currently created BeanPostProcessor [lbRestClientPostProcessor] is declared through a non-static factory method on that class; consider declaring it as static instead.
+[2m2026-05-28T00:02:16.282+05:30[0;39m [33m WARN[0;39m [35m55054[0;39m [2m---[0;39m [2m[user-service] [           main][0;39m [2m[0;39m[36mtrationDelegate$BeanPostProcessorChecker[0;39m [2m:[0;39m Bean 'deferringLoadBalancerInterceptor' of type [org.springframework.cloud.client.loadbalancer.DeferringLoadBalancerInterceptor] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [lbRestClientPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+[2m2026-05-28T00:02:16.517+05:30[0;39m [32m INFO[0;39m [35m55054[0;39m [2m---[0;39m [2m[user-service] [           main][0;39m [2m[0;39m[36mo.s.b.w.embedded.tomcat.TomcatWebServer [0;39m [2m:[0;39m Tomcat initialized with port 8081 (http)
+[2m2026-05-28T00:02:16.524+05:30[0;39m [32m INFO[0;39m [35m55054[0;39m [2m---[0;39m [2m[user-service] [           main][0;39m [2m[0;39m[36mo.apache.catalina.core.StandardService  [0;39m [2m:[0;39m Starting service [Tomcat]
+[2m2026-05-28T00:02:16.524+05:30[0;39m [32m INFO[0;39m [35m55054[0;39m [2m---[0;39m [2m[user-service] [           main][0;39m [2m[0;39m[36mo.apache.catalina.core.StandardEngine   [0;39m [2m:[0;39m Starting Servlet engine: [Apache Tomcat/10.1.19]
+[2m2026-05-28T00:02:16.567+05:30[0;39m [32m INFO[0;39m [35m55054[0;39m [2m---[0;39m [2m[user-service] [           main][0;39m [2m[0;39m[36mo.a.c.c.C.[Tomcat].[localhost].[/]      [0;39m [2m:[0;39m Initializing Spring embedded WebApplicationContext
+[2m2026-05-28T00:02:16.568+05:30[0;39m [32m INFO[0;39m [35m55054[0;39m [2m---[0;39m [2m[user-service] [           main][0;39m [2m[0;39m[36mw.s.c.ServletWebServerApplicationContext[0;39m [2m:[0;39m Root WebApplicationContext: initialization completed in 1528 ms
+[2m2026-05-28T00:02:16.871+05:30[0;39m [32m INFO[0;39m [35m55054[0;39m [2m---[0;39m [2m[user-service] [           main][0;39m [2m[0;39m[36mo.hibernate.jpa.internal.util.LogHelper [0;39m [2m:[0;39m HHH000204: Processing PersistenceUnitInfo [name: default]
+[2m2026-05-28T00:02:16.906+05:30[0;39m [32m INFO[0;39m [35m55054[0;39m [2m---[0;39m [2m[user-service] [           main][0;39m [2m[0;39m[36morg.hibernate.Version                   [0;39m [2m:[0;39m HHH000412: Hibernate ORM core version 6.4.4.Final
+[2m2026-05-28T00:02:16.921+05:30[0;39m [32m INFO[0;39m [35m55054[0;39m [2m---[0;39m [2m[user-service] [           main][0;39m [2m[0;39m[36mo.h.c.internal.RegionFactoryInitiator   [0;39m [2m:[0;39m HHH000026: Second-level cache disabled
+[2m2026-05-28T00:02:17.075+05:30[0;39m [32m INFO[0;39m [35m55054[0;39m [2m---[0;39m [2m[user-service] [           main][0;39m [2m[0;39m[36mo.s.o.j.p.SpringPersistenceUnitInfo     [0;39m [2m:[0;39m No LoadTimeWeaver setup: ignoring JPA class transformer
+[2m2026-05-28T00:02:17.095+05:30[0;39m [32m INFO[0;39m [35m55054[0;39m [2m---[0;39m [2m[user-service] [           main][0;39m [2m[0;39m[36mcom.zaxxer.hikari.HikariDataSource      [0;39m [2m:[0;39m HikariPool-1 - Starting...
+[2m2026-05-28T00:02:17.255+05:30[0;39m [32m INFO[0;39m [35m55054[0;39m [2m---[0;39m [2m[user-service] [           main][0;39m [2m[0;39m[36mcom.zaxxer.hikari.pool.HikariPool       [0;39m [2m:[0;39m HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@1adfb5b8
+[2m2026-05-28T00:02:17.256+05:30[0;39m [32m INFO[0;39m [35m55054[0;39m [2m---[0;39m [2m[user-service] [           main][0;39m [2m[0;39m[36mcom.zaxxer.hikari.HikariDataSource      [0;39m [2m:[0;39m HikariPool-1 - Start completed.
+[2m2026-05-28T00:02:17.298+05:30[0;39m [33m WARN[0;39m [35m55054[0;39m [2m---[0;39m [2m[user-service] [           main][0;39m [2m[0;39m[36morg.hibernate.orm.deprecation           [0;39m [2m:[0;39m HHH90000025: MySQL8Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+[2m2026-05-28T00:02:17.300+05:30[0;39m [33m WARN[0;39m [35m55054[0;39m [2m---[0;39m [2m[user-service] [           main][0;39m [2m[0;39m[36morg.hibernate.orm.deprecation           [0;39m [2m:[0;39m HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
+[2m2026-05-28T00:02:17.881+05:30[0;39m [32m INFO[0;39m [35m55054[0;39m [2m---[0;39m [2m[user-service] [           main][0;39m [2m[0;39m[36mo.h.e.t.j.p.i.JtaPlatformInitiator      [0;39m [2m:[0;39m HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+[2m2026-05-28T00:02:17.937+05:30[0;39m [32m INFO[0;39m [35m55054[0;39m [2m---[0;39m [2m[user-service] [           main][0;39m [2m[0;39m[36mj.LocalContainerEntityManagerFactoryBean[0;39m [2m:[0;39m Initialized JPA EntityManagerFactory for persistence unit 'default'
+[2m2026-05-28T00:02:18.331+05:30[0;39m [33m WARN[0;39m [35m55054[0;39m [2m---[0;39m [2m[user-service] [           main][0;39m [2m[0;39m[36mJpaBaseConfiguration$JpaWebConfiguration[0;39m [2m:[0;39m spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+[2m2026-05-28T00:02:18.681+05:30[0;39m [32m INFO[0;39m [35m55054[0;39m [2m---[0;39m [2m[user-service] [           main][0;39m [2m[0;39m[36mo.s.b.a.e.web.EndpointLinksResolver     [0;39m [2m:[0;39m Exposing 2 endpoint(s) beneath base path '/actuator'
+[2m2026-05-28T00:02:18.742+05:30[0;39m [32m INFO[0;39m [35m55054[0;39m [2m---[0;39m [2m[user-service] [           main][0;39m [2m[0;39m[36mo.s.s.web.DefaultSecurityFilterChain    [0;39m [2m:[0;39m Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@2eb6e166, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@43b1fdb7, org.springframework.security.web.context.SecurityContextHolderFilter@298990ab, org.springframework.security.web.header.HeaderWriterFilter@75375bb0, org.springframework.web.filter.CorsFilter@7bdbf06f, org.springframework.security.web.authentication.logout.LogoutFilter@319c77de, com.ecom.userservice.security.JwtAuthFilter@23e0b938, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@33c6c4f, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@561494af, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@1c1bc904, org.springframework.security.web.session.SessionManagementFilter@7c75f3a8, org.springframework.security.web.access.ExceptionTranslationFilter@139862ca, org.springframework.security.web.access.intercept.AuthorizationFilter@1f315f3d]
+[2m2026-05-28T00:02:19.153+05:30[0;39m [32m INFO[0;39m [35m55054[0;39m [2m---[0;39m [2m[user-service] [           main][0;39m [2m[0;39m[36mDiscoveryClientOptionalArgsConfiguration[0;39m [2m:[0;39m Eureka HTTP Client uses RestTemplate.
+[2m2026-05-28T00:02:19.192+05:30[0;39m [33m WARN[0;39m [35m55054[0;39m [2m---[0;39m [2m[user-service] [           main][0;39m [2m[0;39m[36miguration$LoadBalancerCaffeineWarnLogger[0;39m [2m:[0;39m Spring Cloud LoadBalancer is currently working with the default cache. While this cache implementation is useful for development and tests, it's recommended to use Caffeine cache in production.You can switch to using Caffeine cache, by adding it and org.springframework.cache.caffeine.CaffeineCacheManager to the classpath.
+[2m2026-05-28T00:02:19.230+05:30[0;39m [32m INFO[0;39m [35m55054[0;39m [2m---[0;39m [2m[user-service] [           main][0;39m [2m[0;39m[36mo.s.c.n.eureka.InstanceInfoFactory      [0;39m [2m:[0;39m Setting initial instance status as: STARTING
+[2m2026-05-28T00:02:19.286+05:30[0;39m [32m INFO[0;39m [35m55054[0;39m [2m---[0;39m [2m[user-service] [           main][0;39m [2m[0;39m[36mcom.netflix.discovery.DiscoveryClient   [0;39m [2m:[0;39m Initializing Eureka in region us-east-1
+[2m2026-05-28T00:02:19.288+05:30[0;39m [32m INFO[0;39m [35m55054[0;39m [2m---[0;39m [2m[user-service] [           main][0;39m [2m[0;39m[36mc.n.d.s.r.aws.ConfigClusterResolver     [0;39m [2m:[0;39m Resolving eureka endpoints via configuration
+[2m2026-05-28T00:02:19.299+05:30[0;39m [32m INFO[0;39m [35m55054[0;39m [2m---[0;39m [2m[user-service] [           main][0;39m [2m[0;39m[36mcom.netflix.discovery.DiscoveryClient   [0;39m [2m:[0;39m Disable delta property : false
+[2m2026-05-28T00:02:19.300+05:30[0;39m [32m INFO[0;39m [35m55054[0;39m [2m---[0;39m [2m[user-service] [           main][0;39m [2m[0;39m[36mcom.netflix.discovery.DiscoveryClient   [0;39m [2m:[0;39m Single vip registry refresh property : null
+[2m2026-05-28T00:02:19.300+05:30[0;39m [32m INFO[0;39m [35m55054[0;39m [2m---[0;39m [2m[user-service] [           main][0;39m [2m[0;39m[36mcom.netflix.discovery.DiscoveryClient   [0;39m [2m:[0;39m Force full registry fetch : false
+[2m2026-05-28T00:02:19.300+05:30[0;39m [32m INFO[0;39m [35m55054[0;39m [2m---[0;39m [2m[user-service] [           main][0;39m [2m[0;39m[36mcom.netflix.discovery.DiscoveryClient   [0;39m [2m:[0;39m Application is null : false
+[2m2026-05-28T00:02:19.300+05:30[0;39m [32m INFO[0;39m [35m55054[0;39m [2m---[0;39m [2m[user-service] [           main][0;39m [2m[0;39m[36mcom.netflix.discovery.DiscoveryClient   [0;39m [2m:[0;39m Registered Applications size is zero : true
+[2m2026-05-28T00:02:19.300+05:30[0;39m [32m INFO[0;39m [35m55054[0;39m [2m---[0;39m [2m[user-service] [           main][0;39m [2m[0;39m[36mcom.netflix.discovery.DiscoveryClient   [0;39m [2m:[0;39m Application version is -1: true
+[2m2026-05-28T00:02:19.300+05:30[0;39m [32m INFO[0;39m [35m55054[0;39m [2m---[0;39m [2m[user-service] [           main][0;39m [2m[0;39m[36mcom.netflix.discovery.DiscoveryClient   [0;39m [2m:[0;39m Getting all instance registry info from the eureka server
+[2m2026-05-28T00:02:19.494+05:30[0;39m [32m INFO[0;39m [35m55054[0;39m [2m---[0;39m [2m[user-service] [           main][0;39m [2m[0;39m[36mcom.netflix.discovery.DiscoveryClient   [0;39m [2m:[0;39m The response status is 200
+[2m2026-05-28T00:02:19.495+05:30[0;39m [32m INFO[0;39m [35m55054[0;39m [2m---[0;39m [2m[user-service] [           main][0;39m [2m[0;39m[36mcom.netflix.discovery.DiscoveryClient   [0;39m [2m:[0;39m Starting heartbeat executor: renew interval is: 30
+[2m2026-05-28T00:02:19.496+05:30[0;39m [32m INFO[0;39m [35m55054[0;39m [2m---[0;39m [2m[user-service] [           main][0;39m [2m[0;39m[36mc.n.discovery.InstanceInfoReplicator    [0;39m [2m:[0;39m InstanceInfoReplicator onDemand update allowed rate per min is 4
+[2m2026-05-28T00:02:19.498+05:30[0;39m [32m INFO[0;39m [35m55054[0;39m [2m---[0;39m [2m[user-service] [           main][0;39m [2m[0;39m[36mcom.netflix.discovery.DiscoveryClient   [0;39m [2m:[0;39m Discovery Client initialized at timestamp 1779906739497 with initial instances count: 0
+[2m2026-05-28T00:02:19.502+05:30[0;39m [32m INFO[0;39m [35m55054[0;39m [2m---[0;39m [2m[user-service] [           main][0;39m [2m[0;39m[36mo.s.c.n.e.s.EurekaServiceRegistry       [0;39m [2m:[0;39m Registering application USER-SERVICE with eureka with status UP
+[2m2026-05-28T00:02:19.502+05:30[0;39m [32m INFO[0;39m [35m55054[0;39m [2m---[0;39m [2m[user-service] [           main][0;39m [2m[0;39m[36mcom.netflix.discovery.DiscoveryClient   [0;39m [2m:[0;39m Saw local status change event StatusChangeEvent [timestamp=1779906739502, current=UP, previous=STARTING]
+[2m2026-05-28T00:02:19.503+05:30[0;39m [32m INFO[0;39m [35m55054[0;39m [2m---[0;39m [2m[user-service] [nfoReplicator-0][0;39m [2m[0;39m[36mcom.netflix.discovery.DiscoveryClient   [0;39m [2m:[0;39m DiscoveryClient_USER-SERVICE/192.168.1.41:user-service:8081: registering service...
+[2m2026-05-28T00:02:19.511+05:30[0;39m [32m INFO[0;39m [35m55054[0;39m [2m---[0;39m [2m[user-service] [           main][0;39m [2m[0;39m[36mo.s.b.w.embedded.tomcat.TomcatWebServer [0;39m [2m:[0;39m Tomcat started on port 8081 (http) with context path ''
+[2m2026-05-28T00:02:19.512+05:30[0;39m [32m INFO[0;39m [35m55054[0;39m [2m---[0;39m [2m[user-service] [           main][0;39m [2m[0;39m[36m.s.c.n.e.s.EurekaAutoServiceRegistration[0;39m [2m:[0;39m Updating port to 8081
+[2m2026-05-28T00:02:19.523+05:30[0;39m [32m INFO[0;39m [35m55054[0;39m [2m---[0;39m [2m[user-service] [nfoReplicator-0][0;39m [2m[0;39m[36mcom.netflix.discovery.DiscoveryClient   [0;39m [2m:[0;39m DiscoveryClient_USER-SERVICE/192.168.1.41:user-service:8081 - registration status: 204
+[2m2026-05-28T00:02:19.525+05:30[0;39m [32m INFO[0;39m [35m55054[0;39m [2m---[0;39m [2m[user-service] [           main][0;39m [2m[0;39m[36mc.e.userservice.UserServiceApplication  [0;39m [2m:[0;39m Started UserServiceApplication in 4.815 seconds (process running for 5.112)
+[2m2026-05-28T00:02:49.503+05:30[0;39m [32m INFO[0;39m [35m55054[0;39m [2m---[0;39m [2m[user-service] [freshExecutor-0][0;39m [2m[0;39m[36mcom.netflix.discovery.DiscoveryClient   [0;39m [2m:[0;39m Disable delta property : false
+[2m2026-05-28T00:02:49.505+05:30[0;39m [32m INFO[0;39m [35m55054[0;39m [2m---[0;39m [2m[user-service] [freshExecutor-0][0;39m [2m[0;39m[36mcom.netflix.discovery.DiscoveryClient   [0;39m [2m:[0;39m Single vip registry refresh property : null
+[2m2026-05-28T00:02:49.506+05:30[0;39m [32m INFO[0;39m [35m55054[0;39m [2m---[0;39m [2m[user-service] [freshExecutor-0][0;39m [2m[0;39m[36mcom.netflix.discovery.DiscoveryClient   [0;39m [2m:[0;39m Force full registry fetch : false
+[2m2026-05-28T00:02:49.506+05:30[0;39m [32m INFO[0;39m [35m55054[0;39m [2m---[0;39m [2m[user-service] [freshExecutor-0][0;39m [2m[0;39m[36mcom.netflix.discovery.DiscoveryClient   [0;39m [2m:[0;39m Application is null : false
+[2m2026-05-28T00:02:49.506+05:30[0;39m [32m INFO[0;39m [35m55054[0;39m [2m---[0;39m [2m[user-service] [freshExecutor-0][0;39m [2m[0;39m[36mcom.netflix.discovery.DiscoveryClient   [0;39m [2m:[0;39m Registered Applications size is zero : true
+[2m2026-05-28T00:02:49.506+05:30[0;39m [32m INFO[0;39m [35m55054[0;39m [2m---[0;39m [2m[user-service] [freshExecutor-0][0;39m [2m[0;39m[36mcom.netflix.discovery.DiscoveryClient   [0;39m [2m:[0;39m Application version is -1: false
+[2m2026-05-28T00:02:49.506+05:30[0;39m [32m INFO[0;39m [35m55054[0;39m [2m---[0;39m [2m[user-service] [freshExecutor-0][0;39m [2m[0;39m[36mcom.netflix.discovery.DiscoveryClient   [0;39m [2m:[0;39m Getting all instance registry info from the eureka server
+[2m2026-05-28T00:02:49.548+05:30[0;39m [32m INFO[0;39m [35m55054[0;39m [2m---[0;39m [2m[user-service] [freshExecutor-0][0;39m [2m[0;39m[36mcom.netflix.discovery.DiscoveryClient   [0;39m [2m:[0;39m The response status is 200
+[2m2026-05-28T00:03:16.022+05:30[0;39m [32m INFO[0;39m [35m55054[0;39m [2m---[0;39m [2m[user-service] [nio-8081-exec-1][0;39m [2m[0;39m[36mo.a.c.c.C.[Tomcat].[localhost].[/]      [0;39m [2m:[0;39m Initializing Spring DispatcherServlet 'dispatcherServlet'
+[2m2026-05-28T00:03:16.023+05:30[0;39m [32m INFO[0;39m [35m55054[0;39m [2m---[0;39m [2m[user-service] [nio-8081-exec-1][0;39m [2m[0;39m[36mo.s.web.servlet.DispatcherServlet       [0;39m [2m:[0;39m Initializing Servlet 'dispatcherServlet'
+[2m2026-05-28T00:03:16.026+05:30[0;39m [32m INFO[0;39m [35m55054[0;39m [2m---[0;39m [2m[user-service] [nio-8081-exec-1][0;39m [2m[0;39m[36mo.s.web.servlet.DispatcherServlet       [0;39m [2m:[0;39m Completed initialization in 3 ms
 Hibernate: 
     select
         u1_0.id,
@@ -104,8 +112,8 @@ Hibernate:
         users u1_0 
     where
         u1_0.email=?
-[2m2026-05-27T23:37:32.370+05:30[0;39m [32m INFO[0;39m [35m48790[0;39m [2m---[0;39m [2m[user-service] [nio-8081-exec-1][0;39m [2m[0;39m[36mc.e.u.controller.AuthController         [0;39m [2m:[0;39m Login request: rajesh@seller.com
-[2m2026-05-27T23:37:32.371+05:30[0;39m [32m INFO[0;39m [35m48790[0;39m [2m---[0;39m [2m[user-service] [nio-8081-exec-1][0;39m [2m[0;39m[36mc.ecom.userservice.service.UserService  [0;39m [2m:[0;39m Login attempt: rajesh@seller.com
+[2m2026-05-28T00:03:16.231+05:30[0;39m [32m INFO[0;39m [35m55054[0;39m [2m---[0;39m [2m[user-service] [nio-8081-exec-1][0;39m [2m[0;39m[36mc.e.u.controller.AuthController         [0;39m [2m:[0;39m Login request: gateway@test.com
+[2m2026-05-28T00:03:16.232+05:30[0;39m [32m INFO[0;39m [35m55054[0;39m [2m---[0;39m [2m[user-service] [nio-8081-exec-1][0;39m [2m[0;39m[36mc.ecom.userservice.service.UserService  [0;39m [2m:[0;39m Login attempt: gateway@test.com
 Hibernate: 
     select
         u1_0.id,
@@ -124,9 +132,7 @@ Hibernate:
         users u1_0 
     where
         u1_0.email=?
-[2m2026-05-27T23:37:32.739+05:30[0;39m [32m INFO[0;39m [35m48790[0;39m [2m---[0;39m [2m[user-service] [nio-8081-exec-1][0;39m [2m[0;39m[36mc.ecom.userservice.service.UserService  [0;39m [2m:[0;39m Login successful: rajesh@seller.com
-[2m2026-05-27T23:41:32.204+05:30[0;39m [32m INFO[0;39m [35m48790[0;39m [2m---[0;39m [2m[user-service] [trap-executor-0][0;39m [2m[0;39m[36mc.n.d.s.r.aws.ConfigClusterResolver     [0;39m [2m:[0;39m Resolving eureka endpoints via configuration
-[2m2026-05-27T23:46:32.205+05:30[0;39m [32m INFO[0;39m [35m48790[0;39m [2m---[0;39m [2m[user-service] [trap-executor-0][0;39m [2m[0;39m[36mc.n.d.s.r.aws.ConfigClusterResolver     [0;39m [2m:[0;39m Resolving eureka endpoints via configuration
+[2m2026-05-28T00:03:16.615+05:30[0;39m [32m INFO[0;39m [35m55054[0;39m [2m---[0;39m [2m[user-service] [nio-8081-exec-1][0;39m [2m[0;39m[36mc.ecom.userservice.service.UserService  [0;39m [2m:[0;39m Login successful: gateway@test.com
 Hibernate: 
     select
         u1_0.id,
@@ -145,8 +151,25 @@ Hibernate:
         users u1_0 
     where
         u1_0.email=?
-[2m2026-05-27T23:49:09.382+05:30[0;39m [32m INFO[0;39m [35m48790[0;39m [2m---[0;39m [2m[user-service] [nio-8081-exec-3][0;39m [2m[0;39m[36mc.e.u.controller.AuthController         [0;39m [2m:[0;39m Login request: rajesh@seller.com
-[2m2026-05-27T23:49:09.383+05:30[0;39m [32m INFO[0;39m [35m48790[0;39m [2m---[0;39m [2m[user-service] [nio-8081-exec-3][0;39m [2m[0;39m[36mc.ecom.userservice.service.UserService  [0;39m [2m:[0;39m Login attempt: rajesh@seller.com
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.business_description,
+        u1_0.business_name,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.name,
+        u1_0.password,
+        u1_0.role,
+        u1_0.seller_approved_at,
+        u1_0.seller_requested_at,
+        u1_0.seller_status,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.role=? 
+        and u1_0.seller_status=?
 Hibernate: 
     select
         u1_0.id,
@@ -165,5 +188,192 @@ Hibernate:
         users u1_0 
     where
         u1_0.email=?
-[2m2026-05-27T23:49:09.760+05:30[0;39m [32m INFO[0;39m [35m48790[0;39m [2m---[0;39m [2m[user-service] [nio-8081-exec-3][0;39m [2m[0;39m[36mc.ecom.userservice.service.UserService  [0;39m [2m:[0;39m Login successful: rajesh@seller.com
-[2m2026-05-27T23:51:32.202+05:30[0;39m [32m INFO[0;39m [35m48790[0;39m [2m---[0;39m [2m[user-service] [trap-executor-0][0;39m [2m[0;39m[36mc.n.d.s.r.aws.ConfigClusterResolver     [0;39m [2m:[0;39m Resolving eureka endpoints via configuration
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.business_description,
+        u1_0.business_name,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.name,
+        u1_0.password,
+        u1_0.role,
+        u1_0.seller_approved_at,
+        u1_0.seller_requested_at,
+        u1_0.seller_status,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.role=? 
+        and u1_0.seller_status=?
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.business_description,
+        u1_0.business_name,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.name,
+        u1_0.password,
+        u1_0.role,
+        u1_0.seller_approved_at,
+        u1_0.seller_requested_at,
+        u1_0.seller_status,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.business_description,
+        u1_0.business_name,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.name,
+        u1_0.password,
+        u1_0.role,
+        u1_0.seller_approved_at,
+        u1_0.seller_requested_at,
+        u1_0.seller_status,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.role=?
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.business_description,
+        u1_0.business_name,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.name,
+        u1_0.password,
+        u1_0.role,
+        u1_0.seller_approved_at,
+        u1_0.seller_requested_at,
+        u1_0.seller_status,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.business_description,
+        u1_0.business_name,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.name,
+        u1_0.password,
+        u1_0.role,
+        u1_0.seller_approved_at,
+        u1_0.seller_requested_at,
+        u1_0.seller_status,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.role=? 
+        and u1_0.seller_status=?
+[2m2026-05-28T00:06:48.407+05:30[0;39m [32m INFO[0;39m [35m55054[0;39m [2m---[0;39m [2m[user-service] [nio-8081-exec-7][0;39m [2m[0;39m[36mc.e.u.controller.AuthController         [0;39m [2m:[0;39m Login request: gateway@test.com
+[2m2026-05-28T00:06:48.423+05:30[0;39m [32m INFO[0;39m [35m55054[0;39m [2m---[0;39m [2m[user-service] [nio-8081-exec-7][0;39m [2m[0;39m[36mc.ecom.userservice.service.UserService  [0;39m [2m:[0;39m Login attempt: gateway@test.com
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.business_description,
+        u1_0.business_name,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.name,
+        u1_0.password,
+        u1_0.role,
+        u1_0.seller_approved_at,
+        u1_0.seller_requested_at,
+        u1_0.seller_status,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+[2m2026-05-28T00:06:48.824+05:30[0;39m [32m INFO[0;39m [35m55054[0;39m [2m---[0;39m [2m[user-service] [nio-8081-exec-7][0;39m [2m[0;39m[36mc.ecom.userservice.service.UserService  [0;39m [2m:[0;39m Login successful: gateway@test.com
+[2m2026-05-28T00:07:19.305+05:30[0;39m [32m INFO[0;39m [35m55054[0;39m [2m---[0;39m [2m[user-service] [trap-executor-0][0;39m [2m[0;39m[36mc.n.d.s.r.aws.ConfigClusterResolver     [0;39m [2m:[0;39m Resolving eureka endpoints via configuration
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.business_description,
+        u1_0.business_name,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.name,
+        u1_0.password,
+        u1_0.role,
+        u1_0.seller_approved_at,
+        u1_0.seller_requested_at,
+        u1_0.seller_status,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.business_description,
+        u1_0.business_name,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.name,
+        u1_0.password,
+        u1_0.role,
+        u1_0.seller_approved_at,
+        u1_0.seller_requested_at,
+        u1_0.seller_status,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.role=? 
+        and u1_0.seller_status=?
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.business_description,
+        u1_0.business_name,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.name,
+        u1_0.password,
+        u1_0.role,
+        u1_0.seller_approved_at,
+        u1_0.seller_requested_at,
+        u1_0.seller_status,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.business_description,
+        u1_0.business_name,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.name,
+        u1_0.password,
+        u1_0.role,
+        u1_0.seller_approved_at,
+        u1_0.seller_requested_at,
+        u1_0.seller_status,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.role=? 
+        and u1_0.seller_status=?
+[2m2026-05-28T00:12:19.310+05:30[0;39m [32m INFO[0;39m [35m55054[0;39m [2m---[0;39m [2m[user-service] [trap-executor-0][0;39m [2m[0;39m[36mc.n.d.s.r.aws.ConfigClusterResolver     [0;39m [2m:[0;39m Resolving eureka endpoints via configuration

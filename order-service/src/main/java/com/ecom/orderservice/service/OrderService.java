@@ -37,10 +37,11 @@ public class OrderService {
         log.info("Placing order for userId={} email={}", userId, userEmail);
 
         List<OrderItem> items = new ArrayList<>();
+        List<OrderPlacedEvent.SellerNotification> sellerNotifications = new ArrayList<>();
         BigDecimal totalAmount = BigDecimal.ZERO;
 
         for (var itemRequest : request.getItems()) {
-            // Call product-service to get current price and verify the product exists.
+            // Fetch current price and seller identity before touching stock
             ProductResponse product = productClient
                 .getProductById(itemRequest.getProductId()).getData();
 
@@ -48,14 +49,32 @@ public class OrderService {
                 throw new ResourceNotFoundException("Product", itemRequest.getProductId());
             }
 
-            // Reduce stock via Feign. product-service throws 400 if insufficient —
-            // FeignException is caught here and re-thrown as our domain exception.
+            // Reduce stock — now returns the product with updated stockQuantity so we
+            // get remaining stock in one Feign call instead of two.
+            ProductResponse updatedProduct;
             try {
-                productClient.reduceStock(itemRequest.getProductId(),
-                    new StockRequest(itemRequest.getQuantity()));
+                updatedProduct = productClient
+                    .reduceStock(itemRequest.getProductId(), new StockRequest(itemRequest.getQuantity()))
+                    .getData();
             } catch (FeignException.BadRequest ex) {
                 throw new InsufficientStockException(
                     "Insufficient stock for product: " + product.getName());
+            }
+
+            int remainingStock = updatedProduct != null ? updatedProduct.getStockQuantity() : 0;
+
+            // Build seller notification only for seller-owned products.
+            // Admin-created products have null sellerEmail — skip them silently.
+            if (product.getSellerEmail() != null && !product.getSellerEmail().isBlank()) {
+                sellerNotifications.add(OrderPlacedEvent.SellerNotification.builder()
+                    .sellerEmail(product.getSellerEmail())
+                    .sellerName(product.getSellerName())
+                    .productName(product.getName())
+                    .quantityOrdered(itemRequest.getQuantity())
+                    .unitPrice(product.getPrice())
+                    .customerEmail(userEmail)
+                    .remainingStock(remainingStock)
+                    .build());
             }
 
             BigDecimal unitPrice = product.getPrice();
@@ -85,9 +104,10 @@ public class OrderService {
         order = orderRepository.save(order);
         log.info("Order {} placed for userId={}", order.getId(), userId);
 
-        OrderPlacedEvent event = buildEvent(order);
+        OrderPlacedEvent event = buildEvent(order, sellerNotifications);
         rabbitTemplate.convertAndSend(RabbitMQConfig.EXCHANGE, RabbitMQConfig.KEY_PLACED, event);
-        log.info("Published order.placed event for order {}", order.getId());
+        log.info("Published order.placed event for order {} with {} seller notification(s)",
+            order.getId(), sellerNotifications.size());
 
         return OrderResponse.fromOrder(order);
     }
@@ -129,7 +149,8 @@ public class OrderService {
         order.setStatus(status);
 
         if (status == OrderStatus.SHIPPED) {
-            OrderPlacedEvent event = buildEvent(order);
+            // Shipped event carries no seller notifications — empty list is fine
+            OrderPlacedEvent event = buildEvent(order, List.of());
             rabbitTemplate.convertAndSend(RabbitMQConfig.EXCHANGE, RabbitMQConfig.KEY_SHIPPED, event);
             log.info("Published order.shipped event for order {}", order.getId());
         }
@@ -155,8 +176,7 @@ public class OrderService {
         // Restore stock for every item. If any restore fails, the whole transaction
         // rolls back and the cancellation does not take effect.
         for (OrderItem item : order.getOrderItems()) {
-            productClient.restoreStock(item.getProductId(),
-                new StockRequest(item.getQuantity()));
+            productClient.restoreStock(item.getProductId(), new StockRequest(item.getQuantity()));
         }
 
         log.info("Order {} cancelled by userId={}", id, userId);
@@ -168,7 +188,8 @@ public class OrderService {
             .orElseThrow(() -> new ResourceNotFoundException("Order", id));
     }
 
-    private OrderPlacedEvent buildEvent(Order order) {
+    private OrderPlacedEvent buildEvent(Order order,
+                                        List<OrderPlacedEvent.SellerNotification> sellerNotifications) {
         List<OrderPlacedEvent.OrderItemInfo> itemInfos = order.getOrderItems().stream()
             .map(item -> OrderPlacedEvent.OrderItemInfo.builder()
                 .productName(item.getProductName())
@@ -183,6 +204,7 @@ public class OrderService {
             .userName(order.getUserEmail())
             .totalAmount(order.getTotalAmount())
             .items(itemInfos)
+            .sellerNotifications(new ArrayList<>(sellerNotifications))
             .build();
     }
 }

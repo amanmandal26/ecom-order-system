@@ -19,8 +19,9 @@ public interface ProductClient {
 
     // These two match the permitAll endpoints in product-service's SecurityConfig.
     // No Authorization header is sent — reduce/restore-stock are internal-only.
+    // reduceStock now returns the updated product so order-service can read remaining stock.
     @PutMapping("/api/products/{id}/reduce-stock")
-    void reduceStock(@PathVariable("id") Long id, @RequestBody StockRequest request);
+    ApiResponse<ProductResponse> reduceStock(@PathVariable("id") Long id, @RequestBody StockRequest request);
 
     @PutMapping("/api/products/{id}/restore-stock")
     void restoreStock(@PathVariable("id") Long id, @RequestBody StockRequest request);

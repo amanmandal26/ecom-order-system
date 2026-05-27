@@ -34,65 +34,706 @@
  =========|_|==============|___/=/_/_/_/
 [32m :: Spring Boot :: [39m              [2m (v3.2.4)[0;39m
 
-[2m2026-05-27T23:36:27.831+05:30[0;39m [32m INFO[0;39m [35m48792[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mc.e.o.OrderServiceApplication           [0;39m [2m:[0;39m Starting OrderServiceApplication using Java 23.0.2 with PID 48792 (/Users/aman/ecom-order-system/order-service/target/classes started by aman in /Users/aman/ecom-order-system/order-service)
-[2m2026-05-27T23:36:27.832+05:30[0;39m [32m INFO[0;39m [35m48792[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mc.e.o.OrderServiceApplication           [0;39m [2m:[0;39m No active profile set, falling back to 1 default profile: "default"
-[2m2026-05-27T23:36:28.858+05:30[0;39m [32m INFO[0;39m [35m48792[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36m.s.d.r.c.RepositoryConfigurationDelegate[0;39m [2m:[0;39m Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-[2m2026-05-27T23:36:28.954+05:30[0;39m [32m INFO[0;39m [35m48792[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36m.s.d.r.c.RepositoryConfigurationDelegate[0;39m [2m:[0;39m Finished Spring Data repository scanning in 92 ms. Found 1 JPA repository interface.
-[2m2026-05-27T23:36:29.187+05:30[0;39m [32m INFO[0;39m [35m48792[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mo.s.cloud.context.scope.GenericScope    [0;39m [2m:[0;39m BeanFactory id=18ce022d-a670-3310-970d-c1d25d3d5e1f
-[2m2026-05-27T23:36:29.435+05:30[0;39m [33m WARN[0;39m [35m48792[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mtrationDelegate$BeanPostProcessorChecker[0;39m [2m:[0;39m Bean 'org.springframework.cloud.client.loadbalancer.LoadBalancerAutoConfiguration$DeferringLoadBalancerInterceptorConfig' of type [org.springframework.cloud.client.loadbalancer.LoadBalancerAutoConfiguration$DeferringLoadBalancerInterceptorConfig] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). The currently created BeanPostProcessor [lbRestClientPostProcessor] is declared through a non-static factory method on that class; consider declaring it as static instead.
-[2m2026-05-27T23:36:29.437+05:30[0;39m [33m WARN[0;39m [35m48792[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mtrationDelegate$BeanPostProcessorChecker[0;39m [2m:[0;39m Bean 'deferringLoadBalancerInterceptor' of type [org.springframework.cloud.client.loadbalancer.DeferringLoadBalancerInterceptor] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [lbRestClientPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
-[2m2026-05-27T23:36:29.652+05:30[0;39m [32m INFO[0;39m [35m48792[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mo.s.b.w.embedded.tomcat.TomcatWebServer [0;39m [2m:[0;39m Tomcat initialized with port 8083 (http)
-[2m2026-05-27T23:36:29.660+05:30[0;39m [32m INFO[0;39m [35m48792[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mo.apache.catalina.core.StandardService  [0;39m [2m:[0;39m Starting service [Tomcat]
-[2m2026-05-27T23:36:29.660+05:30[0;39m [32m INFO[0;39m [35m48792[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mo.apache.catalina.core.StandardEngine   [0;39m [2m:[0;39m Starting Servlet engine: [Apache Tomcat/10.1.19]
-[2m2026-05-27T23:36:29.696+05:30[0;39m [32m INFO[0;39m [35m48792[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mo.a.c.c.C.[Tomcat].[localhost].[/]      [0;39m [2m:[0;39m Initializing Spring embedded WebApplicationContext
-[2m2026-05-27T23:36:29.697+05:30[0;39m [32m INFO[0;39m [35m48792[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mw.s.c.ServletWebServerApplicationContext[0;39m [2m:[0;39m Root WebApplicationContext: initialization completed in 1824 ms
-[2m2026-05-27T23:36:29.987+05:30[0;39m [32m INFO[0;39m [35m48792[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mo.hibernate.jpa.internal.util.LogHelper [0;39m [2m:[0;39m HHH000204: Processing PersistenceUnitInfo [name: default]
-[2m2026-05-27T23:36:30.016+05:30[0;39m [32m INFO[0;39m [35m48792[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36morg.hibernate.Version                   [0;39m [2m:[0;39m HHH000412: Hibernate ORM core version 6.4.4.Final
-[2m2026-05-27T23:36:30.032+05:30[0;39m [32m INFO[0;39m [35m48792[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mo.h.c.internal.RegionFactoryInitiator   [0;39m [2m:[0;39m HHH000026: Second-level cache disabled
-[2m2026-05-27T23:36:30.135+05:30[0;39m [32m INFO[0;39m [35m48792[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mo.s.o.j.p.SpringPersistenceUnitInfo     [0;39m [2m:[0;39m No LoadTimeWeaver setup: ignoring JPA class transformer
-[2m2026-05-27T23:36:30.150+05:30[0;39m [32m INFO[0;39m [35m48792[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mcom.zaxxer.hikari.HikariDataSource      [0;39m [2m:[0;39m HikariPool-1 - Starting...
-[2m2026-05-27T23:36:30.254+05:30[0;39m [32m INFO[0;39m [35m48792[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mcom.zaxxer.hikari.pool.HikariPool       [0;39m [2m:[0;39m HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@3e149513
-[2m2026-05-27T23:36:30.255+05:30[0;39m [32m INFO[0;39m [35m48792[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mcom.zaxxer.hikari.HikariDataSource      [0;39m [2m:[0;39m HikariPool-1 - Start completed.
-[2m2026-05-27T23:36:30.277+05:30[0;39m [33m WARN[0;39m [35m48792[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36morg.hibernate.orm.deprecation           [0;39m [2m:[0;39m HHH90000025: MySQL8Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-[2m2026-05-27T23:36:30.278+05:30[0;39m [33m WARN[0;39m [35m48792[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36morg.hibernate.orm.deprecation           [0;39m [2m:[0;39m HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
-[2m2026-05-27T23:36:30.769+05:30[0;39m [32m INFO[0;39m [35m48792[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mo.h.e.t.j.p.i.JtaPlatformInitiator      [0;39m [2m:[0;39m HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
-[2m2026-05-27T23:36:30.852+05:30[0;39m [32m INFO[0;39m [35m48792[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mj.LocalContainerEntityManagerFactoryBean[0;39m [2m:[0;39m Initialized JPA EntityManagerFactory for persistence unit 'default'
-[2m2026-05-27T23:36:31.185+05:30[0;39m [33m WARN[0;39m [35m48792[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mJpaBaseConfiguration$JpaWebConfiguration[0;39m [2m:[0;39m spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-[2m2026-05-27T23:36:31.261+05:30[0;39m [32m INFO[0;39m [35m48792[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mo.s.c.openfeign.FeignClientFactoryBean  [0;39m [2m:[0;39m For 'product-service' URL not provided. Will try picking an instance via load-balancing.
-[2m2026-05-27T23:36:31.502+05:30[0;39m [33m WARN[0;39m [35m48792[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36m.s.s.UserDetailsServiceAutoConfiguration[0;39m [2m:[0;39m 
+[2m2026-05-28T00:02:14.924+05:30[0;39m [32m INFO[0;39m [35m55053[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mc.e.o.OrderServiceApplication           [0;39m [2m:[0;39m Starting OrderServiceApplication using Java 23.0.2 with PID 55053 (/Users/aman/ecom-order-system/order-service/target/classes started by aman in /Users/aman/ecom-order-system/order-service)
+[2m2026-05-28T00:02:14.926+05:30[0;39m [32m INFO[0;39m [35m55053[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mc.e.o.OrderServiceApplication           [0;39m [2m:[0;39m No active profile set, falling back to 1 default profile: "default"
+[2m2026-05-28T00:02:15.750+05:30[0;39m [32m INFO[0;39m [35m55053[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36m.s.d.r.c.RepositoryConfigurationDelegate[0;39m [2m:[0;39m Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+[2m2026-05-28T00:02:15.837+05:30[0;39m [32m INFO[0;39m [35m55053[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36m.s.d.r.c.RepositoryConfigurationDelegate[0;39m [2m:[0;39m Finished Spring Data repository scanning in 83 ms. Found 1 JPA repository interface.
+[2m2026-05-28T00:02:16.008+05:30[0;39m [32m INFO[0;39m [35m55053[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mo.s.cloud.context.scope.GenericScope    [0;39m [2m:[0;39m BeanFactory id=18ce022d-a670-3310-970d-c1d25d3d5e1f
+[2m2026-05-28T00:02:16.298+05:30[0;39m [33m WARN[0;39m [35m55053[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mtrationDelegate$BeanPostProcessorChecker[0;39m [2m:[0;39m Bean 'org.springframework.cloud.client.loadbalancer.LoadBalancerAutoConfiguration$DeferringLoadBalancerInterceptorConfig' of type [org.springframework.cloud.client.loadbalancer.LoadBalancerAutoConfiguration$DeferringLoadBalancerInterceptorConfig] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). The currently created BeanPostProcessor [lbRestClientPostProcessor] is declared through a non-static factory method on that class; consider declaring it as static instead.
+[2m2026-05-28T00:02:16.302+05:30[0;39m [33m WARN[0;39m [35m55053[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mtrationDelegate$BeanPostProcessorChecker[0;39m [2m:[0;39m Bean 'deferringLoadBalancerInterceptor' of type [org.springframework.cloud.client.loadbalancer.DeferringLoadBalancerInterceptor] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [lbRestClientPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+[2m2026-05-28T00:02:16.523+05:30[0;39m [32m INFO[0;39m [35m55053[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mo.s.b.w.embedded.tomcat.TomcatWebServer [0;39m [2m:[0;39m Tomcat initialized with port 8083 (http)
+[2m2026-05-28T00:02:16.531+05:30[0;39m [32m INFO[0;39m [35m55053[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mo.apache.catalina.core.StandardService  [0;39m [2m:[0;39m Starting service [Tomcat]
+[2m2026-05-28T00:02:16.532+05:30[0;39m [32m INFO[0;39m [35m55053[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mo.apache.catalina.core.StandardEngine   [0;39m [2m:[0;39m Starting Servlet engine: [Apache Tomcat/10.1.19]
+[2m2026-05-28T00:02:16.575+05:30[0;39m [32m INFO[0;39m [35m55053[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mo.a.c.c.C.[Tomcat].[localhost].[/]      [0;39m [2m:[0;39m Initializing Spring embedded WebApplicationContext
+[2m2026-05-28T00:02:16.576+05:30[0;39m [32m INFO[0;39m [35m55053[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mw.s.c.ServletWebServerApplicationContext[0;39m [2m:[0;39m Root WebApplicationContext: initialization completed in 1602 ms
+[2m2026-05-28T00:02:16.903+05:30[0;39m [32m INFO[0;39m [35m55053[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mo.hibernate.jpa.internal.util.LogHelper [0;39m [2m:[0;39m HHH000204: Processing PersistenceUnitInfo [name: default]
+[2m2026-05-28T00:02:16.928+05:30[0;39m [32m INFO[0;39m [35m55053[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36morg.hibernate.Version                   [0;39m [2m:[0;39m HHH000412: Hibernate ORM core version 6.4.4.Final
+[2m2026-05-28T00:02:16.954+05:30[0;39m [32m INFO[0;39m [35m55053[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mo.h.c.internal.RegionFactoryInitiator   [0;39m [2m:[0;39m HHH000026: Second-level cache disabled
+[2m2026-05-28T00:02:17.116+05:30[0;39m [32m INFO[0;39m [35m55053[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mo.s.o.j.p.SpringPersistenceUnitInfo     [0;39m [2m:[0;39m No LoadTimeWeaver setup: ignoring JPA class transformer
+[2m2026-05-28T00:02:17.144+05:30[0;39m [32m INFO[0;39m [35m55053[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mcom.zaxxer.hikari.HikariDataSource      [0;39m [2m:[0;39m HikariPool-1 - Starting...
+[2m2026-05-28T00:02:17.284+05:30[0;39m [32m INFO[0;39m [35m55053[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mcom.zaxxer.hikari.pool.HikariPool       [0;39m [2m:[0;39m HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@3ee68eb2
+[2m2026-05-28T00:02:17.287+05:30[0;39m [32m INFO[0;39m [35m55053[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mcom.zaxxer.hikari.HikariDataSource      [0;39m [2m:[0;39m HikariPool-1 - Start completed.
+[2m2026-05-28T00:02:17.330+05:30[0;39m [33m WARN[0;39m [35m55053[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36morg.hibernate.orm.deprecation           [0;39m [2m:[0;39m HHH90000025: MySQL8Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+[2m2026-05-28T00:02:17.331+05:30[0;39m [33m WARN[0;39m [35m55053[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36morg.hibernate.orm.deprecation           [0;39m [2m:[0;39m HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
+[2m2026-05-28T00:02:17.891+05:30[0;39m [32m INFO[0;39m [35m55053[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mo.h.e.t.j.p.i.JtaPlatformInitiator      [0;39m [2m:[0;39m HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+[2m2026-05-28T00:02:17.937+05:30[0;39m [32m INFO[0;39m [35m55053[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mj.LocalContainerEntityManagerFactoryBean[0;39m [2m:[0;39m Initialized JPA EntityManagerFactory for persistence unit 'default'
+[2m2026-05-28T00:02:18.286+05:30[0;39m [33m WARN[0;39m [35m55053[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mJpaBaseConfiguration$JpaWebConfiguration[0;39m [2m:[0;39m spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+[2m2026-05-28T00:02:18.355+05:30[0;39m [32m INFO[0;39m [35m55053[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mo.s.c.openfeign.FeignClientFactoryBean  [0;39m [2m:[0;39m For 'product-service' URL not provided. Will try picking an instance via load-balancing.
+[2m2026-05-28T00:02:18.600+05:30[0;39m [33m WARN[0;39m [35m55053[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36m.s.s.UserDetailsServiceAutoConfiguration[0;39m [2m:[0;39m 
 
-Using generated security password: f3292fab-adcc-4ba8-b35f-f17839a074ba
+Using generated security password: 0b75039f-febe-454f-8df2-1edd8fbe9f90
 
 This generated password is for development use only. Your security configuration must be updated before running your application in production.
 
-[2m2026-05-27T23:36:31.799+05:30[0;39m [32m INFO[0;39m [35m48792[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mo.s.b.a.e.web.EndpointLinksResolver     [0;39m [2m:[0;39m Exposing 2 endpoint(s) beneath base path '/actuator'
-[2m2026-05-27T23:36:31.870+05:30[0;39m [32m INFO[0;39m [35m48792[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mo.s.s.web.DefaultSecurityFilterChain    [0;39m [2m:[0;39m Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@58230224, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@583f6270, org.springframework.security.web.context.SecurityContextHolderFilter@b997735, org.springframework.security.web.header.HeaderWriterFilter@2700609f, org.springframework.web.filter.CorsFilter@2bd24c09, org.springframework.security.web.authentication.logout.LogoutFilter@2cf7860e, com.ecom.orderservice.security.JwtAuthFilter@7bda01da, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@6cf58989, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@4b954cbb, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@3e6b8b27, org.springframework.security.web.session.SessionManagementFilter@11303cb, org.springframework.security.web.access.ExceptionTranslationFilter@2f229f60, org.springframework.security.web.access.intercept.AuthorizationFilter@9353d68]
-[2m2026-05-27T23:36:32.265+05:30[0;39m [32m INFO[0;39m [35m48792[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mDiscoveryClientOptionalArgsConfiguration[0;39m [2m:[0;39m Eureka HTTP Client uses RestTemplate.
-[2m2026-05-27T23:36:32.293+05:30[0;39m [33m WARN[0;39m [35m48792[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36miguration$LoadBalancerCaffeineWarnLogger[0;39m [2m:[0;39m Spring Cloud LoadBalancer is currently working with the default cache. While this cache implementation is useful for development and tests, it's recommended to use Caffeine cache in production.You can switch to using Caffeine cache, by adding it and org.springframework.cache.caffeine.CaffeineCacheManager to the classpath.
-[2m2026-05-27T23:36:32.352+05:30[0;39m [32m INFO[0;39m [35m48792[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mo.s.c.n.eureka.InstanceInfoFactory      [0;39m [2m:[0;39m Setting initial instance status as: STARTING
-[2m2026-05-27T23:36:32.408+05:30[0;39m [32m INFO[0;39m [35m48792[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mcom.netflix.discovery.DiscoveryClient   [0;39m [2m:[0;39m Initializing Eureka in region us-east-1
-[2m2026-05-27T23:36:32.411+05:30[0;39m [32m INFO[0;39m [35m48792[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mc.n.d.s.r.aws.ConfigClusterResolver     [0;39m [2m:[0;39m Resolving eureka endpoints via configuration
-[2m2026-05-27T23:36:32.424+05:30[0;39m [32m INFO[0;39m [35m48792[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mcom.netflix.discovery.DiscoveryClient   [0;39m [2m:[0;39m Disable delta property : false
-[2m2026-05-27T23:36:32.424+05:30[0;39m [32m INFO[0;39m [35m48792[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mcom.netflix.discovery.DiscoveryClient   [0;39m [2m:[0;39m Single vip registry refresh property : null
-[2m2026-05-27T23:36:32.424+05:30[0;39m [32m INFO[0;39m [35m48792[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mcom.netflix.discovery.DiscoveryClient   [0;39m [2m:[0;39m Force full registry fetch : false
-[2m2026-05-27T23:36:32.424+05:30[0;39m [32m INFO[0;39m [35m48792[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mcom.netflix.discovery.DiscoveryClient   [0;39m [2m:[0;39m Application is null : false
-[2m2026-05-27T23:36:32.424+05:30[0;39m [32m INFO[0;39m [35m48792[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mcom.netflix.discovery.DiscoveryClient   [0;39m [2m:[0;39m Registered Applications size is zero : true
-[2m2026-05-27T23:36:32.424+05:30[0;39m [32m INFO[0;39m [35m48792[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mcom.netflix.discovery.DiscoveryClient   [0;39m [2m:[0;39m Application version is -1: true
-[2m2026-05-27T23:36:32.424+05:30[0;39m [32m INFO[0;39m [35m48792[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mcom.netflix.discovery.DiscoveryClient   [0;39m [2m:[0;39m Getting all instance registry info from the eureka server
-[2m2026-05-27T23:36:32.555+05:30[0;39m [32m INFO[0;39m [35m48792[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mcom.netflix.discovery.DiscoveryClient   [0;39m [2m:[0;39m The response status is 200
-[2m2026-05-27T23:36:32.556+05:30[0;39m [32m INFO[0;39m [35m48792[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mcom.netflix.discovery.DiscoveryClient   [0;39m [2m:[0;39m Starting heartbeat executor: renew interval is: 30
-[2m2026-05-27T23:36:32.557+05:30[0;39m [32m INFO[0;39m [35m48792[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mc.n.discovery.InstanceInfoReplicator    [0;39m [2m:[0;39m InstanceInfoReplicator onDemand update allowed rate per min is 4
-[2m2026-05-27T23:36:32.559+05:30[0;39m [32m INFO[0;39m [35m48792[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mcom.netflix.discovery.DiscoveryClient   [0;39m [2m:[0;39m Discovery Client initialized at timestamp 1779905192559 with initial instances count: 1
-[2m2026-05-27T23:36:32.564+05:30[0;39m [32m INFO[0;39m [35m48792[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mo.s.c.n.e.s.EurekaServiceRegistry       [0;39m [2m:[0;39m Registering application ORDER-SERVICE with eureka with status UP
-[2m2026-05-27T23:36:32.564+05:30[0;39m [32m INFO[0;39m [35m48792[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mcom.netflix.discovery.DiscoveryClient   [0;39m [2m:[0;39m Saw local status change event StatusChangeEvent [timestamp=1779905192564, current=UP, previous=STARTING]
-[2m2026-05-27T23:36:32.565+05:30[0;39m [32m INFO[0;39m [35m48792[0;39m [2m---[0;39m [2m[order-service] [nfoReplicator-0][0;39m [2m[0;39m[36mcom.netflix.discovery.DiscoveryClient   [0;39m [2m:[0;39m DiscoveryClient_ORDER-SERVICE/192.168.1.41:order-service:8083: registering service...
-[2m2026-05-27T23:36:32.573+05:30[0;39m [32m INFO[0;39m [35m48792[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mo.s.b.w.embedded.tomcat.TomcatWebServer [0;39m [2m:[0;39m Tomcat started on port 8083 (http) with context path ''
-[2m2026-05-27T23:36:32.573+05:30[0;39m [32m INFO[0;39m [35m48792[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36m.s.c.n.e.s.EurekaAutoServiceRegistration[0;39m [2m:[0;39m Updating port to 8083
-[2m2026-05-27T23:36:32.584+05:30[0;39m [32m INFO[0;39m [35m48792[0;39m [2m---[0;39m [2m[order-service] [nfoReplicator-0][0;39m [2m[0;39m[36mcom.netflix.discovery.DiscoveryClient   [0;39m [2m:[0;39m DiscoveryClient_ORDER-SERVICE/192.168.1.41:order-service:8083 - registration status: 204
-[2m2026-05-27T23:36:32.587+05:30[0;39m [32m INFO[0;39m [35m48792[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mc.e.o.OrderServiceApplication           [0;39m [2m:[0;39m Started OrderServiceApplication in 5.099 seconds (process running for 5.424)
-[2m2026-05-27T23:38:06.132+05:30[0;39m [32m INFO[0;39m [35m48792[0;39m [2m---[0;39m [2m[order-service] [nio-8083-exec-1][0;39m [2m[0;39m[36mo.a.c.c.C.[Tomcat].[localhost].[/]      [0;39m [2m:[0;39m Initializing Spring DispatcherServlet 'dispatcherServlet'
-[2m2026-05-27T23:38:06.133+05:30[0;39m [32m INFO[0;39m [35m48792[0;39m [2m---[0;39m [2m[order-service] [nio-8083-exec-1][0;39m [2m[0;39m[36mo.s.web.servlet.DispatcherServlet       [0;39m [2m:[0;39m Initializing Servlet 'dispatcherServlet'
-[2m2026-05-27T23:38:06.139+05:30[0;39m [32m INFO[0;39m [35m48792[0;39m [2m---[0;39m [2m[order-service] [nio-8083-exec-1][0;39m [2m[0;39m[36mo.s.web.servlet.DispatcherServlet       [0;39m [2m:[0;39m Completed initialization in 6 ms
-[2m2026-05-27T23:41:32.432+05:30[0;39m [32m INFO[0;39m [35m48792[0;39m [2m---[0;39m [2m[order-service] [trap-executor-0][0;39m [2m[0;39m[36mc.n.d.s.r.aws.ConfigClusterResolver     [0;39m [2m:[0;39m Resolving eureka endpoints via configuration
-[2m2026-05-27T23:46:32.432+05:30[0;39m [32m INFO[0;39m [35m48792[0;39m [2m---[0;39m [2m[order-service] [trap-executor-0][0;39m [2m[0;39m[36mc.n.d.s.r.aws.ConfigClusterResolver     [0;39m [2m:[0;39m Resolving eureka endpoints via configuration
-[2m2026-05-27T23:51:32.430+05:30[0;39m [32m INFO[0;39m [35m48792[0;39m [2m---[0;39m [2m[order-service] [trap-executor-0][0;39m [2m[0;39m[36mc.n.d.s.r.aws.ConfigClusterResolver     [0;39m [2m:[0;39m Resolving eureka endpoints via configuration
+[2m2026-05-28T00:02:18.911+05:30[0;39m [32m INFO[0;39m [35m55053[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mo.s.b.a.e.web.EndpointLinksResolver     [0;39m [2m:[0;39m Exposing 2 endpoint(s) beneath base path '/actuator'
+[2m2026-05-28T00:02:18.992+05:30[0;39m [32m INFO[0;39m [35m55053[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mo.s.s.web.DefaultSecurityFilterChain    [0;39m [2m:[0;39m Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@14021c10, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@7dd4f726, org.springframework.security.web.context.SecurityContextHolderFilter@3d45ea17, org.springframework.security.web.header.HeaderWriterFilter@bec2d81, org.springframework.web.filter.CorsFilter@bf6de66, org.springframework.security.web.authentication.logout.LogoutFilter@583f6270, com.ecom.orderservice.security.JwtAuthFilter@7b52b18a, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@6a7c1725, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@4746d52d, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@ff7042c, org.springframework.security.web.session.SessionManagementFilter@1df6f57d, org.springframework.security.web.access.ExceptionTranslationFilter@7f913c47, org.springframework.security.web.access.intercept.AuthorizationFilter@2a71d430]
+[2m2026-05-28T00:02:19.419+05:30[0;39m [32m INFO[0;39m [35m55053[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mDiscoveryClientOptionalArgsConfiguration[0;39m [2m:[0;39m Eureka HTTP Client uses RestTemplate.
+[2m2026-05-28T00:02:19.469+05:30[0;39m [33m WARN[0;39m [35m55053[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36miguration$LoadBalancerCaffeineWarnLogger[0;39m [2m:[0;39m Spring Cloud LoadBalancer is currently working with the default cache. While this cache implementation is useful for development and tests, it's recommended to use Caffeine cache in production.You can switch to using Caffeine cache, by adding it and org.springframework.cache.caffeine.CaffeineCacheManager to the classpath.
+[2m2026-05-28T00:02:19.509+05:30[0;39m [32m INFO[0;39m [35m55053[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mo.s.c.n.eureka.InstanceInfoFactory      [0;39m [2m:[0;39m Setting initial instance status as: STARTING
+[2m2026-05-28T00:02:19.559+05:30[0;39m [32m INFO[0;39m [35m55053[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mcom.netflix.discovery.DiscoveryClient   [0;39m [2m:[0;39m Initializing Eureka in region us-east-1
+[2m2026-05-28T00:02:19.561+05:30[0;39m [32m INFO[0;39m [35m55053[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mc.n.d.s.r.aws.ConfigClusterResolver     [0;39m [2m:[0;39m Resolving eureka endpoints via configuration
+[2m2026-05-28T00:02:19.570+05:30[0;39m [32m INFO[0;39m [35m55053[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mcom.netflix.discovery.DiscoveryClient   [0;39m [2m:[0;39m Disable delta property : false
+[2m2026-05-28T00:02:19.570+05:30[0;39m [32m INFO[0;39m [35m55053[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mcom.netflix.discovery.DiscoveryClient   [0;39m [2m:[0;39m Single vip registry refresh property : null
+[2m2026-05-28T00:02:19.571+05:30[0;39m [32m INFO[0;39m [35m55053[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mcom.netflix.discovery.DiscoveryClient   [0;39m [2m:[0;39m Force full registry fetch : false
+[2m2026-05-28T00:02:19.571+05:30[0;39m [32m INFO[0;39m [35m55053[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mcom.netflix.discovery.DiscoveryClient   [0;39m [2m:[0;39m Application is null : false
+[2m2026-05-28T00:02:19.571+05:30[0;39m [32m INFO[0;39m [35m55053[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mcom.netflix.discovery.DiscoveryClient   [0;39m [2m:[0;39m Registered Applications size is zero : true
+[2m2026-05-28T00:02:19.571+05:30[0;39m [32m INFO[0;39m [35m55053[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mcom.netflix.discovery.DiscoveryClient   [0;39m [2m:[0;39m Application version is -1: true
+[2m2026-05-28T00:02:19.571+05:30[0;39m [32m INFO[0;39m [35m55053[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mcom.netflix.discovery.DiscoveryClient   [0;39m [2m:[0;39m Getting all instance registry info from the eureka server
+[2m2026-05-28T00:02:19.683+05:30[0;39m [32m INFO[0;39m [35m55053[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mcom.netflix.discovery.DiscoveryClient   [0;39m [2m:[0;39m The response status is 200
+[2m2026-05-28T00:02:19.684+05:30[0;39m [32m INFO[0;39m [35m55053[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mcom.netflix.discovery.DiscoveryClient   [0;39m [2m:[0;39m Starting heartbeat executor: renew interval is: 30
+[2m2026-05-28T00:02:19.685+05:30[0;39m [32m INFO[0;39m [35m55053[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mc.n.discovery.InstanceInfoReplicator    [0;39m [2m:[0;39m InstanceInfoReplicator onDemand update allowed rate per min is 4
+[2m2026-05-28T00:02:19.687+05:30[0;39m [32m INFO[0;39m [35m55053[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mcom.netflix.discovery.DiscoveryClient   [0;39m [2m:[0;39m Discovery Client initialized at timestamp 1779906739686 with initial instances count: 0
+[2m2026-05-28T00:02:19.691+05:30[0;39m [32m INFO[0;39m [35m55053[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mo.s.c.n.e.s.EurekaServiceRegistry       [0;39m [2m:[0;39m Registering application ORDER-SERVICE with eureka with status UP
+[2m2026-05-28T00:02:19.691+05:30[0;39m [32m INFO[0;39m [35m55053[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mcom.netflix.discovery.DiscoveryClient   [0;39m [2m:[0;39m Saw local status change event StatusChangeEvent [timestamp=1779906739691, current=UP, previous=STARTING]
+[2m2026-05-28T00:02:19.692+05:30[0;39m [32m INFO[0;39m [35m55053[0;39m [2m---[0;39m [2m[order-service] [nfoReplicator-0][0;39m [2m[0;39m[36mcom.netflix.discovery.DiscoveryClient   [0;39m [2m:[0;39m DiscoveryClient_ORDER-SERVICE/192.168.1.41:order-service:8083: registering service...
+[2m2026-05-28T00:02:19.699+05:30[0;39m [32m INFO[0;39m [35m55053[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mo.s.b.w.embedded.tomcat.TomcatWebServer [0;39m [2m:[0;39m Tomcat started on port 8083 (http) with context path ''
+[2m2026-05-28T00:02:19.699+05:30[0;39m [32m INFO[0;39m [35m55053[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36m.s.c.n.e.s.EurekaAutoServiceRegistration[0;39m [2m:[0;39m Updating port to 8083
+[2m2026-05-28T00:02:19.710+05:30[0;39m [32m INFO[0;39m [35m55053[0;39m [2m---[0;39m [2m[order-service] [nfoReplicator-0][0;39m [2m[0;39m[36mcom.netflix.discovery.DiscoveryClient   [0;39m [2m:[0;39m DiscoveryClient_ORDER-SERVICE/192.168.1.41:order-service:8083 - registration status: 204
+[2m2026-05-28T00:02:19.713+05:30[0;39m [32m INFO[0;39m [35m55053[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mc.e.o.OrderServiceApplication           [0;39m [2m:[0;39m Started OrderServiceApplication in 5.048 seconds (process running for 5.388)
+[2m2026-05-28T00:02:49.691+05:30[0;39m [32m INFO[0;39m [35m55053[0;39m [2m---[0;39m [2m[order-service] [freshExecutor-0][0;39m [2m[0;39m[36mcom.netflix.discovery.DiscoveryClient   [0;39m [2m:[0;39m Disable delta property : false
+[2m2026-05-28T00:02:49.693+05:30[0;39m [32m INFO[0;39m [35m55053[0;39m [2m---[0;39m [2m[order-service] [freshExecutor-0][0;39m [2m[0;39m[36mcom.netflix.discovery.DiscoveryClient   [0;39m [2m:[0;39m Single vip registry refresh property : null
+[2m2026-05-28T00:02:49.693+05:30[0;39m [32m INFO[0;39m [35m55053[0;39m [2m---[0;39m [2m[order-service] [freshExecutor-0][0;39m [2m[0;39m[36mcom.netflix.discovery.DiscoveryClient   [0;39m [2m:[0;39m Force full registry fetch : false
+[2m2026-05-28T00:02:49.693+05:30[0;39m [32m INFO[0;39m [35m55053[0;39m [2m---[0;39m [2m[order-service] [freshExecutor-0][0;39m [2m[0;39m[36mcom.netflix.discovery.DiscoveryClient   [0;39m [2m:[0;39m Application is null : false
+[2m2026-05-28T00:02:49.693+05:30[0;39m [32m INFO[0;39m [35m55053[0;39m [2m---[0;39m [2m[order-service] [freshExecutor-0][0;39m [2m[0;39m[36mcom.netflix.discovery.DiscoveryClient   [0;39m [2m:[0;39m Registered Applications size is zero : true
+[2m2026-05-28T00:02:49.693+05:30[0;39m [32m INFO[0;39m [35m55053[0;39m [2m---[0;39m [2m[order-service] [freshExecutor-0][0;39m [2m[0;39m[36mcom.netflix.discovery.DiscoveryClient   [0;39m [2m:[0;39m Application version is -1: false
+[2m2026-05-28T00:02:49.693+05:30[0;39m [32m INFO[0;39m [35m55053[0;39m [2m---[0;39m [2m[order-service] [freshExecutor-0][0;39m [2m[0;39m[36mcom.netflix.discovery.DiscoveryClient   [0;39m [2m:[0;39m Getting all instance registry info from the eureka server
+[2m2026-05-28T00:02:49.735+05:30[0;39m [32m INFO[0;39m [35m55053[0;39m [2m---[0;39m [2m[order-service] [freshExecutor-0][0;39m [2m[0;39m[36mcom.netflix.discovery.DiscoveryClient   [0;39m [2m:[0;39m The response status is 200
+[2m2026-05-28T00:03:28.927+05:30[0;39m [32m INFO[0;39m [35m55053[0;39m [2m---[0;39m [2m[order-service] [nio-8083-exec-1][0;39m [2m[0;39m[36mo.a.c.c.C.[Tomcat].[localhost].[/]      [0;39m [2m:[0;39m Initializing Spring DispatcherServlet 'dispatcherServlet'
+[2m2026-05-28T00:03:28.928+05:30[0;39m [32m INFO[0;39m [35m55053[0;39m [2m---[0;39m [2m[order-service] [nio-8083-exec-1][0;39m [2m[0;39m[36mo.s.web.servlet.DispatcherServlet       [0;39m [2m:[0;39m Initializing Servlet 'dispatcherServlet'
+[2m2026-05-28T00:03:28.937+05:30[0;39m [32m INFO[0;39m [35m55053[0;39m [2m---[0;39m [2m[order-service] [nio-8083-exec-1][0;39m [2m[0;39m[36mo.s.web.servlet.DispatcherServlet       [0;39m [2m:[0;39m Completed initialization in 9 ms
+Hibernate: 
+    select
+        o1_0.id,
+        o1_0.created_at,
+        o1_0.status,
+        o1_0.total_amount,
+        o1_0.updated_at,
+        o1_0.user_email,
+        o1_0.user_id 
+    from
+        orders o1_0 
+    where
+        o1_0.user_id=? 
+    order by
+        o1_0.created_at desc
+Hibernate: 
+    select
+        oi1_0.order_id,
+        oi1_0.id,
+        oi1_0.product_id,
+        oi1_0.product_name,
+        oi1_0.quantity,
+        oi1_0.unit_price 
+    from
+        order_items oi1_0 
+    where
+        oi1_0.order_id=?
+Hibernate: 
+    select
+        oi1_0.order_id,
+        oi1_0.id,
+        oi1_0.product_id,
+        oi1_0.product_name,
+        oi1_0.quantity,
+        oi1_0.unit_price 
+    from
+        order_items oi1_0 
+    where
+        oi1_0.order_id=?
+Hibernate: 
+    select
+        oi1_0.order_id,
+        oi1_0.id,
+        oi1_0.product_id,
+        oi1_0.product_name,
+        oi1_0.quantity,
+        oi1_0.unit_price 
+    from
+        order_items oi1_0 
+    where
+        oi1_0.order_id=?
+Hibernate: 
+    select
+        oi1_0.order_id,
+        oi1_0.id,
+        oi1_0.product_id,
+        oi1_0.product_name,
+        oi1_0.quantity,
+        oi1_0.unit_price 
+    from
+        order_items oi1_0 
+    where
+        oi1_0.order_id=?
+Hibernate: 
+    select
+        o1_0.id,
+        o1_0.created_at,
+        o1_0.status,
+        o1_0.total_amount,
+        o1_0.updated_at,
+        o1_0.user_email,
+        o1_0.user_id 
+    from
+        orders o1_0 
+    where
+        o1_0.user_id=? 
+    order by
+        o1_0.created_at desc
+Hibernate: 
+    select
+        oi1_0.order_id,
+        oi1_0.id,
+        oi1_0.product_id,
+        oi1_0.product_name,
+        oi1_0.quantity,
+        oi1_0.unit_price 
+    from
+        order_items oi1_0 
+    where
+        oi1_0.order_id=?
+Hibernate: 
+    select
+        oi1_0.order_id,
+        oi1_0.id,
+        oi1_0.product_id,
+        oi1_0.product_name,
+        oi1_0.quantity,
+        oi1_0.unit_price 
+    from
+        order_items oi1_0 
+    where
+        oi1_0.order_id=?
+Hibernate: 
+    select
+        oi1_0.order_id,
+        oi1_0.id,
+        oi1_0.product_id,
+        oi1_0.product_name,
+        oi1_0.quantity,
+        oi1_0.unit_price 
+    from
+        order_items oi1_0 
+    where
+        oi1_0.order_id=?
+Hibernate: 
+    select
+        oi1_0.order_id,
+        oi1_0.id,
+        oi1_0.product_id,
+        oi1_0.product_name,
+        oi1_0.quantity,
+        oi1_0.unit_price 
+    from
+        order_items oi1_0 
+    where
+        oi1_0.order_id=?
+[2m2026-05-28T00:07:19.569+05:30[0;39m [32m INFO[0;39m [35m55053[0;39m [2m---[0;39m [2m[order-service] [trap-executor-0][0;39m [2m[0;39m[36mc.n.d.s.r.aws.ConfigClusterResolver     [0;39m [2m:[0;39m Resolving eureka endpoints via configuration
+[2m2026-05-28T00:07:52.946+05:30[0;39m [31mERROR[0;39m [35m55053[0;39m [2m---[0;39m [2m[order-service] [nio-8083-exec-4][0;39m [2m[0;39m[36mc.e.o.exception.GlobalExceptionHandler  [0;39m [2m:[0;39m Unexpected error: JSON parse error: Unrecognized token 'ID_OF_ONEPLUS': was expecting (JSON String, Number, Array, Object or token 'null', 'true' or 'false')
+
+org.springframework.http.converter.HttpMessageNotReadableException: JSON parse error: Unrecognized token 'ID_OF_ONEPLUS': was expecting (JSON String, Number, Array, Object or token 'null', 'true' or 'false')
+	at org.springframework.http.converter.json.AbstractJackson2HttpMessageConverter.readJavaType(AbstractJackson2HttpMessageConverter.java:406) ~[spring-web-6.1.5.jar:6.1.5]
+	at org.springframework.http.converter.json.AbstractJackson2HttpMessageConverter.read(AbstractJackson2HttpMessageConverter.java:354) ~[spring-web-6.1.5.jar:6.1.5]
+	at org.springframework.web.servlet.mvc.method.annotation.AbstractMessageConverterMethodArgumentResolver.readWithMessageConverters(AbstractMessageConverterMethodArgumentResolver.java:184) ~[spring-webmvc-6.1.5.jar:6.1.5]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor.readWithMessageConverters(RequestResponseBodyMethodProcessor.java:159) ~[spring-webmvc-6.1.5.jar:6.1.5]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor.resolveArgument(RequestResponseBodyMethodProcessor.java:134) ~[spring-webmvc-6.1.5.jar:6.1.5]
+	at org.springframework.web.method.support.HandlerMethodArgumentResolverComposite.resolveArgument(HandlerMethodArgumentResolverComposite.java:122) ~[spring-web-6.1.5.jar:6.1.5]
+	at org.springframework.web.method.support.InvocableHandlerMethod.getMethodArgumentValues(InvocableHandlerMethod.java:224) ~[spring-web-6.1.5.jar:6.1.5]
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:178) ~[spring-web-6.1.5.jar:6.1.5]
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:118) ~[spring-webmvc-6.1.5.jar:6.1.5]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:925) ~[spring-webmvc-6.1.5.jar:6.1.5]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:830) ~[spring-webmvc-6.1.5.jar:6.1.5]
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87) ~[spring-webmvc-6.1.5.jar:6.1.5]
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1089) ~[spring-webmvc-6.1.5.jar:6.1.5]
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979) ~[spring-webmvc-6.1.5.jar:6.1.5]
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014) ~[spring-webmvc-6.1.5.jar:6.1.5]
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:914) ~[spring-webmvc-6.1.5.jar:6.1.5]
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:590) ~[tomcat-embed-core-10.1.19.jar:6.0]
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885) ~[spring-webmvc-6.1.5.jar:6.1.5]
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658) ~[tomcat-embed-core-10.1.19.jar:6.0]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:205) ~[tomcat-embed-core-10.1.19.jar:10.1.19]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149) ~[tomcat-embed-core-10.1.19.jar:10.1.19]
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51) ~[tomcat-embed-websocket-10.1.19.jar:10.1.19]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174) ~[tomcat-embed-core-10.1.19.jar:10.1.19]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149) ~[tomcat-embed-core-10.1.19.jar:10.1.19]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:110) ~[spring-web-6.1.5.jar:6.1.5]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174) ~[tomcat-embed-core-10.1.19.jar:10.1.19]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149) ~[tomcat-embed-core-10.1.19.jar:10.1.19]
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:108) ~[spring-web-6.1.5.jar:6.1.5]
+	at org.springframework.security.web.FilterChainProxy.lambda$doFilterInternal$3(FilterChainProxy.java:231) ~[spring-security-web-6.2.3.jar:6.2.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$FilterObservation$SimpleFilterObservation.lambda$wrap$1(ObservationFilterChainDecorator.java:479) ~[spring-security-web-6.2.3.jar:6.2.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$AroundFilterObservation$SimpleAroundFilterObservation.lambda$wrap$1(ObservationFilterChainDecorator.java:340) ~[spring-security-web-6.2.3.jar:6.2.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator.lambda$wrapSecured$0(ObservationFilterChainDecorator.java:82) ~[spring-security-web-6.2.3.jar:6.2.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:128) ~[spring-security-web-6.2.3.jar:6.2.3]
+	at org.springframework.security.web.access.intercept.AuthorizationFilter.doFilter(AuthorizationFilter.java:100) ~[spring-security-web-6.2.3.jar:6.2.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240) ~[spring-security-web-6.2.3.jar:6.2.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227) ~[spring-security-web-6.2.3.jar:6.2.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137) ~[spring-security-web-6.2.3.jar:6.2.3]
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:126) ~[spring-security-web-6.2.3.jar:6.2.3]
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:120) ~[spring-security-web-6.2.3.jar:6.2.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240) ~[spring-security-web-6.2.3.jar:6.2.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227) ~[spring-security-web-6.2.3.jar:6.2.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137) ~[spring-security-web-6.2.3.jar:6.2.3]
+	at org.springframework.security.web.session.SessionManagementFilter.doFilter(SessionManagementFilter.java:131) ~[spring-security-web-6.2.3.jar:6.2.3]
+	at org.springframework.security.web.session.SessionManagementFilter.doFilter(SessionManagementFilter.java:85) ~[spring-security-web-6.2.3.jar:6.2.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240) ~[spring-security-web-6.2.3.jar:6.2.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227) ~[spring-security-web-6.2.3.jar:6.2.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137) ~[spring-security-web-6.2.3.jar:6.2.3]
+	at org.springframework.security.web.authentication.AnonymousAuthenticationFilter.doFilter(AnonymousAuthenticationFilter.java:100) ~[spring-security-web-6.2.3.jar:6.2.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240) ~[spring-security-web-6.2.3.jar:6.2.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227) ~[spring-security-web-6.2.3.jar:6.2.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137) ~[spring-security-web-6.2.3.jar:6.2.3]
+	at org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter.doFilter(SecurityContextHolderAwareRequestFilter.java:179) ~[spring-security-web-6.2.3.jar:6.2.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240) ~[spring-security-web-6.2.3.jar:6.2.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227) ~[spring-security-web-6.2.3.jar:6.2.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137) ~[spring-security-web-6.2.3.jar:6.2.3]
+	at org.springframework.security.web.savedrequest.RequestCacheAwareFilter.doFilter(RequestCacheAwareFilter.java:63) ~[spring-security-web-6.2.3.jar:6.2.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240) ~[spring-security-web-6.2.3.jar:6.2.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227) ~[spring-security-web-6.2.3.jar:6.2.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137) ~[spring-security-web-6.2.3.jar:6.2.3]
+	at com.ecom.orderservice.security.JwtAuthFilter.doFilterInternal(JwtAuthFilter.java:72) ~[classes/:na]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.5.jar:6.1.5]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240) ~[spring-security-web-6.2.3.jar:6.2.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227) ~[spring-security-web-6.2.3.jar:6.2.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137) ~[spring-security-web-6.2.3.jar:6.2.3]
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:107) ~[spring-security-web-6.2.3.jar:6.2.3]
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:93) ~[spring-security-web-6.2.3.jar:6.2.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240) ~[spring-security-web-6.2.3.jar:6.2.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227) ~[spring-security-web-6.2.3.jar:6.2.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137) ~[spring-security-web-6.2.3.jar:6.2.3]
+	at org.springframework.web.filter.CorsFilter.doFilterInternal(CorsFilter.java:91) ~[spring-web-6.1.5.jar:6.1.5]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.5.jar:6.1.5]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240) ~[spring-security-web-6.2.3.jar:6.2.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227) ~[spring-security-web-6.2.3.jar:6.2.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137) ~[spring-security-web-6.2.3.jar:6.2.3]
+	at org.springframework.security.web.header.HeaderWriterFilter.doHeadersAfter(HeaderWriterFilter.java:90) ~[spring-security-web-6.2.3.jar:6.2.3]
+	at org.springframework.security.web.header.HeaderWriterFilter.doFilterInternal(HeaderWriterFilter.java:75) ~[spring-security-web-6.2.3.jar:6.2.3]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.5.jar:6.1.5]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240) ~[spring-security-web-6.2.3.jar:6.2.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227) ~[spring-security-web-6.2.3.jar:6.2.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137) ~[spring-security-web-6.2.3.jar:6.2.3]
+	at org.springframework.security.web.context.SecurityContextHolderFilter.doFilter(SecurityContextHolderFilter.java:82) ~[spring-security-web-6.2.3.jar:6.2.3]
+	at org.springframework.security.web.context.SecurityContextHolderFilter.doFilter(SecurityContextHolderFilter.java:69) ~[spring-security-web-6.2.3.jar:6.2.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240) ~[spring-security-web-6.2.3.jar:6.2.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227) ~[spring-security-web-6.2.3.jar:6.2.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137) ~[spring-security-web-6.2.3.jar:6.2.3]
+	at org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter.doFilterInternal(WebAsyncManagerIntegrationFilter.java:62) ~[spring-security-web-6.2.3.jar:6.2.3]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.5.jar:6.1.5]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240) ~[spring-security-web-6.2.3.jar:6.2.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:227) ~[spring-security-web-6.2.3.jar:6.2.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137) ~[spring-security-web-6.2.3.jar:6.2.3]
+	at org.springframework.security.web.session.DisableEncodeUrlFilter.doFilterInternal(DisableEncodeUrlFilter.java:42) ~[spring-security-web-6.2.3.jar:6.2.3]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.5.jar:6.1.5]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.wrapFilter(ObservationFilterChainDecorator.java:240) ~[spring-security-web-6.2.3.jar:6.2.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$AroundFilterObservation$SimpleAroundFilterObservation.lambda$wrap$0(ObservationFilterChainDecorator.java:323) ~[spring-security-web-6.2.3.jar:6.2.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$ObservationFilter.doFilter(ObservationFilterChainDecorator.java:224) ~[spring-security-web-6.2.3.jar:6.2.3]
+	at org.springframework.security.web.ObservationFilterChainDecorator$VirtualFilterChain.doFilter(ObservationFilterChainDecorator.java:137) ~[spring-security-web-6.2.3.jar:6.2.3]
+	at org.springframework.security.web.FilterChainProxy.doFilterInternal(FilterChainProxy.java:233) ~[spring-security-web-6.2.3.jar:6.2.3]
+	at org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:191) ~[spring-security-web-6.2.3.jar:6.2.3]
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113) ~[spring-web-6.1.5.jar:6.1.5]
+	at org.springframework.web.servlet.handler.HandlerMappingIntrospector.lambda$createCacheFilter$3(HandlerMappingIntrospector.java:195) ~[spring-webmvc-6.1.5.jar:6.1.5]
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113) ~[spring-web-6.1.5.jar:6.1.5]
+	at org.springframework.web.filter.CompositeFilter.doFilter(CompositeFilter.java:74) ~[spring-web-6.1.5.jar:6.1.5]
+	at org.springframework.security.config.annotation.web.configuration.WebMvcSecurityConfiguration$CompositeFilterChainProxy.doFilter(WebMvcSecurityConfiguration.java:230) ~[spring-security-config-6.2.3.jar:6.2.3]
+	at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:352) ~[spring-web-6.1.5.jar:6.1.5]
+	at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:268) ~[spring-web-6.1.5.jar:6.1.5]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174) ~[tomcat-embed-core-10.1.19.jar:10.1.19]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149) ~[tomcat-embed-core-10.1.19.jar:10.1.19]
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100) ~[spring-web-6.1.5.jar:6.1.5]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.5.jar:6.1.5]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174) ~[tomcat-embed-core-10.1.19.jar:10.1.19]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149) ~[tomcat-embed-core-10.1.19.jar:10.1.19]
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93) ~[spring-web-6.1.5.jar:6.1.5]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.5.jar:6.1.5]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174) ~[tomcat-embed-core-10.1.19.jar:10.1.19]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149) ~[tomcat-embed-core-10.1.19.jar:10.1.19]
+	at org.springframework.web.filter.ServerHttpObservationFilter.doFilterInternal(ServerHttpObservationFilter.java:109) ~[spring-web-6.1.5.jar:6.1.5]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.5.jar:6.1.5]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174) ~[tomcat-embed-core-10.1.19.jar:10.1.19]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149) ~[tomcat-embed-core-10.1.19.jar:10.1.19]
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201) ~[spring-web-6.1.5.jar:6.1.5]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.5.jar:6.1.5]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174) ~[tomcat-embed-core-10.1.19.jar:10.1.19]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149) ~[tomcat-embed-core-10.1.19.jar:10.1.19]
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167) ~[tomcat-embed-core-10.1.19.jar:10.1.19]
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90) ~[tomcat-embed-core-10.1.19.jar:10.1.19]
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:482) ~[tomcat-embed-core-10.1.19.jar:10.1.19]
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:115) ~[tomcat-embed-core-10.1.19.jar:10.1.19]
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93) ~[tomcat-embed-core-10.1.19.jar:10.1.19]
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74) ~[tomcat-embed-core-10.1.19.jar:10.1.19]
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344) ~[tomcat-embed-core-10.1.19.jar:10.1.19]
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:391) ~[tomcat-embed-core-10.1.19.jar:10.1.19]
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63) ~[tomcat-embed-core-10.1.19.jar:10.1.19]
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:896) ~[tomcat-embed-core-10.1.19.jar:10.1.19]
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1744) ~[tomcat-embed-core-10.1.19.jar:10.1.19]
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52) ~[tomcat-embed-core-10.1.19.jar:10.1.19]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191) ~[tomcat-embed-core-10.1.19.jar:10.1.19]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659) ~[tomcat-embed-core-10.1.19.jar:10.1.19]
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63) ~[tomcat-embed-core-10.1.19.jar:10.1.19]
+	at java.base/java.lang.Thread.run(Thread.java:1575) ~[na:na]
+Caused by: com.fasterxml.jackson.databind.JsonMappingException: Unrecognized token 'ID_OF_ONEPLUS': was expecting (JSON String, Number, Array, Object or token 'null', 'true' or 'false')
+ at [Source: (org.springframework.util.StreamUtils$NonClosingInputStream); line: 1, column: 40] (through reference chain: com.ecom.orderservice.dto.OrderRequest["items"]->java.util.ArrayList[0])
+	at com.fasterxml.jackson.databind.JsonMappingException.wrapWithPath(JsonMappingException.java:402) ~[jackson-databind-2.15.4.jar:2.15.4]
+	at com.fasterxml.jackson.databind.JsonMappingException.wrapWithPath(JsonMappingException.java:373) ~[jackson-databind-2.15.4.jar:2.15.4]
+	at com.fasterxml.jackson.databind.deser.std.CollectionDeserializer._deserializeFromArray(CollectionDeserializer.java:375) ~[jackson-databind-2.15.4.jar:2.15.4]
+	at com.fasterxml.jackson.databind.deser.std.CollectionDeserializer.deserialize(CollectionDeserializer.java:244) ~[jackson-databind-2.15.4.jar:2.15.4]
+	at com.fasterxml.jackson.databind.deser.std.CollectionDeserializer.deserialize(CollectionDeserializer.java:28) ~[jackson-databind-2.15.4.jar:2.15.4]
+	at com.fasterxml.jackson.databind.deser.impl.MethodProperty.deserializeAndSet(MethodProperty.java:129) ~[jackson-databind-2.15.4.jar:2.15.4]
+	at com.fasterxml.jackson.databind.deser.BeanDeserializer.deserializeFromObject(BeanDeserializer.java:392) ~[jackson-databind-2.15.4.jar:2.15.4]
+	at com.fasterxml.jackson.databind.deser.BeanDeserializer.deserialize(BeanDeserializer.java:185) ~[jackson-databind-2.15.4.jar:2.15.4]
+	at com.fasterxml.jackson.databind.deser.DefaultDeserializationContext.readRootValue(DefaultDeserializationContext.java:323) ~[jackson-databind-2.15.4.jar:2.15.4]
+	at com.fasterxml.jackson.databind.ObjectReader._bindAndClose(ObjectReader.java:2105) ~[jackson-databind-2.15.4.jar:2.15.4]
+	at com.fasterxml.jackson.databind.ObjectReader.readValue(ObjectReader.java:1481) ~[jackson-databind-2.15.4.jar:2.15.4]
+	at org.springframework.http.converter.json.AbstractJackson2HttpMessageConverter.readJavaType(AbstractJackson2HttpMessageConverter.java:395) ~[spring-web-6.1.5.jar:6.1.5]
+	... 138 common frames omitted
+Caused by: com.fasterxml.jackson.core.JsonParseException: Unrecognized token 'ID_OF_ONEPLUS': was expecting (JSON String, Number, Array, Object or token 'null', 'true' or 'false')
+ at [Source: (org.springframework.util.StreamUtils$NonClosingInputStream); line: 1, column: 40]
+	at com.fasterxml.jackson.core.JsonParser._constructError(JsonParser.java:2477) ~[jackson-core-2.15.4.jar:2.15.4]
+	at com.fasterxml.jackson.core.base.ParserMinimalBase._reportError(ParserMinimalBase.java:760) ~[jackson-core-2.15.4.jar:2.15.4]
+	at com.fasterxml.jackson.core.json.UTF8StreamJsonParser._reportInvalidToken(UTF8StreamJsonParser.java:3699) ~[jackson-core-2.15.4.jar:2.15.4]
+	at com.fasterxml.jackson.core.json.UTF8StreamJsonParser._reportInvalidToken(UTF8StreamJsonParser.java:3672) ~[jackson-core-2.15.4.jar:2.15.4]
+	at com.fasterxml.jackson.core.json.UTF8StreamJsonParser._matchToken(UTF8StreamJsonParser.java:2996) ~[jackson-core-2.15.4.jar:2.15.4]
+	at com.fasterxml.jackson.core.json.UTF8StreamJsonParser._handleUnexpectedValue(UTF8StreamJsonParser.java:2771) ~[jackson-core-2.15.4.jar:2.15.4]
+	at com.fasterxml.jackson.core.json.UTF8StreamJsonParser.nextToken(UTF8StreamJsonParser.java:859) ~[jackson-core-2.15.4.jar:2.15.4]
+	at com.fasterxml.jackson.databind.deser.BeanDeserializer.deserialize(BeanDeserializer.java:181) ~[jackson-databind-2.15.4.jar:2.15.4]
+	at com.fasterxml.jackson.databind.deser.std.CollectionDeserializer._deserializeFromArray(CollectionDeserializer.java:359) ~[jackson-databind-2.15.4.jar:2.15.4]
+	... 147 common frames omitted
+
+[2m2026-05-28T00:08:23.242+05:30[0;39m [32m INFO[0;39m [35m55053[0;39m [2m---[0;39m [2m[order-service] [nio-8083-exec-5][0;39m [2m[0;39m[36mc.e.o.controller.OrderController        [0;39m [2m:[0;39m User gateway@test.com placing order
+[2m2026-05-28T00:08:23.244+05:30[0;39m [32m INFO[0;39m [35m55053[0;39m [2m---[0;39m [2m[order-service] [nio-8083-exec-5][0;39m [2m[0;39m[36mc.e.orderservice.service.OrderService   [0;39m [2m:[0;39m Placing order for userId=2 email=gateway@test.com
+Hibernate: 
+    insert 
+    into
+        orders
+        (created_at, status, total_amount, updated_at, user_email, user_id) 
+    values
+        (?, ?, ?, ?, ?, ?)
+Hibernate: 
+    insert 
+    into
+        order_items
+        (order_id, product_id, product_name, quantity, unit_price) 
+    values
+        (?, ?, ?, ?, ?)
+[2m2026-05-28T00:08:23.521+05:30[0;39m [32m INFO[0;39m [35m55053[0;39m [2m---[0;39m [2m[order-service] [nio-8083-exec-5][0;39m [2m[0;39m[36mc.e.orderservice.service.OrderService   [0;39m [2m:[0;39m Order 9 placed for userId=2
+[2m2026-05-28T00:08:23.529+05:30[0;39m [32m INFO[0;39m [35m55053[0;39m [2m---[0;39m [2m[order-service] [nio-8083-exec-5][0;39m [2m[0;39m[36mo.s.a.r.c.CachingConnectionFactory      [0;39m [2m:[0;39m Attempting to connect to: [localhost:5672]
+[2m2026-05-28T00:08:23.572+05:30[0;39m [32m INFO[0;39m [35m55053[0;39m [2m---[0;39m [2m[order-service] [nio-8083-exec-5][0;39m [2m[0;39m[36mo.s.a.r.c.CachingConnectionFactory      [0;39m [2m:[0;39m Created new connection: rabbitConnectionFactory#4d20d8e6:0/SimpleConnection@7dcd49d8 [delegate=amqp://guest@127.0.0.1:5672/, localPort=55904]
+[2m2026-05-28T00:08:23.603+05:30[0;39m [32m INFO[0;39m [35m55053[0;39m [2m---[0;39m [2m[order-service] [nio-8083-exec-5][0;39m [2m[0;39m[36mc.e.orderservice.service.OrderService   [0;39m [2m:[0;39m Published order.placed event for order 9 with 1 seller notification(s)
+Hibernate: 
+    select
+        o1_0.id,
+        o1_0.created_at,
+        o1_0.status,
+        o1_0.total_amount,
+        o1_0.updated_at,
+        o1_0.user_email,
+        o1_0.user_id 
+    from
+        orders o1_0 
+    where
+        o1_0.user_id=? 
+    order by
+        o1_0.created_at desc
+Hibernate: 
+    select
+        oi1_0.order_id,
+        oi1_0.id,
+        oi1_0.product_id,
+        oi1_0.product_name,
+        oi1_0.quantity,
+        oi1_0.unit_price 
+    from
+        order_items oi1_0 
+    where
+        oi1_0.order_id=?
+Hibernate: 
+    select
+        oi1_0.order_id,
+        oi1_0.id,
+        oi1_0.product_id,
+        oi1_0.product_name,
+        oi1_0.quantity,
+        oi1_0.unit_price 
+    from
+        order_items oi1_0 
+    where
+        oi1_0.order_id=?
+Hibernate: 
+    select
+        oi1_0.order_id,
+        oi1_0.id,
+        oi1_0.product_id,
+        oi1_0.product_name,
+        oi1_0.quantity,
+        oi1_0.unit_price 
+    from
+        order_items oi1_0 
+    where
+        oi1_0.order_id=?
+Hibernate: 
+    select
+        oi1_0.order_id,
+        oi1_0.id,
+        oi1_0.product_id,
+        oi1_0.product_name,
+        oi1_0.quantity,
+        oi1_0.unit_price 
+    from
+        order_items oi1_0 
+    where
+        oi1_0.order_id=?
+Hibernate: 
+    select
+        oi1_0.order_id,
+        oi1_0.id,
+        oi1_0.product_id,
+        oi1_0.product_name,
+        oi1_0.quantity,
+        oi1_0.unit_price 
+    from
+        order_items oi1_0 
+    where
+        oi1_0.order_id=?
+Hibernate: 
+    select
+        o1_0.id,
+        o1_0.created_at,
+        o1_0.status,
+        o1_0.total_amount,
+        o1_0.updated_at,
+        o1_0.user_email,
+        o1_0.user_id 
+    from
+        orders o1_0 
+    where
+        o1_0.user_id=? 
+    order by
+        o1_0.created_at desc
+Hibernate: 
+    select
+        oi1_0.order_id,
+        oi1_0.id,
+        oi1_0.product_id,
+        oi1_0.product_name,
+        oi1_0.quantity,
+        oi1_0.unit_price 
+    from
+        order_items oi1_0 
+    where
+        oi1_0.order_id=?
+Hibernate: 
+    select
+        oi1_0.order_id,
+        oi1_0.id,
+        oi1_0.product_id,
+        oi1_0.product_name,
+        oi1_0.quantity,
+        oi1_0.unit_price 
+    from
+        order_items oi1_0 
+    where
+        oi1_0.order_id=?
+Hibernate: 
+    select
+        oi1_0.order_id,
+        oi1_0.id,
+        oi1_0.product_id,
+        oi1_0.product_name,
+        oi1_0.quantity,
+        oi1_0.unit_price 
+    from
+        order_items oi1_0 
+    where
+        oi1_0.order_id=?
+Hibernate: 
+    select
+        oi1_0.order_id,
+        oi1_0.id,
+        oi1_0.product_id,
+        oi1_0.product_name,
+        oi1_0.quantity,
+        oi1_0.unit_price 
+    from
+        order_items oi1_0 
+    where
+        oi1_0.order_id=?
+Hibernate: 
+    select
+        oi1_0.order_id,
+        oi1_0.id,
+        oi1_0.product_id,
+        oi1_0.product_name,
+        oi1_0.quantity,
+        oi1_0.unit_price 
+    from
+        order_items oi1_0 
+    where
+        oi1_0.order_id=?
+Hibernate: 
+    select
+        o1_0.id,
+        o1_0.created_at,
+        o1_0.status,
+        o1_0.total_amount,
+        o1_0.updated_at,
+        o1_0.user_email,
+        o1_0.user_id 
+    from
+        orders o1_0 
+    where
+        o1_0.user_id=? 
+    order by
+        o1_0.created_at desc
+Hibernate: 
+    select
+        oi1_0.order_id,
+        oi1_0.id,
+        oi1_0.product_id,
+        oi1_0.product_name,
+        oi1_0.quantity,
+        oi1_0.unit_price 
+    from
+        order_items oi1_0 
+    where
+        oi1_0.order_id=?
+Hibernate: 
+    select
+        oi1_0.order_id,
+        oi1_0.id,
+        oi1_0.product_id,
+        oi1_0.product_name,
+        oi1_0.quantity,
+        oi1_0.unit_price 
+    from
+        order_items oi1_0 
+    where
+        oi1_0.order_id=?
+Hibernate: 
+    select
+        oi1_0.order_id,
+        oi1_0.id,
+        oi1_0.product_id,
+        oi1_0.product_name,
+        oi1_0.quantity,
+        oi1_0.unit_price 
+    from
+        order_items oi1_0 
+    where
+        oi1_0.order_id=?
+Hibernate: 
+    select
+        oi1_0.order_id,
+        oi1_0.id,
+        oi1_0.product_id,
+        oi1_0.product_name,
+        oi1_0.quantity,
+        oi1_0.unit_price 
+    from
+        order_items oi1_0 
+    where
+        oi1_0.order_id=?
+Hibernate: 
+    select
+        oi1_0.order_id,
+        oi1_0.id,
+        oi1_0.product_id,
+        oi1_0.product_name,
+        oi1_0.quantity,
+        oi1_0.unit_price 
+    from
+        order_items oi1_0 
+    where
+        oi1_0.order_id=?
+Hibernate: 
+    select
+        o1_0.id,
+        o1_0.created_at,
+        o1_0.status,
+        o1_0.total_amount,
+        o1_0.updated_at,
+        o1_0.user_email,
+        o1_0.user_id 
+    from
+        orders o1_0 
+    where
+        o1_0.user_id=? 
+    order by
+        o1_0.created_at desc
+Hibernate: 
+    select
+        oi1_0.order_id,
+        oi1_0.id,
+        oi1_0.product_id,
+        oi1_0.product_name,
+        oi1_0.quantity,
+        oi1_0.unit_price 
+    from
+        order_items oi1_0 
+    where
+        oi1_0.order_id=?
+Hibernate: 
+    select
+        oi1_0.order_id,
+        oi1_0.id,
+        oi1_0.product_id,
+        oi1_0.product_name,
+        oi1_0.quantity,
+        oi1_0.unit_price 
+    from
+        order_items oi1_0 
+    where
+        oi1_0.order_id=?
+Hibernate: 
+    select
+        oi1_0.order_id,
+        oi1_0.id,
+        oi1_0.product_id,
+        oi1_0.product_name,
+        oi1_0.quantity,
+        oi1_0.unit_price 
+    from
+        order_items oi1_0 
+    where
+        oi1_0.order_id=?
+Hibernate: 
+    select
+        oi1_0.order_id,
+        oi1_0.id,
+        oi1_0.product_id,
+        oi1_0.product_name,
+        oi1_0.quantity,
+        oi1_0.unit_price 
+    from
+        order_items oi1_0 
+    where
+        oi1_0.order_id=?
+Hibernate: 
+    select
+        oi1_0.order_id,
+        oi1_0.id,
+        oi1_0.product_id,
+        oi1_0.product_name,
+        oi1_0.quantity,
+        oi1_0.unit_price 
+    from
+        order_items oi1_0 
+    where
+        oi1_0.order_id=?
+[2m2026-05-28T00:11:51.503+05:30[0;39m [32m INFO[0;39m [35m55053[0;39m [2m---[0;39m [2m[order-service] [nio-8083-exec-2][0;39m [2m[0;39m[36mc.e.o.controller.OrderController        [0;39m [2m:[0;39m User gateway@test.com placing order
+[2m2026-05-28T00:11:51.505+05:30[0;39m [32m INFO[0;39m [35m55053[0;39m [2m---[0;39m [2m[order-service] [nio-8083-exec-2][0;39m [2m[0;39m[36mc.e.orderservice.service.OrderService   [0;39m [2m:[0;39m Placing order for userId=2 email=gateway@test.com
+Hibernate: 
+    insert 
+    into
+        orders
+        (created_at, status, total_amount, updated_at, user_email, user_id) 
+    values
+        (?, ?, ?, ?, ?, ?)
+Hibernate: 
+    insert 
+    into
+        order_items
+        (order_id, product_id, product_name, quantity, unit_price) 
+    values
+        (?, ?, ?, ?, ?)
+[2m2026-05-28T00:11:51.586+05:30[0;39m [32m INFO[0;39m [35m55053[0;39m [2m---[0;39m [2m[order-service] [nio-8083-exec-2][0;39m [2m[0;39m[36mc.e.orderservice.service.OrderService   [0;39m [2m:[0;39m Order 10 placed for userId=2
+[2m2026-05-28T00:11:51.587+05:30[0;39m [32m INFO[0;39m [35m55053[0;39m [2m---[0;39m [2m[order-service] [nio-8083-exec-2][0;39m [2m[0;39m[36mc.e.orderservice.service.OrderService   [0;39m [2m:[0;39m Published order.placed event for order 10 with 1 seller notification(s)
+[2m2026-05-28T00:12:19.575+05:30[0;39m [32m INFO[0;39m [35m55053[0;39m [2m---[0;39m [2m[order-service] [trap-executor-0][0;39m [2m[0;39m[36mc.n.d.s.r.aws.ConfigClusterResolver     [0;39m [2m:[0;39m Resolving eureka endpoints via configuration

@@ -135,11 +135,11 @@ public class ProductController {
     // ─── Internal endpoints (called by order-service, no user JWT) ────────────
 
     @PutMapping("/{id}/reduce-stock")
-    public ResponseEntity<ApiResponse<Void>> reduceStock(
+    public ResponseEntity<ApiResponse<ProductResponse>> reduceStock(
             @PathVariable Long id, @Valid @RequestBody StockRequest request) {
         log.info("Reducing stock for product {}: -{}", id, request.getQuantity());
-        productService.reduceStock(id, request.getQuantity());
-        return ResponseEntity.ok(ApiResponse.ok("Stock reduced successfully", null));
+        ProductResponse updated = productService.reduceStock(id, request.getQuantity());
+        return ResponseEntity.ok(ApiResponse.ok("Stock reduced successfully", updated));
     }
 
     @PutMapping("/{id}/restore-stock")
