@@ -52,9 +52,22 @@ public class JwtAuthFilter implements GlobalFilter, Ordered {
                     .parseClaimsJws(token)
                     .getBody();
 
-            // Forward the username downstream so services don't need to re-parse the token
+            // Forward identity headers so downstream services read a trusted header
+            // instead of re-parsing the JWT. String.valueOf handles Integer/Long ambiguity
+            // in JJWT's JSON number deserialization.
+            String userId       = String.valueOf(claims.get("userId"));
+            String role         = String.valueOf(claims.get("role"));
+            String email        = claims.getSubject();
+            Object bizNameObj   = claims.get("businessName");
+            String businessName = bizNameObj != null ? bizNameObj.toString() : "";
+
             exchange = exchange.mutate()
-                    .request(r -> r.header("X-User-Name", claims.getSubject()))
+                    .request(r -> r
+                        .header("X-User-Name",            email)
+                        .header("X-User-Id",              userId)
+                        .header("X-User-Role",            role)
+                        .header("X-User-Email",           email)
+                        .header("X-Seller-Business-Name", businessName))
                     .build();
 
         } catch (JwtException e) {

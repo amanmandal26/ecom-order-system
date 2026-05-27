@@ -29,4 +29,9 @@ public class ProductRequest {
     @NotNull(message = "Stock quantity is required")
     @Min(value = 0, message = "Stock quantity cannot be negative")
     private Integer stockQuantity;
+
+    // Set by the controller from JWT gateway headers — never sent by the client
+    private Long   sellerId;
+    private String sellerName;
+    private String sellerEmail;
 }

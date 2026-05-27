@@ -50,6 +50,11 @@ export default function Products() {
               <div className="product-card-body">
                 <h3 className="product-name">{product.name}</h3>
                 <p className="product-description">{product.description}</p>
+                {product.sellerName && (
+                  <p style={{ fontSize: '0.78rem', color: '#888', margin: '-4px 0 6px' }}>
+                    Sold by: {product.sellerName}
+                  </p>
+                )}
                 <div className="product-meta">
                   <span className="product-price">${Number(product.price).toFixed(2)}</span>
                   <span className={`product-stock ${product.stockQuantity === 0 ? 'out-of-stock' : ''}`}>

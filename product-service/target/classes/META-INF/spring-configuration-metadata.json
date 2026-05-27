@@ -10,7 +10,8 @@
     {
       "name": "jwt.expiration",
       "type": "java.lang.Long",
-      "sourceType": "com.ecom.productservice.config.JwtProperties"
+      "sourceType": "com.ecom.productservice.config.JwtProperties",
+      "defaultValue": 0
     },
     {
       "name": "jwt.secret",

@@ -24,7 +24,10 @@ public class SecurityConfig {
         http
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
-                // Public read access — catalog is not sensitive; order-service also reads products without user JWT
+                // Seller-specific endpoints — must come BEFORE the broad GET permitAll below
+                .requestMatchers(HttpMethod.GET, "/api/products/my-products").hasRole("SELLER")
+                .requestMatchers(HttpMethod.PUT, "/api/products/*/restock").hasRole("SELLER")
+                // Public read access — catalog is not sensitive; order-service also reads without user JWT
                 .requestMatchers(HttpMethod.GET, "/api/products/**").permitAll()
                 // Internal stock mutation endpoints called by order-service — no user JWT attached
                 .requestMatchers(HttpMethod.PUT, "/api/products/*/reduce-stock").permitAll()

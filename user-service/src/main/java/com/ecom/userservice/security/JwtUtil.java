@@ -32,10 +32,18 @@ public class JwtUtil {
             userId = user.getId();
         }
 
+        // Include businessName so downstream services (product-service via gateway headers)
+        // can display the seller's shop name without an extra DB call.
+        String businessName = null;
+        if (userDetails instanceof com.ecom.userservice.entity.User user) {
+            businessName = user.getBusinessName();
+        }
+
         return Jwts.builder()
             .setSubject(userDetails.getUsername())
             .claim("role", role)
             .claim("userId", userId)
+            .claim("businessName", businessName)
             .setIssuedAt(new Date())
             .setExpiration(new Date(System.currentTimeMillis() + jwtProperties.getExpiration()))
             .signWith(getSigningKey(), SignatureAlgorithm.HS256)

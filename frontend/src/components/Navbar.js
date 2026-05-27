@@ -43,7 +43,7 @@ export default function Navbar() {
           </Link>
           <Link to="/orders">My Orders</Link>
           {user?.role === 'ADMIN' && (
-            <Link to="/admin">Admin Dashboard</Link>
+            <Link to="/admin">Admin Panel</Link>
           )}
           {user?.role === 'SELLER' && (
             <Link to="/seller-dashboard">Seller Dashboard</Link>

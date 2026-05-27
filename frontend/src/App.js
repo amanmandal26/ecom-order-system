@@ -11,6 +11,7 @@ import Cart from './pages/Cart';
 import Orders from './pages/Orders';
 import SellerRegister from './pages/SellerRegister';
 import AdminDashboard from './pages/AdminDashboard';
+import SellerDashboard from './pages/SellerDashboard';
 import './App.css';
 
 function ProtectedRoute({ children }) {
@@ -22,6 +23,13 @@ function AdminRoute({ children }) {
   const { isAuthenticated, user } = useAuth();
   if (!isAuthenticated) return <Navigate to="/login" replace />;
   if (user?.role !== 'ADMIN') return <Navigate to="/products" replace />;
+  return children;
+}
+
+function SellerRoute({ children }) {
+  const { isAuthenticated, user } = useAuth();
+  if (!isAuthenticated) return <Navigate to="/login" replace />;
+  if (user?.role !== 'SELLER') return <Navigate to="/products" replace />;
   return children;
 }
 
@@ -40,6 +48,7 @@ function AppRoutes() {
         <Route path="/cart" element={<ProtectedRoute><Cart /></ProtectedRoute>} />
         <Route path="/orders" element={<ProtectedRoute><Orders /></ProtectedRoute>} />
         <Route path="/admin" element={<AdminRoute><AdminDashboard /></AdminRoute>} />
+        <Route path="/seller-dashboard" element={<SellerRoute><SellerDashboard /></SellerRoute>} />
       </Routes>
     </>
   );

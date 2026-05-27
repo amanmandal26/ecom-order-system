@@ -35,6 +35,11 @@ public class Product {
     @Column(nullable = false)
     private Integer stockQuantity = 0;
 
+    // Seller ownership — null for products created by ADMIN before marketplace launch
+    private Long   sellerId;
+    private String sellerName;   // seller's business name, denormalised for display speed
+    private String sellerEmail;
+
     @CreatedDate
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;

@@ -3,6 +3,7 @@ package com.ecom.productservice.service;
 import com.ecom.productservice.dto.ProductRequest;
 import com.ecom.productservice.dto.ProductResponse;
 import com.ecom.productservice.entity.Product;
+import com.ecom.productservice.exception.ForbiddenException;
 import com.ecom.productservice.exception.InsufficientStockException;
 import com.ecom.productservice.exception.ResourceNotFoundException;
 import com.ecom.productservice.repository.ProductRepository;
@@ -21,13 +22,18 @@ public class ProductService {
 
     private final ProductRepository productRepository;
 
+    // ─── Admin / public endpoints ──────────────────────────────────────────────
+
     public ProductResponse createProduct(ProductRequest request) {
-        log.info("Creating product: {}", request.getName());
+        log.info("Creating product: {} (sellerId={})", request.getName(), request.getSellerId());
         Product product = Product.builder()
             .name(request.getName())
             .description(request.getDescription())
             .price(request.getPrice())
             .stockQuantity(request.getStockQuantity())
+            .sellerId(request.getSellerId())
+            .sellerName(request.getSellerName())
+            .sellerEmail(request.getSellerEmail())
             .build();
         product = productRepository.save(product);
         log.info("Product created with id: {}", product.getId());
@@ -63,6 +69,46 @@ public class ProductService {
         log.info("Product deleted: {}", id);
     }
 
+    // ─── Seller-scoped endpoints ───────────────────────────────────────────────
+
+    @Transactional(readOnly = true)
+    public List<ProductResponse> getMyProducts(Long sellerId) {
+        return productRepository.findBySellerId(sellerId)
+            .stream()
+            .map(ProductResponse::fromProduct)
+            .toList();
+    }
+
+    public ProductResponse updateMyProduct(Long productId, ProductRequest request, Long sellerId) {
+        Product product = findProductOrThrow(productId);
+        assertOwnership(product, sellerId);
+        product.setName(request.getName());
+        product.setDescription(request.getDescription());
+        product.setPrice(request.getPrice());
+        product.setStockQuantity(request.getStockQuantity());
+        log.info("Seller {} updated product {}", sellerId, productId);
+        return ProductResponse.fromProduct(product);
+    }
+
+    public void deleteMyProduct(Long productId, Long sellerId) {
+        Product product = findProductOrThrow(productId);
+        assertOwnership(product, sellerId);
+        productRepository.delete(product);
+        log.info("Seller {} deleted product {}", sellerId, productId);
+    }
+
+    public ProductResponse restockProduct(Long productId, Integer quantity, Long sellerId, String sellerName) {
+        Product product = findProductOrThrow(productId);
+        assertOwnership(product, sellerId);
+        int newStock = product.getStockQuantity() + quantity;
+        product.setStockQuantity(newStock);
+        log.info("Seller {} restocked product '{}' by {} units. New stock: {}",
+            sellerName, product.getName(), quantity, newStock);
+        return ProductResponse.fromProduct(product);
+    }
+
+    // ─── Internal (order-service) ──────────────────────────────────────────────
+
     public void reduceStock(Long productId, Integer quantity) {
         Product product = findProductOrThrow(productId);
         if (product.getStockQuantity() < quantity) {
@@ -80,8 +126,16 @@ public class ProductService {
             productId, quantity, product.getStockQuantity());
     }
 
+    // ─── Helpers ───────────────────────────────────────────────────────────────
+
     private Product findProductOrThrow(Long id) {
         return productRepository.findById(id)
             .orElseThrow(() -> new ResourceNotFoundException("Product", id));
+    }
+
+    private void assertOwnership(Product product, Long sellerId) {
+        if (product.getSellerId() == null || !product.getSellerId().equals(sellerId)) {
+            throw new ForbiddenException("You can only manage your own products");
+        }
     }
 }

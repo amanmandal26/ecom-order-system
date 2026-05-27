@@ -20,6 +20,9 @@ public class ProductResponse {
     private String description;
     private BigDecimal price;
     private Integer stockQuantity;
+    private Long   sellerId;
+    private String sellerName;
+    private String sellerEmail;
     private LocalDateTime createdAt;
 
     public static ProductResponse fromProduct(Product product) {
@@ -29,6 +32,9 @@ public class ProductResponse {
             .description(product.getDescription())
             .price(product.getPrice())
             .stockQuantity(product.getStockQuantity())
+            .sellerId(product.getSellerId())
+            .sellerName(product.getSellerName())
+            .sellerEmail(product.getSellerEmail())
             .createdAt(product.getCreatedAt())
             .build();
     }
