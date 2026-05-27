@@ -9,6 +9,18 @@ spring:
     username: root
     password: ${SPRING_DATASOURCE_PASSWORD:Aman@123}
     driver-class-name: com.mysql.cj.jdbc.Driver
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${MAIL_USERNAME:amankumar260899@gmail.com}
+    password: ${MAIL_PASSWORD:nhvm zuyd crvi flya}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
   jpa:
     hibernate:
       ddl-auto: update
@@ -40,3 +52,8 @@ management:
     web:
       exposure:
         include: health,info
+
+logging:
+  level:
+    "[org.springframework.mail]": DEBUG
+    "[com.sun.mail]": DEBUG

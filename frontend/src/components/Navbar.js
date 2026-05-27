@@ -42,6 +42,12 @@ export default function Navbar() {
             {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
           </Link>
           <Link to="/orders">My Orders</Link>
+          {user?.role === 'ADMIN' && (
+            <Link to="/admin">Admin Dashboard</Link>
+          )}
+          {user?.role === 'SELLER' && (
+            <Link to="/seller-dashboard">Seller Dashboard</Link>
+          )}
         </div>
       )}
 

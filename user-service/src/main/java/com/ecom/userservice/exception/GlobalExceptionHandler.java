@@ -39,6 +39,12 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(ApiResponse.error(ex.getMessage()));
     }
 
+    @ExceptionHandler(BadRequestException.class)
+    public ResponseEntity<ApiResponse<Void>> handleBadRequest(BadRequestException ex) {
+        log.warn("Bad request: {}", ex.getMessage());
+        return ResponseEntity.badRequest().body(ApiResponse.error(ex.getMessage()));
+    }
+
     @ExceptionHandler({BadCredentialsException.class, UsernameNotFoundException.class})
     public ResponseEntity<ApiResponse<Void>> handleAuthFailure(RuntimeException ex) {
         log.warn("Authentication failure: {}", ex.getMessage());

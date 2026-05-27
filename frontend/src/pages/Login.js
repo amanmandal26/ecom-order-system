@@ -59,7 +59,15 @@ export default function Login() {
         </form>
 
         <p className="auth-link">
+          <Link to="/forgot-password">Forgot Password?</Link>
+        </p>
+
+        <p className="auth-link">
           Don't have an account? <Link to="/register">Register here</Link>
+        </p>
+
+        <p className="auth-link">
+          Want to sell on EcomShop? <Link to="/seller-register">Register as Seller</Link>
         </p>
       </div>
     </div>

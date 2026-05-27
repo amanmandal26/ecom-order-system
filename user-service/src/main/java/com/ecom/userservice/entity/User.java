@@ -48,8 +48,18 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private LocalDateTime updatedAt;
 
+    // Seller-specific fields — null for CUSTOMER and ADMIN accounts
+    private String businessName;
+    private String businessDescription;
+
+    @Enumerated(EnumType.STRING)
+    private SellerStatus sellerStatus;
+
+    private LocalDateTime sellerRequestedAt;
+    private LocalDateTime sellerApprovedAt;
+
     public enum Role {
-        ADMIN, CUSTOMER
+        ADMIN, SELLER, CUSTOMER
     }
 
     @Override

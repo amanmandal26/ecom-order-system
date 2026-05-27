@@ -2,8 +2,10 @@ package com.ecom.userservice.controller;
 
 import com.ecom.userservice.dto.ApiResponse;
 import com.ecom.userservice.dto.AuthResponse;
+import com.ecom.userservice.dto.ForgotPasswordRequest;
 import com.ecom.userservice.dto.LoginRequest;
 import com.ecom.userservice.dto.RegisterRequest;
+import com.ecom.userservice.dto.ResetPasswordRequest;
 import com.ecom.userservice.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -39,5 +41,21 @@ public class AuthController {
         log.info("Login request: {}", request.getEmail());
         AuthResponse auth = userService.login(request);
         return ResponseEntity.ok(ApiResponse.ok("Login successful", auth));
+    }
+
+    @Operation(summary = "Request password reset email", description = "Sends a reset link to the email if it exists. Always returns success to prevent email enumeration.")
+    @PostMapping("/forgot-password")
+    public ResponseEntity<ApiResponse<Void>> forgotPassword(@Valid @RequestBody ForgotPasswordRequest request) {
+        log.info("Forgot password request: {}", request.getEmail());
+        String message = userService.forgotPassword(request);
+        return ResponseEntity.ok(ApiResponse.ok(message, null));
+    }
+
+    @Operation(summary = "Reset password using token", description = "Validates the reset token and updates the user's password.")
+    @PostMapping("/reset-password")
+    public ResponseEntity<ApiResponse<Void>> resetPassword(@Valid @RequestBody ResetPasswordRequest request) {
+        log.info("Reset password request with token: {}", request.getToken());
+        String message = userService.resetPassword(request);
+        return ResponseEntity.ok(ApiResponse.ok(message, null));
     }
 }

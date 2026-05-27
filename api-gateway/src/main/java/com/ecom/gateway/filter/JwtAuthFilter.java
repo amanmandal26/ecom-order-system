@@ -22,8 +22,11 @@ public class JwtAuthFilter implements GlobalFilter, Ordered {
 
     private static final String SECRET = "ecom-super-secret-key-that-is-long-enough-for-hs256-algorithm";
 
-    // These paths bypass JWT validation — login and register must be public
-    private static final List<String> PUBLIC_PATHS = List.of("/api/auth/");
+    // These paths bypass JWT validation at the gateway level
+    private static final List<String> PUBLIC_PATHS = List.of(
+        "/api/auth/",
+        "/api/sellers/register"
+    );
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
