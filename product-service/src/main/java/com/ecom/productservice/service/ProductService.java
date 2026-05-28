@@ -3,15 +3,18 @@ package com.ecom.productservice.service;
 import com.ecom.productservice.dto.PagedResponse;
 import com.ecom.productservice.dto.ProductRequest;
 import com.ecom.productservice.dto.ProductResponse;
+import com.ecom.productservice.dto.ProductSearchRequest;
 import com.ecom.productservice.entity.Product;
 import com.ecom.productservice.exception.ForbiddenException;
 import com.ecom.productservice.exception.InsufficientStockException;
 import com.ecom.productservice.exception.ResourceNotFoundException;
 import com.ecom.productservice.repository.ProductRepository;
+import com.ecom.productservice.specification.ProductSpecification;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -44,10 +47,37 @@ public class ProductService {
     }
 
     @Transactional(readOnly = true)
-    public PagedResponse<ProductResponse> getAllProducts(int page, int size, String sortBy, String sortDir) {
-        Sort.Direction direction = "asc".equalsIgnoreCase(sortDir) ? Sort.Direction.ASC : Sort.Direction.DESC;
+    public PagedResponse<ProductResponse> searchProducts(ProductSearchRequest request) {
+        // Build specification dynamically — only active filters are added
+        Specification<Product> spec = Specification.where(null);
+
+        if (request.getSearch() != null && !request.getSearch().isBlank()) {
+            log.info("Filter: search='{}'", request.getSearch());
+            spec = spec.and(ProductSpecification.nameOrDescriptionContains(request.getSearch()));
+        }
+        if (request.getMinPrice() != null) {
+            log.info("Filter: minPrice={}", request.getMinPrice());
+            spec = spec.and(ProductSpecification.priceGreaterThanOrEqual(request.getMinPrice()));
+        }
+        if (request.getMaxPrice() != null) {
+            log.info("Filter: maxPrice={}", request.getMaxPrice());
+            spec = spec.and(ProductSpecification.priceLessThanOrEqual(request.getMaxPrice()));
+        }
+        if (Boolean.TRUE.equals(request.getInStockOnly())) {
+            log.info("Filter: inStockOnly=true");
+            spec = spec.and(ProductSpecification.inStockOnly());
+        }
+        if (request.getSellerName() != null && !request.getSellerName().isBlank()) {
+            log.info("Filter: sellerName='{}'", request.getSellerName());
+            spec = spec.and(ProductSpecification.bySellerName(request.getSellerName()));
+        }
+
+        Sort.Direction direction = "asc".equalsIgnoreCase(request.getSortDir())
+                ? Sort.Direction.ASC : Sort.Direction.DESC;
         return PagedResponse.of(
-            productRepository.findAll(PageRequest.of(page, size, Sort.by(direction, sortBy)))
+            productRepository.findAll(spec,
+                    PageRequest.of(request.getPage(), request.getSize(),
+                            Sort.by(direction, request.getSortBy())))
                 .map(ProductResponse::fromProduct)
         );
     }

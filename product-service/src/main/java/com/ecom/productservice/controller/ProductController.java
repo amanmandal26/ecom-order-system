@@ -4,6 +4,7 @@ import com.ecom.productservice.dto.ApiResponse;
 import com.ecom.productservice.dto.PagedResponse;
 import com.ecom.productservice.dto.ProductRequest;
 import com.ecom.productservice.dto.ProductResponse;
+import com.ecom.productservice.dto.ProductSearchRequest;
 import com.ecom.productservice.dto.StockRequest;
 import com.ecom.productservice.service.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -17,6 +18,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
+
 @RestController
 @RequestMapping("/api/products")
 @RequiredArgsConstructor
@@ -28,16 +31,33 @@ public class ProductController {
 
     // ─── Public (authenticated) endpoints ─────────────────────────────────────
 
-    @Operation(summary = "Get all products",
-               description = "Paginated. Default: page=0, size=10, sortBy=createdAt, sortDir=desc.")
+    @Operation(summary = "Search and filter products",
+               description = "All params optional. Supports keyword search, price range, in-stock filter, seller name, pagination, and sorting.")
     @GetMapping
-    public ResponseEntity<ApiResponse<PagedResponse<ProductResponse>>> getAllProducts(
-            @RequestParam(defaultValue = "0")         int page,
-            @RequestParam(defaultValue = "10")        int size,
-            @RequestParam(defaultValue = "createdAt") String sortBy,
-            @RequestParam(defaultValue = "desc")      String sortDir) {
+    public ResponseEntity<ApiResponse<PagedResponse<ProductResponse>>> searchProducts(
+            @RequestParam(required = false)            String search,
+            @RequestParam(required = false)            BigDecimal minPrice,
+            @RequestParam(required = false)            BigDecimal maxPrice,
+            @RequestParam(defaultValue = "false")      boolean inStockOnly,
+            @RequestParam(required = false)            String sellerName,
+            @RequestParam(defaultValue = "0")          int page,
+            @RequestParam(defaultValue = "10")         int size,
+            @RequestParam(defaultValue = "createdAt")  String sortBy,
+            @RequestParam(defaultValue = "desc")       String sortDir) {
+
+        ProductSearchRequest request = new ProductSearchRequest();
+        request.setSearch(search);
+        request.setMinPrice(minPrice);
+        request.setMaxPrice(maxPrice);
+        request.setInStockOnly(inStockOnly);
+        request.setSellerName(sellerName);
+        request.setPage(page);
+        request.setSize(size);
+        request.setSortBy(sortBy);
+        request.setSortDir(sortDir);
+
         return ResponseEntity.ok(ApiResponse.ok("Products fetched successfully",
-            productService.getAllProducts(page, size, sortBy, sortDir)));
+            productService.searchProducts(request)));
     }
 
     @Operation(summary = "Get product by ID")

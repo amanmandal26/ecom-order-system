@@ -11,6 +11,22 @@ function saveCart(cart) {
   localStorage.setItem('cart', JSON.stringify(cart));
 }
 
+const SORT_OPTIONS = [
+  { label: 'Newest',              sortBy: 'createdAt', sortDir: 'desc' },
+  { label: 'Price: Low to High',  sortBy: 'price',     sortDir: 'asc'  },
+  { label: 'Price: High to Low',  sortBy: 'price',     sortDir: 'desc' },
+  { label: 'Name A–Z',            sortBy: 'name',      sortDir: 'asc'  },
+];
+
+const DEFAULT_FILTERS = {
+  search:      '',
+  minPrice:    '',
+  maxPrice:    '',
+  inStockOnly: false,
+  sellerName:  '',
+  sortIndex:   0,
+};
+
 export default function Products() {
   const [products, setProducts]       = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
@@ -20,9 +36,29 @@ export default function Products() {
   const [error, setError]             = useState('');
   const [addedId, setAddedId]         = useState(null);
 
-  const fetchPage = useCallback((page) => {
+  // Filters — committed means "what was last searched"
+  const [filters, setFilters]           = useState(DEFAULT_FILTERS);
+  const [searchInput, setSearchInput]   = useState('');   // live text in the search box
+
+  const buildQuery = useCallback((f, page) => {
+    const sort = SORT_OPTIONS[f.sortIndex];
+    const params = new URLSearchParams({
+      page,
+      size: PAGE_SIZE,
+      sortBy:  sort.sortBy,
+      sortDir: sort.sortDir,
+      inStockOnly: f.inStockOnly,
+    });
+    if (f.search)     params.set('search',     f.search);
+    if (f.minPrice)   params.set('minPrice',   f.minPrice);
+    if (f.maxPrice)   params.set('maxPrice',   f.maxPrice);
+    if (f.sellerName) params.set('sellerName', f.sellerName);
+    return `/api/products?${params.toString()}`;
+  }, []);
+
+  const fetchProducts = useCallback((activeFilters, page) => {
     setLoading(true);
-    api.get(`/api/products?page=${page}&size=${PAGE_SIZE}&sortBy=createdAt&sortDir=desc`)
+    api.get(buildQuery(activeFilters, page))
       .then((res) => {
         const paged = res.data.data;
         setProducts(paged.content);
@@ -32,15 +68,38 @@ export default function Products() {
       })
       .catch(() => setError('Failed to load products.'))
       .finally(() => setLoading(false));
-  }, []);
+  }, [buildQuery]);
 
+  // Initial load
   useEffect(() => {
-    fetchPage(0);
-  }, [fetchPage]);
+    fetchProducts(DEFAULT_FILTERS, 0);
+  }, [fetchProducts]);
+
+  const applySearch = () => {
+    const next = { ...filters, search: searchInput.trim() };
+    setFilters(next);
+    fetchProducts(next, 0);
+  };
+
+  const handleSearchKeyDown = (e) => {
+    if (e.key === 'Enter') applySearch();
+  };
+
+  const handleFilterChange = (field, value) => {
+    const next = { ...filters, [field]: value };
+    setFilters(next);
+    fetchProducts(next, 0);
+  };
+
+  const clearFilters = () => {
+    setSearchInput('');
+    setFilters(DEFAULT_FILTERS);
+    fetchProducts(DEFAULT_FILTERS, 0);
+  };
 
   const goToPage = (page) => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
-    fetchPage(page);
+    fetchProducts(filters, page);
   };
 
   const addToCart = (product) => {
@@ -56,22 +115,108 @@ export default function Products() {
     setTimeout(() => setAddedId(null), 1500);
   };
 
-  if (loading) return <div className="page-loading">Loading products...</div>;
-  if (error)   return <div className="alert alert-error" style={{ margin: '2rem' }}>{error}</div>;
+  const hasActiveFilters =
+    filters.search || filters.minPrice || filters.maxPrice ||
+    filters.inStockOnly || filters.sellerName || filters.sortIndex !== 0;
+
+  if (error) return <div className="alert alert-error" style={{ margin: '2rem' }}>{error}</div>;
 
   return (
     <div className="page">
-      <h1 className="page-title">
-        Products
-        {totalItems > 0 && (
-          <span style={{ fontSize: '0.9rem', fontWeight: 400, color: '#888', marginLeft: '0.75rem' }}>
-            ({totalItems} total)
-          </span>
-        )}
-      </h1>
+      <h1 className="page-title">Products</h1>
 
-      {products.length === 0 ? (
-        <p className="empty-state">No products available.</p>
+      {/* ── Search & Filter Bar ─────────────────────────────────────────── */}
+      <div style={searchBarCard}>
+        {/* Row 1: search input */}
+        <div style={searchRow}>
+          <input
+            type="text"
+            placeholder="Search products by name or description..."
+            value={searchInput}
+            onChange={(e) => setSearchInput(e.target.value)}
+            onKeyDown={handleSearchKeyDown}
+            style={searchInput_style}
+          />
+          <button className="btn btn-primary" onClick={applySearch} style={{ minWidth: 90 }}>
+            Search
+          </button>
+        </div>
+
+        {/* Row 2: filters */}
+        <div style={filterRow}>
+          <label style={filterLabel}>
+            Min ₹
+            <input
+              type="number"
+              min="0"
+              placeholder="0"
+              value={filters.minPrice}
+              onChange={(e) => handleFilterChange('minPrice', e.target.value)}
+              style={filterInput}
+            />
+          </label>
+
+          <label style={filterLabel}>
+            Max ₹
+            <input
+              type="number"
+              min="0"
+              placeholder="any"
+              value={filters.maxPrice}
+              onChange={(e) => handleFilterChange('maxPrice', e.target.value)}
+              style={filterInput}
+            />
+          </label>
+
+          <label style={{ ...filterLabel, flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+            <input
+              type="checkbox"
+              checked={filters.inStockOnly}
+              onChange={(e) => handleFilterChange('inStockOnly', e.target.checked)}
+              style={{ width: 15, height: 15, cursor: 'pointer' }}
+            />
+            In Stock Only
+          </label>
+
+          <label style={filterLabel}>
+            Sort
+            <select
+              value={filters.sortIndex}
+              onChange={(e) => handleFilterChange('sortIndex', Number(e.target.value))}
+              style={{ ...filterInput, cursor: 'pointer' }}
+            >
+              {SORT_OPTIONS.map((opt, i) => (
+                <option key={i} value={i}>{opt.label}</option>
+              ))}
+            </select>
+          </label>
+
+          {hasActiveFilters && (
+            <button className="btn btn-outline" onClick={clearFilters} style={{ whiteSpace: 'nowrap' }}>
+              Clear Filters
+            </button>
+          )}
+        </div>
+      </div>
+
+      {/* ── Result Count ────────────────────────────────────────────────── */}
+      {!loading && (
+        <p style={resultCount}>
+          {totalItems === 0
+            ? filters.search
+              ? `No products found for "${filters.search}"`
+              : 'No products available.'
+            : `Showing ${products.length} of ${totalItems} product${totalItems !== 1 ? 's' : ''}`}
+        </p>
+      )}
+
+      {/* ── Product Grid ────────────────────────────────────────────────── */}
+      {loading ? (
+        <div className="page-loading">Loading products...</div>
+      ) : products.length === 0 ? (
+        <p className="empty-state" style={{ marginTop: '1rem' }}>
+          {filters.search ? `Try a different keyword.` : 'No products match the selected filters.'}
+        </p>
       ) : (
         <>
           <div className="product-grid">
@@ -86,7 +231,7 @@ export default function Products() {
                     </p>
                   )}
                   <div className="product-meta">
-                    <span className="product-price">${Number(product.price).toFixed(2)}</span>
+                    <span className="product-price">₹{Number(product.price).toFixed(2)}</span>
                     <span className={`product-stock ${product.stockQuantity === 0 ? 'out-of-stock' : ''}`}>
                       {product.stockQuantity === 0 ? 'Out of stock' : `${product.stockQuantity} in stock`}
                     </span>
@@ -114,11 +259,9 @@ export default function Products() {
               >
                 ← Previous
               </button>
-
               <span style={{ color: '#555', fontSize: '0.95rem' }}>
                 Page {currentPage + 1} of {totalPages}
               </span>
-
               <button
                 className="btn btn-outline"
                 onClick={() => goToPage(currentPage + 1)}
@@ -133,6 +276,64 @@ export default function Products() {
     </div>
   );
 }
+
+// ── Styles ────────────────────────────────────────────────────────────────────
+
+const searchBarCard = {
+  background: '#fff',
+  border: '1px solid #e2e8f0',
+  borderRadius: 10,
+  padding: '1rem 1.25rem',
+  marginBottom: '1rem',
+  boxShadow: '0 1px 4px rgba(0,0,0,0.06)',
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '0.75rem',
+};
+
+const searchRow = {
+  display: 'flex',
+  gap: '0.5rem',
+};
+
+const searchInput_style = {
+  flex: 1,
+  padding: '0.55rem 0.85rem',
+  border: '1px solid #cbd5e0',
+  borderRadius: 6,
+  fontSize: '0.95rem',
+  outline: 'none',
+};
+
+const filterRow = {
+  display: 'flex',
+  flexWrap: 'wrap',
+  gap: '0.75rem',
+  alignItems: 'center',
+};
+
+const filterLabel = {
+  display: 'flex',
+  flexDirection: 'column',
+  fontSize: '0.78rem',
+  fontWeight: 600,
+  color: '#555',
+  gap: 3,
+};
+
+const filterInput = {
+  padding: '0.4rem 0.6rem',
+  border: '1px solid #cbd5e0',
+  borderRadius: 6,
+  fontSize: '0.9rem',
+  width: 110,
+};
+
+const resultCount = {
+  fontSize: '0.88rem',
+  color: '#666',
+  margin: '0 0 0.75rem',
+};
 
 const paginationStyle = {
   display: 'flex',
