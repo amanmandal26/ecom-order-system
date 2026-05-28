@@ -10,7 +10,9 @@ import com.ecom.orderservice.event.OrderPlacedEvent;
 import com.ecom.orderservice.exception.InsufficientStockException;
 import com.ecom.orderservice.exception.OrderCancellationException;
 import com.ecom.orderservice.exception.ResourceNotFoundException;
+import com.ecom.orderservice.exception.ServiceUnavailableException;
 import com.ecom.orderservice.repository.OrderRepository;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import feign.FeignException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,6 +35,7 @@ public class OrderService {
     private final ProductClient productClient;
     private final RabbitTemplate rabbitTemplate;
 
+    @CircuitBreaker(name = "productService", fallbackMethod = "placeOrderFallback")
     public OrderResponse placeOrder(OrderRequest request, Long userId, String userEmail) {
         log.info("Placing order for userId={} email={}", userId, userEmail);
 
@@ -110,6 +113,14 @@ public class OrderService {
             order.getId(), sellerNotifications.size());
 
         return OrderResponse.fromOrder(order);
+    }
+
+    // Resilience4j calls this when the circuit is OPEN or the decorated method throws.
+    // Signature must match placeOrder exactly, with an extra Exception parameter at the end.
+    private OrderResponse placeOrderFallback(OrderRequest request, Long userId, String userEmail, Exception ex) {
+        log.error("Circuit breaker open — product service unavailable. userId={} cause={}", userId, ex.getMessage());
+        throw new ServiceUnavailableException(
+            "Product service is temporarily unavailable. Please try again in a few minutes.");
     }
 
     @Transactional(readOnly = true)

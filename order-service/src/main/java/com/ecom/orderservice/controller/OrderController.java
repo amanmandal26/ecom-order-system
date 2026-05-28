@@ -5,6 +5,8 @@ import com.ecom.orderservice.dto.OrderRequest;
 import com.ecom.orderservice.dto.OrderResponse;
 import com.ecom.orderservice.entity.OrderStatus;
 import com.ecom.orderservice.service.OrderService;
+import io.github.resilience4j.circuitbreaker.CircuitBreaker;
+import io.github.resilience4j.circuitbreaker.CircuitBreakerRegistry;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -19,6 +21,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/orders")
@@ -28,6 +31,7 @@ import java.util.List;
 public class OrderController {
 
     private final OrderService orderService;
+    private final CircuitBreakerRegistry circuitBreakerRegistry;
 
     @Operation(summary = "Place a new order", description = "Deducts stock from product-service and creates the order. Publishes an event to RabbitMQ.")
     @SecurityRequirement(name = "bearerAuth")
@@ -104,6 +108,26 @@ public class OrderController {
         log.info("User {} cancelling order {}", userEmail, id);
         return ResponseEntity.ok(ApiResponse.ok("Order cancelled successfully",
             orderService.cancelOrder(id, userId, userEmail)));
+    }
+
+    @Operation(summary = "Circuit breaker status — ADMIN only", description = "Returns the current state and call metrics of the productService circuit breaker.")
+    @SecurityRequirement(name = "bearerAuth")
+    @GetMapping("/health/circuit-breaker")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<ApiResponse<Map<String, Object>>> getCircuitBreakerStatus() {
+        CircuitBreaker cb = circuitBreakerRegistry.circuitBreaker("productService");
+        CircuitBreaker.Metrics metrics = cb.getMetrics();
+
+        Map<String, Object> status = Map.of(
+            "state", cb.getState().name(),
+            "failureRate", metrics.getFailureRate() + "%",
+            "slowCallRate", metrics.getSlowCallRate() + "%",
+            "numberOfSuccessfulCalls", metrics.getNumberOfSuccessfulCalls(),
+            "numberOfFailedCalls", metrics.getNumberOfFailedCalls(),
+            "numberOfSlowCalls", metrics.getNumberOfSlowCalls()
+        );
+
+        return ResponseEntity.ok(ApiResponse.ok("Circuit breaker status fetched", status));
     }
 
     // Reads userEmail from request attribute (set by JwtAuthFilter).

@@ -1,3 +1,4 @@
+/Users/aman/ecom-order-system/order-service/src/main/java/com/ecom/orderservice/exception/ServiceUnavailableException.java
 /Users/aman/ecom-order-system/order-service/src/main/java/com/ecom/orderservice/exception/InsufficientStockException.java
 /Users/aman/ecom-order-system/order-service/src/main/java/com/ecom/orderservice/dto/OrderResponse.java
 /Users/aman/ecom-order-system/order-service/src/main/java/com/ecom/orderservice/config/RabbitMQConfig.java

@@ -44,6 +44,13 @@ public class GlobalExceptionHandler {
         return ResponseEntity.badRequest().body(ApiResponse.error(ex.getMessage()));
     }
 
+    @ExceptionHandler(ServiceUnavailableException.class)
+    public ResponseEntity<ApiResponse<Void>> handleServiceUnavailable(ServiceUnavailableException ex) {
+        log.error("Service unavailable (circuit breaker open): {}", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE)
+            .body(ApiResponse.error(ex.getMessage()));
+    }
+
     // Feign throws FeignException when product-service returns a 4xx/5xx.
     // We unwrap it and forward the same HTTP status so the client gets a meaningful error.
     @ExceptionHandler(FeignException.class)
