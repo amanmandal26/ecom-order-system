@@ -123,6 +123,7 @@ function EditModal({ product, onClose, onSuccess }) {
 // ─── Main SellerDashboard ──────────────────────────────────────────────────────
 
 const EMPTY_FORM = { name: '', description: '', price: '', stockQuantity: '' };
+const PAGE_SIZE  = 5;
 
 export default function SellerDashboard() {
   const { user }  = useAuth();
@@ -130,6 +131,9 @@ export default function SellerDashboard() {
 
   const [tab, setTab]           = useState('products');
   const [products, setProducts] = useState([]);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [totalPages, setTotalPages]   = useState(0);
+  const [totalItems, setTotalItems]   = useState(0);
   const [loading, setLoading]   = useState(false);
   const [msg, setMsg]           = useState('');
   const [error, setError]       = useState('');
@@ -147,11 +151,15 @@ export default function SellerDashboard() {
     if (user && user.role !== 'SELLER') navigate('/products');
   }, [user, navigate]);
 
-  const fetchProducts = useCallback(async () => {
+  const fetchProducts = useCallback(async (page = 0) => {
     setLoading(true);
     try {
-      const res = await api.get('/api/products/my-products');
-      setProducts(res.data.data || []);
+      const res = await api.get(`/api/products/my-products?page=${page}&size=${PAGE_SIZE}`);
+      const paged = res.data.data;
+      setProducts(paged.content || []);
+      setCurrentPage(paged.currentPage);
+      setTotalPages(paged.totalPages);
+      setTotalItems(paged.totalItems);
     } catch {
       setProducts([]);
     } finally {
@@ -160,7 +168,7 @@ export default function SellerDashboard() {
   }, []);
 
   useEffect(() => {
-    if (tab === 'products') fetchProducts();
+    if (tab === 'products') fetchProducts(0);
   }, [tab, fetchProducts]);
 
   const showMsg = (text) => {
@@ -174,7 +182,9 @@ export default function SellerDashboard() {
       await api.delete(`/api/products/${deleteTarget.id}`);
       setDeleteTarget(null);
       showMsg(`"${deleteTarget.name}" deleted`);
-      fetchProducts();
+      // If we deleted the last item on this page, go back one page
+      const targetPage = products.length === 1 && currentPage > 0 ? currentPage - 1 : currentPage;
+      fetchProducts(targetPage);
     } catch (err) {
       setError(err.response?.data?.message || 'Delete failed.');
       setDeleteTarget(null);
@@ -228,7 +238,7 @@ export default function SellerDashboard() {
       {tab === 'products' && (
         <>
           <h2 style={{ fontSize: '1.1rem', marginBottom: '1rem' }}>
-            My Products ({products.length})
+            My Products ({totalItems})
           </h2>
           {loading ? <p>Loading...</p> : products.length === 0 ? (
             <p style={{ color: '#888' }}>
@@ -277,6 +287,30 @@ export default function SellerDashboard() {
                   ))}
                 </tbody>
               </table>
+
+              {totalPages > 1 && (
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '1rem', padding: '1rem 0 0.5rem' }}>
+                  <button
+                    className="btn btn-outline"
+                    onClick={() => fetchProducts(currentPage - 1)}
+                    disabled={currentPage === 0}
+                    style={{ padding: '4px 14px' }}
+                  >
+                    ← Previous
+                  </button>
+                  <span style={{ color: '#555', fontSize: '0.9rem' }}>
+                    Page {currentPage + 1} of {totalPages}
+                  </span>
+                  <button
+                    className="btn btn-outline"
+                    onClick={() => fetchProducts(currentPage + 1)}
+                    disabled={currentPage >= totalPages - 1}
+                    style={{ padding: '4px 14px' }}
+                  >
+                    Next →
+                  </button>
+                </div>
+              )}
             </div>
           )}
         </>
@@ -320,7 +354,7 @@ export default function SellerDashboard() {
         <RestockModal
           product={restockTarget}
           onClose={() => setRestockTarget(null)}
-          onSuccess={(m) => { setRestockTarget(null); showMsg(m); fetchProducts(); }}
+          onSuccess={(m) => { setRestockTarget(null); showMsg(m); fetchProducts(currentPage); }}
         />
       )}
 
@@ -328,7 +362,7 @@ export default function SellerDashboard() {
         <EditModal
           product={editTarget}
           onClose={() => setEditTarget(null)}
-          onSuccess={(m) => { setEditTarget(null); showMsg(m); fetchProducts(); }}
+          onSuccess={(m) => { setEditTarget(null); showMsg(m); fetchProducts(currentPage); }}
         />
       )}
 

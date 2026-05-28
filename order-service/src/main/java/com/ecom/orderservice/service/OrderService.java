@@ -14,6 +14,8 @@ import com.ecom.orderservice.exception.ServiceUnavailableException;
 import com.ecom.orderservice.repository.OrderRepository;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import feign.FeignException;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -124,19 +126,27 @@ public class OrderService {
     }
 
     @Transactional(readOnly = true)
-    public List<OrderResponse> getMyOrders(Long userId) {
-        return orderRepository.findByUserIdOrderByCreatedAtDesc(userId)
-            .stream()
-            .map(OrderResponse::fromOrder)
-            .toList();
+    public PagedResponse<OrderResponse> getMyOrders(Long userId, int page, int size) {
+        return PagedResponse.of(
+            orderRepository.findByUserIdOrderByCreatedAtDesc(userId, PageRequest.of(page, size))
+                .map(OrderResponse::fromOrder)
+        );
     }
 
     @Transactional(readOnly = true)
-    public List<OrderResponse> getMyOrdersByEmail(String userEmail) {
-        return orderRepository.findByUserEmailOrderByCreatedAtDesc(userEmail)
-            .stream()
-            .map(OrderResponse::fromOrder)
-            .toList();
+    public PagedResponse<OrderResponse> getMyOrdersByEmail(String userEmail, int page, int size) {
+        return PagedResponse.of(
+            orderRepository.findByUserEmailOrderByCreatedAtDesc(userEmail, PageRequest.of(page, size))
+                .map(OrderResponse::fromOrder)
+        );
+    }
+
+    @Transactional(readOnly = true)
+    public PagedResponse<OrderResponse> getAllOrders(int page, int size) {
+        return PagedResponse.of(
+            orderRepository.findAll(PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt")))
+                .map(OrderResponse::fromOrder)
+        );
     }
 
     @Transactional(readOnly = true)

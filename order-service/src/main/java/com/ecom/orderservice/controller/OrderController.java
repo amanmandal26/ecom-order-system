@@ -3,6 +3,7 @@ package com.ecom.orderservice.controller;
 import com.ecom.orderservice.dto.ApiResponse;
 import com.ecom.orderservice.dto.OrderRequest;
 import com.ecom.orderservice.dto.OrderResponse;
+import com.ecom.orderservice.dto.PagedResponse;
 import com.ecom.orderservice.entity.OrderStatus;
 import com.ecom.orderservice.service.OrderService;
 import io.github.resilience4j.circuitbreaker.CircuitBreaker;
@@ -20,7 +21,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -57,19 +57,33 @@ public class OrderController {
             .body(ApiResponse.ok("Order placed successfully", response));
     }
 
-    @Operation(summary = "Get my orders", description = "Returns all orders placed by the authenticated user, newest first.")
+    @Operation(summary = "Get my orders", description = "Returns the authenticated user's orders, newest first. Paginated.")
     @SecurityRequirement(name = "bearerAuth")
     @GetMapping("/my-orders")
-    public ResponseEntity<ApiResponse<List<OrderResponse>>> getMyOrders(HttpServletRequest httpRequest) {
+    public ResponseEntity<ApiResponse<PagedResponse<OrderResponse>>> getMyOrders(
+            HttpServletRequest httpRequest,
+            @RequestParam(defaultValue = "0")  int page,
+            @RequestParam(defaultValue = "10") int size) {
         Long userId = (Long) httpRequest.getAttribute("userId");
         String userEmail = resolveEmail(httpRequest);
 
-        // Fall back to email-based lookup when token pre-dates the userId claim.
-        List<OrderResponse> orders = (userId != null)
-            ? orderService.getMyOrders(userId)
-            : orderService.getMyOrdersByEmail(userEmail);
+        PagedResponse<OrderResponse> orders = (userId != null)
+            ? orderService.getMyOrders(userId, page, size)
+            : orderService.getMyOrdersByEmail(userEmail, page, size);
 
         return ResponseEntity.ok(ApiResponse.ok("Orders fetched successfully", orders));
+    }
+
+    @Operation(summary = "Get all orders — ADMIN only", description = "Returns all orders across all users, newest first. Paginated.")
+    @SecurityRequirement(name = "bearerAuth")
+    @GetMapping("/all")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<ApiResponse<PagedResponse<OrderResponse>>> getAllOrders(
+            @RequestParam(defaultValue = "0")  int page,
+            @RequestParam(defaultValue = "10") int size) {
+        log.info("Admin fetching all orders (page={}, size={})", page, size);
+        return ResponseEntity.ok(ApiResponse.ok("All orders fetched successfully",
+            orderService.getAllOrders(page, size)));
     }
 
     @Operation(summary = "Get order by ID", description = "Admins can view any order; customers can only view their own.")

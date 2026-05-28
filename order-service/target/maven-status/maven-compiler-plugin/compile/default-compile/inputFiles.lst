@@ -16,6 +16,7 @@
 /Users/aman/ecom-order-system/order-service/src/main/java/com/ecom/orderservice/client/ProductClient.java
 /Users/aman/ecom-order-system/order-service/src/main/java/com/ecom/orderservice/OrderServiceApplication.java
 /Users/aman/ecom-order-system/order-service/src/main/java/com/ecom/orderservice/exception/ResourceNotFoundException.java
+/Users/aman/ecom-order-system/order-service/src/main/java/com/ecom/orderservice/dto/PagedResponse.java
 /Users/aman/ecom-order-system/order-service/src/main/java/com/ecom/orderservice/controller/OrderController.java
 /Users/aman/ecom-order-system/order-service/src/main/java/com/ecom/orderservice/entity/OrderStatus.java
 /Users/aman/ecom-order-system/order-service/src/main/java/com/ecom/orderservice/security/JwtUtil.java

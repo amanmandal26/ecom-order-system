@@ -1,6 +1,7 @@
 package com.ecom.productservice.controller;
 
 import com.ecom.productservice.dto.ApiResponse;
+import com.ecom.productservice.dto.PagedResponse;
 import com.ecom.productservice.dto.ProductRequest;
 import com.ecom.productservice.dto.ProductResponse;
 import com.ecom.productservice.dto.StockRequest;
@@ -16,8 +17,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/api/products")
 @RequiredArgsConstructor
@@ -29,10 +28,16 @@ public class ProductController {
 
     // ─── Public (authenticated) endpoints ─────────────────────────────────────
 
-    @Operation(summary = "Get all products")
+    @Operation(summary = "Get all products",
+               description = "Paginated. Default: page=0, size=10, sortBy=createdAt, sortDir=desc.")
     @GetMapping
-    public ResponseEntity<ApiResponse<List<ProductResponse>>> getAllProducts() {
-        return ResponseEntity.ok(ApiResponse.ok("Products fetched successfully", productService.getAllProducts()));
+    public ResponseEntity<ApiResponse<PagedResponse<ProductResponse>>> getAllProducts(
+            @RequestParam(defaultValue = "0")         int page,
+            @RequestParam(defaultValue = "10")        int size,
+            @RequestParam(defaultValue = "createdAt") String sortBy,
+            @RequestParam(defaultValue = "desc")      String sortDir) {
+        return ResponseEntity.ok(ApiResponse.ok("Products fetched successfully",
+            productService.getAllProducts(page, size, sortBy, sortDir)));
     }
 
     @Operation(summary = "Get product by ID")
@@ -44,15 +49,18 @@ public class ProductController {
     // ─── Seller-only endpoints ─────────────────────────────────────────────────
 
     @Operation(summary = "Get my products — SELLER only",
-               description = "Returns all products belonging to the logged-in seller.")
+               description = "Returns the seller's own products, paginated. Default: page=0, size=10.")
     @SecurityRequirement(name = "bearerAuth")
     @GetMapping("/my-products")
     @PreAuthorize("hasRole('SELLER')")
-    public ResponseEntity<ApiResponse<List<ProductResponse>>> getMyProducts(
-            @RequestHeader("X-User-Id") String userIdStr) {
+    public ResponseEntity<ApiResponse<PagedResponse<ProductResponse>>> getMyProducts(
+            @RequestHeader("X-User-Id") String userIdStr,
+            @RequestParam(defaultValue = "0")  int page,
+            @RequestParam(defaultValue = "10") int size) {
         Long sellerId = Long.parseLong(userIdStr);
-        log.info("Seller {} fetching their products", sellerId);
-        return ResponseEntity.ok(ApiResponse.ok("Products fetched", productService.getMyProducts(sellerId)));
+        log.info("Seller {} fetching their products (page={}, size={})", sellerId, page, size);
+        return ResponseEntity.ok(ApiResponse.ok("Products fetched",
+            productService.getMyProducts(sellerId, page, size)));
     }
 
     @Operation(summary = "Restock a product — SELLER only",

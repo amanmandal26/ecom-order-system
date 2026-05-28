@@ -1,5 +1,6 @@
 package com.ecom.productservice.service;
 
+import com.ecom.productservice.dto.PagedResponse;
 import com.ecom.productservice.dto.ProductRequest;
 import com.ecom.productservice.dto.ProductResponse;
 import com.ecom.productservice.entity.Product;
@@ -9,6 +10,8 @@ import com.ecom.productservice.exception.ResourceNotFoundException;
 import com.ecom.productservice.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -41,11 +44,12 @@ public class ProductService {
     }
 
     @Transactional(readOnly = true)
-    public List<ProductResponse> getAllProducts() {
-        return productRepository.findAll()
-            .stream()
-            .map(ProductResponse::fromProduct)
-            .toList();
+    public PagedResponse<ProductResponse> getAllProducts(int page, int size, String sortBy, String sortDir) {
+        Sort.Direction direction = "asc".equalsIgnoreCase(sortDir) ? Sort.Direction.ASC : Sort.Direction.DESC;
+        return PagedResponse.of(
+            productRepository.findAll(PageRequest.of(page, size, Sort.by(direction, sortBy)))
+                .map(ProductResponse::fromProduct)
+        );
     }
 
     @Transactional(readOnly = true)
@@ -72,11 +76,12 @@ public class ProductService {
     // ─── Seller-scoped endpoints ───────────────────────────────────────────────
 
     @Transactional(readOnly = true)
-    public List<ProductResponse> getMyProducts(Long sellerId) {
-        return productRepository.findBySellerId(sellerId)
-            .stream()
-            .map(ProductResponse::fromProduct)
-            .toList();
+    public PagedResponse<ProductResponse> getMyProducts(Long sellerId, int page, int size) {
+        return PagedResponse.of(
+            productRepository.findBySellerId(sellerId,
+                    PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt")))
+                .map(ProductResponse::fromProduct)
+        );
     }
 
     public ProductResponse updateMyProduct(Long productId, ProductRequest request, Long sellerId) {

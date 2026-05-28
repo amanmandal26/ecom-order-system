@@ -1,6 +1,8 @@
 package com.ecom.productservice.repository;
 
 import com.ecom.productservice.entity.Product;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -14,6 +16,8 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findByStockQuantityGreaterThan(Integer quantity);
 
     List<Product> findBySellerId(Long sellerId);
+
+    Page<Product> findBySellerId(Long sellerId, Pageable pageable);
 
     List<Product> findBySellerIdAndStockQuantityLessThan(Long sellerId, Integer threshold);
 }
