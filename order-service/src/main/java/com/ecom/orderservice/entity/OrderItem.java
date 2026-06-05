@@ -38,4 +38,12 @@ public class OrderItem {
 
     @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal unitPrice;
+
+    // Snapshotted from ProductResponse at order time so we can query orders by
+    // seller without joining across service boundaries. Null for admin-created products.
+    @Column
+    private String sellerEmail;
+
+    @Column
+    private String sellerName;
 }

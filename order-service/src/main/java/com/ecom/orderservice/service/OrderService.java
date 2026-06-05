@@ -10,10 +10,12 @@ import com.ecom.orderservice.event.OrderPlacedEvent;
 import com.ecom.orderservice.exception.InsufficientStockException;
 import com.ecom.orderservice.exception.OrderCancellationException;
 import com.ecom.orderservice.exception.ResourceNotFoundException;
+import com.ecom.orderservice.exception.SellerActionException;
 import com.ecom.orderservice.exception.ServiceUnavailableException;
 import com.ecom.orderservice.repository.OrderRepository;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import feign.FeignException;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import lombok.RequiredArgsConstructor;
@@ -90,6 +92,8 @@ public class OrderService {
                 .productName(product.getName())
                 .quantity(itemRequest.getQuantity())
                 .unitPrice(unitPrice)
+                .sellerEmail(product.getSellerEmail())
+                .sellerName(product.getSellerName())
                 .build());
         }
 
@@ -204,6 +208,92 @@ public class OrderService {
         return OrderResponse.fromOrder(order);
     }
 
+    @Transactional(readOnly = true)
+    public PagedResponse<SellerOrderResponse> getSellerOrders(String sellerEmail, int page, int size) {
+        Page<Order> orderPage = orderRepository.findOrdersBySellerEmail(
+            sellerEmail,
+            PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt"))
+        );
+
+        // Flatten: one row per item belonging to this seller in each order.
+        // Pagination counts are order-based (not item-based) — a single order with
+        // 2 seller items produces 2 rows on the same page.
+        List<SellerOrderResponse> rows = orderPage.getContent().stream()
+            .flatMap(order -> order.getOrderItems().stream()
+                .filter(item -> sellerEmail.equals(item.getSellerEmail()))
+                .map(item -> SellerOrderResponse.builder()
+                    .orderId(order.getId())
+                    .orderDate(order.getCreatedAt())
+                    .customerEmail(order.getUserEmail())
+                    .status(order.getStatus())
+                    .totalAmount(order.getTotalAmount())
+                    .productId(item.getProductId())
+                    .productName(item.getProductName())
+                    .quantity(item.getQuantity())
+                    .unitPrice(item.getUnitPrice())
+                    .subtotal(item.getUnitPrice().multiply(BigDecimal.valueOf(item.getQuantity())))
+                    .sellerEmail(item.getSellerEmail())
+                    .sellerName(item.getSellerName())
+                    .build()))
+            .toList();
+
+        return PagedResponse.<SellerOrderResponse>builder()
+            .content(rows)
+            .currentPage(orderPage.getNumber())
+            .pageSize(orderPage.getSize())
+            .totalItems(orderPage.getTotalElements())
+            .totalPages(orderPage.getTotalPages())
+            .first(orderPage.isFirst())
+            .last(orderPage.isLast())
+            .hasNext(orderPage.hasNext())
+            .hasPrevious(orderPage.hasPrevious())
+            .build();
+    }
+
+    public OrderResponse updateOrderStatusBySeller(Long orderId, OrderStatus newStatus, String sellerEmail) {
+        log.info("Seller {} updating order {} to {}", sellerEmail, orderId, newStatus);
+        Order order = findOrderOrThrow(orderId);
+
+        // Seller must own at least one product in this order
+        boolean sellerOwnsItem = order.getOrderItems().stream()
+            .anyMatch(item -> sellerEmail.equals(item.getSellerEmail()));
+        if (!sellerOwnsItem) {
+            throw new AccessDeniedException("You do not have any products in this order");
+        }
+
+        // Only CONFIRMED and SHIPPED are valid for seller-initiated updates
+        if (newStatus != OrderStatus.CONFIRMED && newStatus != OrderStatus.SHIPPED) {
+            throw new SellerActionException("Sellers can only confirm or ship orders");
+        }
+
+        OrderStatus current = order.getStatus();
+        if (newStatus == OrderStatus.CONFIRMED && current != OrderStatus.PENDING) {
+            throw new SellerActionException(
+                "Order can only be confirmed when it is PENDING. Current status: " + current);
+        }
+        if (newStatus == OrderStatus.SHIPPED && current != OrderStatus.CONFIRMED) {
+            throw new SellerActionException(
+                "Order can only be shipped when it is CONFIRMED. Current status: " + current);
+        }
+
+        order.setStatus(newStatus);
+
+        if (newStatus == OrderStatus.SHIPPED) {
+            String sellerName = order.getOrderItems().stream()
+                .filter(item -> sellerEmail.equals(item.getSellerEmail()))
+                .map(OrderItem::getSellerName)
+                .filter(n -> n != null && !n.isBlank())
+                .findFirst()
+                .orElse(sellerEmail);
+
+            OrderPlacedEvent event = buildShippedEvent(order, sellerName);
+            rabbitTemplate.convertAndSend(RabbitMQConfig.EXCHANGE, RabbitMQConfig.KEY_SHIPPED, event);
+            log.info("Published order.shipped event for order {} by seller '{}'", orderId, sellerName);
+        }
+
+        return OrderResponse.fromOrder(order);
+    }
+
     private Order findOrderOrThrow(Long id) {
         return orderRepository.findById(id)
             .orElseThrow(() -> new ResourceNotFoundException("Order", id));
@@ -226,6 +316,28 @@ public class OrderService {
             .totalAmount(order.getTotalAmount())
             .items(itemInfos)
             .sellerNotifications(new ArrayList<>(sellerNotifications))
+            .build();
+    }
+
+    // Builds the event published when a seller marks an order as shipped.
+    // Carries sellerName so the notification-service can say "Shipped by: {seller}".
+    private OrderPlacedEvent buildShippedEvent(Order order, String sellerName) {
+        List<OrderPlacedEvent.OrderItemInfo> itemInfos = order.getOrderItems().stream()
+            .map(item -> OrderPlacedEvent.OrderItemInfo.builder()
+                .productName(item.getProductName())
+                .quantity(item.getQuantity())
+                .unitPrice(item.getUnitPrice())
+                .build())
+            .toList();
+
+        return OrderPlacedEvent.builder()
+            .orderId(order.getId())
+            .userEmail(order.getUserEmail())
+            .userName(order.getUserEmail())
+            .totalAmount(order.getTotalAmount())
+            .items(itemInfos)
+            .sellerName(sellerName)
+            .sellerNotifications(new ArrayList<>())
             .build();
     }
 }

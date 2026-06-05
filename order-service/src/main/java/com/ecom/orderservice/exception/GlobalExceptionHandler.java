@@ -44,6 +44,12 @@ public class GlobalExceptionHandler {
         return ResponseEntity.badRequest().body(ApiResponse.error(ex.getMessage()));
     }
 
+    @ExceptionHandler(SellerActionException.class)
+    public ResponseEntity<ApiResponse<Void>> handleSellerAction(SellerActionException ex) {
+        log.warn("Seller action rejected: {}", ex.getMessage());
+        return ResponseEntity.badRequest().body(ApiResponse.error(ex.getMessage()));
+    }
+
     @ExceptionHandler(ServiceUnavailableException.class)
     public ResponseEntity<ApiResponse<Void>> handleServiceUnavailable(ServiceUnavailableException ex) {
         log.error("Service unavailable (circuit breaker open): {}", ex.getMessage());

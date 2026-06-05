@@ -16,6 +16,8 @@ public class OrderItemResponse {
     private Integer quantity;
     private BigDecimal unitPrice;
     private BigDecimal subtotal;
+    private String sellerEmail;
+    private String sellerName;
 
     public static OrderItemResponse fromOrderItem(OrderItem item) {
         return OrderItemResponse.builder()
@@ -25,6 +27,8 @@ public class OrderItemResponse {
             .quantity(item.getQuantity())
             .unitPrice(item.getUnitPrice())
             .subtotal(item.getUnitPrice().multiply(BigDecimal.valueOf(item.getQuantity())))
+            .sellerEmail(item.getSellerEmail())
+            .sellerName(item.getSellerName())
             .build();
     }
 }

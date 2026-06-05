@@ -31,6 +31,10 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.POST, "/api/orders").hasRole("CUSTOMER")
                 // View own orders — CUSTOMER only (admins use /admin endpoints for platform management)
                 .requestMatchers(HttpMethod.GET, "/api/orders/my-orders").hasRole("CUSTOMER")
+                // Seller views orders containing their products — SELLER only
+                .requestMatchers(HttpMethod.GET, "/api/orders/seller-orders").hasRole("SELLER")
+                // Seller confirms/ships an order — SELLER only (also enforced by @PreAuthorize)
+                .requestMatchers(HttpMethod.PUT, "/api/orders/*/seller-update").hasRole("SELLER")
                 // View any order by ID — ADMIN can read for support/management, CUSTOMER for their own (checked in service)
                 .requestMatchers(HttpMethod.GET, "/api/orders/**").hasAnyRole("ADMIN", "CUSTOMER")
                 // Cancel order — CUSTOMER only

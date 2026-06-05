@@ -111,10 +111,42 @@ function EditModal({ product, onClose, onSuccess }) {
   );
 }
 
+// ── Status badge colours ──────────────────────────────────────────────────────
+
+const ORDER_BADGE_STYLE = {
+  PENDING:   { background: '#fef3c7', color: '#92400e', border: '1px solid #fcd34d' },
+  CONFIRMED: { background: '#dbeafe', color: '#1e40af', border: '1px solid #93c5fd' },
+  SHIPPED:   { background: '#ede9fe', color: '#5b21b6', border: '1px solid #c4b5fd' },
+  DELIVERED: { background: '#d1fae5', color: '#065f46', border: '1px solid #6ee7b7' },
+  CANCELLED: { background: '#fee2e2', color: '#991b1b', border: '1px solid #fca5a5' },
+};
+
+function OrderStatusBadge({ status }) {
+  const style = ORDER_BADGE_STYLE[status] || { background: '#f3f4f6', color: '#374151' };
+  return (
+    <span style={{
+      ...style, padding: '3px 10px', borderRadius: 999,
+      fontSize: '0.78rem', fontWeight: 700, letterSpacing: '0.3px',
+    }}>
+      {status}
+    </span>
+  );
+}
+
+function formatDate(iso) {
+  if (!iso) return '';
+  return new Date(iso).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
+}
+
+function formatAmount(n) {
+  return Number(n).toLocaleString('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 });
+}
+
 // ── Main ──────────────────────────────────────────────────────────────────────
 
-const EMPTY_FORM = { name: '', description: '', price: '', stockQuantity: '' };
-const PAGE_SIZE  = 8;
+const EMPTY_FORM   = { name: '', description: '', price: '', stockQuantity: '' };
+const PAGE_SIZE    = 8;
+const ORDERS_SIZE  = 10;
 
 export default function SellerDashboard() {
   const { user } = useAuth();
@@ -137,6 +169,15 @@ export default function SellerDashboard() {
   const [addLoading, setAddLoading] = useState(false);
   const [addError,   setAddError]   = useState('');
 
+  // ── Seller Orders state ───────────────────────────────────────────────────
+  const [sellerOrders,      setSellerOrders]      = useState([]);
+  const [ordersPage,        setOrdersPage]        = useState(0);
+  const [ordersTotalPages,  setOrdersTotalPages]  = useState(0);
+  const [ordersTotalItems,  setOrdersTotalItems]  = useState(0);
+  const [ordersLoading,     setOrdersLoading]     = useState(false);
+  const [ordersError,       setOrdersError]       = useState('');
+  const [updatingOrderId,   setUpdatingOrderId]   = useState(null);
+
   useEffect(() => {
     if (user && user.role !== 'SELLER') navigate('/products');
   }, [user, navigate]);
@@ -153,9 +194,38 @@ export default function SellerDashboard() {
     } catch { setProducts([]); } finally { setLoading(false); }
   }, []);
 
+  const fetchSellerOrders = useCallback(async (page = 0) => {
+    setOrdersLoading(true); setOrdersError('');
+    try {
+      const res = await api.get(`/api/orders/seller-orders?page=${page}&size=${ORDERS_SIZE}`);
+      const d   = res.data.data;
+      setSellerOrders(d.content || []);
+      setOrdersPage(d.currentPage);
+      setOrdersTotalPages(d.totalPages);
+      setOrdersTotalItems(d.totalItems);
+    } catch (err) {
+      setOrdersError(err.response?.data?.message || 'Failed to load orders.');
+    } finally { setOrdersLoading(false); }
+  }, []);
+
   useEffect(() => { if (tab === 'products') fetchProducts(0); }, [tab, fetchProducts]);
+  useEffect(() => { if (tab === 'orders')   fetchSellerOrders(0); }, [tab, fetchSellerOrders]);
 
   const showMsg = text => { setMsg(text); setTimeout(() => setMsg(''), 3500); };
+
+  const handleSellerOrderUpdate = async (orderId, newStatus) => {
+    setUpdatingOrderId(orderId);
+    try {
+      await api.put(`/api/orders/${orderId}/seller-update`, { orderId, status: newStatus });
+      const successMsg = newStatus === 'SHIPPED'
+        ? 'Order marked as shipped! Customer will be notified.'
+        : 'Order confirmed!';
+      showMsg(successMsg);
+      fetchSellerOrders(ordersPage);
+    } catch (err) {
+      setError(err.response?.data?.message || 'Failed to update order status.');
+    } finally { setUpdatingOrderId(null); }
+  };
 
   const handleDelete = async () => {
     try {
@@ -251,7 +321,7 @@ export default function SellerDashboard() {
 
       {/* Tabs */}
       <div className="tabs">
-        {[['products', '📋 My Products'], ['add', '➕ Add Product']].map(([key, label]) => (
+        {[['products', '📋 My Products'], ['orders', '🛒 Orders'], ['add', '➕ Add Product']].map(([key, label]) => (
           <button key={key} className={`tab-btn${tab === key ? ' active' : ''}`}
             onClick={() => { setTab(key); setMsg(''); setError(''); }}>
             {label}
@@ -320,6 +390,119 @@ export default function SellerDashboard() {
                   <span className="page-info">Page {currentPage + 1} of {totalPages}</span>
                   <button className="btn-ghost page-btn page-btn-arrow"
                     onClick={() => fetchProducts(currentPage + 1)} disabled={currentPage >= totalPages - 1}>
+                    Next →
+                  </button>
+                </div>
+              )}
+            </>
+          )}
+        </>
+      )}
+
+      {/* ── Orders tab ──────────────────────────────────────────────── */}
+      {tab === 'orders' && (
+        <>
+          <div style={{ marginBottom: '1.25rem' }}>
+            <h2 style={{ fontSize: '1.2rem', fontWeight: 700 }}>Orders for Your Products</h2>
+            <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginTop: '0.2rem' }}>
+              Manage and fulfill customer orders
+              {ordersTotalItems > 0 && <span> — {ordersTotalItems} order{ordersTotalItems !== 1 ? 's' : ''}</span>}
+            </p>
+          </div>
+
+          {ordersLoading ? (
+            <div className="page-loading" style={{ minHeight: '30vh' }}>⏳ Loading orders...</div>
+          ) : ordersError ? (
+            <div className="alert alert-error">{ordersError}</div>
+          ) : sellerOrders.length === 0 ? (
+            <div className="empty-state">
+              <div className="empty-state-icon">🛒</div>
+              <h3>No orders yet</h3>
+              <p>When customers buy your products, their orders will appear here.</p>
+            </div>
+          ) : (
+            <>
+              {sellerOrders.map((order, idx) => (
+                <div key={`${order.orderId}-${order.productId}-${idx}`}
+                  style={{
+                    background: 'var(--bg-white)',
+                    border: '1px solid var(--border)',
+                    borderRadius: 12,
+                    padding: '1.1rem 1.25rem',
+                    marginBottom: '0.9rem',
+                    boxShadow: 'var(--card-shadow)',
+                  }}>
+                  {/* Order card header */}
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '0.5rem' }}>
+                    <div>
+                      <span style={{ fontWeight: 700, fontSize: '1rem' }}>Order #{order.orderId}</span>
+                      <span style={{ marginLeft: '0.75rem', color: 'var(--text-secondary)', fontSize: '0.85rem' }}>
+                        📅 {formatDate(order.orderDate)}
+                      </span>
+                    </div>
+                    <OrderStatusBadge status={order.status} />
+                  </div>
+
+                  {/* Order details */}
+                  <div style={{ marginTop: '0.75rem', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: '0.5rem 1.5rem', fontSize: '0.875rem' }}>
+                    <div>
+                      <span style={{ color: 'var(--text-secondary)' }}>Customer: </span>
+                      <span style={{ fontWeight: 500 }}>{order.customerEmail}</span>
+                    </div>
+                    <div>
+                      <span style={{ color: 'var(--text-secondary)' }}>Product: </span>
+                      <span style={{ fontWeight: 500 }}>{order.productName} × {order.quantity} units</span>
+                    </div>
+                    <div>
+                      <span style={{ color: 'var(--text-secondary)' }}>Amount: </span>
+                      <span style={{ fontWeight: 700, color: 'var(--primary)' }}>{formatAmount(order.subtotal)}</span>
+                    </div>
+                  </div>
+
+                  {/* Action buttons */}
+                  <div style={{ marginTop: '0.9rem', display: 'flex', justifyContent: 'flex-end', gap: '0.5rem' }}>
+                    {order.status === 'PENDING' && (
+                      <button
+                        className="btn btn-primary btn-sm"
+                        disabled={updatingOrderId === order.orderId}
+                        onClick={() => handleSellerOrderUpdate(order.orderId, 'CONFIRMED')}
+                      >
+                        {updatingOrderId === order.orderId ? 'Updating…' : '✓ Confirm Order'}
+                      </button>
+                    )}
+                    {order.status === 'CONFIRMED' && (
+                      <button
+                        className="btn btn-sm"
+                        style={{ background: '#7c3aed', color: '#fff', border: 'none' }}
+                        disabled={updatingOrderId === order.orderId}
+                        onClick={() => handleSellerOrderUpdate(order.orderId, 'SHIPPED')}
+                      >
+                        {updatingOrderId === order.orderId ? 'Updating…' : '🚚 Mark as Shipped'}
+                      </button>
+                    )}
+                    {order.status === 'SHIPPED' && (
+                      <span style={{ fontSize: '0.875rem', color: '#5b21b6', fontWeight: 600 }}>Shipped ✓</span>
+                    )}
+                    {order.status === 'DELIVERED' && (
+                      <span style={{ fontSize: '0.875rem', color: '#065f46', fontWeight: 600 }}>Delivered ✓</span>
+                    )}
+                    {order.status === 'CANCELLED' && (
+                      <span style={{ fontSize: '0.875rem', color: '#991b1b', fontWeight: 500 }}>Cancelled</span>
+                    )}
+                  </div>
+                </div>
+              ))}
+
+              {/* Pagination */}
+              {ordersTotalPages > 1 && (
+                <div className="pagination">
+                  <button className="btn-ghost page-btn page-btn-arrow"
+                    onClick={() => fetchSellerOrders(ordersPage - 1)} disabled={ordersPage === 0}>
+                    ← Prev
+                  </button>
+                  <span className="page-info">Page {ordersPage + 1} of {ordersTotalPages}</span>
+                  <button className="btn-ghost page-btn page-btn-arrow"
+                    onClick={() => fetchSellerOrders(ordersPage + 1)} disabled={ordersPage >= ordersTotalPages - 1}>
                     Next →
                   </button>
                 </div>

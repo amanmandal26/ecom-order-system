@@ -4,6 +4,8 @@ import com.ecom.orderservice.dto.ApiResponse;
 import com.ecom.orderservice.dto.OrderRequest;
 import com.ecom.orderservice.dto.OrderResponse;
 import com.ecom.orderservice.dto.PagedResponse;
+import com.ecom.orderservice.dto.SellerOrderResponse;
+import com.ecom.orderservice.dto.SellerOrderUpdateRequest;
 import com.ecom.orderservice.entity.OrderStatus;
 import com.ecom.orderservice.service.OrderService;
 import io.github.resilience4j.circuitbreaker.CircuitBreaker;
@@ -122,6 +124,34 @@ public class OrderController {
         log.info("User {} cancelling order {}", userEmail, id);
         return ResponseEntity.ok(ApiResponse.ok("Order cancelled successfully",
             orderService.cancelOrder(id, userId, userEmail)));
+    }
+
+    @Operation(summary = "Get seller orders — SELLER only", description = "Returns all orders that contain this seller's products. One row per item.")
+    @SecurityRequirement(name = "bearerAuth")
+    @GetMapping("/seller-orders")
+    @PreAuthorize("hasRole('SELLER')")
+    public ResponseEntity<ApiResponse<PagedResponse<SellerOrderResponse>>> getSellerOrders(
+            HttpServletRequest httpRequest,
+            @RequestParam(defaultValue = "0")  int page,
+            @RequestParam(defaultValue = "10") int size) {
+        String sellerEmail = resolveEmail(httpRequest);
+        log.info("Seller {} fetching their orders (page={}, size={})", sellerEmail, page, size);
+        return ResponseEntity.ok(ApiResponse.ok("Seller orders fetched successfully",
+            orderService.getSellerOrders(sellerEmail, page, size)));
+    }
+
+    @Operation(summary = "Seller updates order status — SELLER only", description = "Seller can move order from PENDING→CONFIRMED or CONFIRMED→SHIPPED. SHIPPED triggers a customer notification email.")
+    @SecurityRequirement(name = "bearerAuth")
+    @PutMapping("/{id}/seller-update")
+    @PreAuthorize("hasRole('SELLER')")
+    public ResponseEntity<ApiResponse<OrderResponse>> sellerUpdateOrderStatus(
+            @PathVariable Long id,
+            @Valid @RequestBody SellerOrderUpdateRequest request,
+            HttpServletRequest httpRequest) {
+        String sellerEmail = resolveEmail(httpRequest);
+        log.info("Seller {} updating order {} to {}", sellerEmail, id, request.getStatus());
+        return ResponseEntity.ok(ApiResponse.ok("Order status updated successfully",
+            orderService.updateOrderStatusBySeller(id, request.getStatus(), sellerEmail)));
     }
 
     @Operation(summary = "Circuit breaker status — ADMIN only", description = "Returns the current state and call metrics of the productService circuit breaker.")

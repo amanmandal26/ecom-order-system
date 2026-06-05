@@ -21,6 +21,10 @@ public class OrderPlacedEvent {
     private BigDecimal totalAmount;
     private List<OrderItemInfo> items;
 
+    // Set only on seller-initiated shipped events — identifies who shipped the order.
+    // Null for order-placed events and admin-initiated status changes.
+    private String sellerName;
+
     // One entry per order line item — only populated for seller-owned products.
     // Admin-created products (no sellerEmail) produce no entry here.
     @Builder.Default

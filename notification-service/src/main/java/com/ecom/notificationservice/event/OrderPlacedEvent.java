@@ -23,6 +23,9 @@ public class OrderPlacedEvent {
 
     // Must mirror order-service's OrderPlacedEvent exactly — same field names,
     // same types — so Jackson deserialises the RabbitMQ JSON payload correctly.
+    // sellerName is set only on seller-shipped events; null for order-placed events.
+    private String sellerName;
+
     @Builder.Default
     private List<SellerNotification> sellerNotifications = new ArrayList<>();
 

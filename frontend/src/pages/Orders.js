@@ -144,6 +144,20 @@ export default function Orders() {
                 </div>
               )}
 
+              {/* Shipped-by notice — appears when order has been dispatched */}
+              {order.status === 'SHIPPED' && (
+                <div style={{
+                  padding: '8px 16px',
+                  background: '#f5f3ff',
+                  borderTop: '1px solid #ede9fe',
+                  fontSize: '13px',
+                  color: '#5b21b6',
+                }}>
+                  🚚 <strong>Shipped by: </strong>
+                  {order.items?.find(i => i.sellerName)?.sellerName || order.sellerName || 'Seller'}
+                </div>
+              )}
+
               {/* Items (expanded) */}
               {expandedId === order.id && (
                 <div className="order-items-section">

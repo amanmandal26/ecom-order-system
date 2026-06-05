@@ -10,6 +10,7 @@
 /Users/aman/ecom-order-system/order-service/src/main/java/com/ecom/orderservice/dto/OrderItemRequest.java
 /Users/aman/ecom-order-system/order-service/src/main/java/com/ecom/orderservice/security/JwtAuthFilter.java
 /Users/aman/ecom-order-system/order-service/src/main/java/com/ecom/orderservice/entity/Order.java
+/Users/aman/ecom-order-system/order-service/src/main/java/com/ecom/orderservice/exception/SellerActionException.java
 /Users/aman/ecom-order-system/order-service/src/main/java/com/ecom/orderservice/event/OrderPlacedEvent.java
 /Users/aman/ecom-order-system/order-service/src/main/java/com/ecom/orderservice/dto/ApiResponse.java
 /Users/aman/ecom-order-system/order-service/src/main/java/com/ecom/orderservice/entity/OrderItem.java
@@ -17,6 +18,8 @@
 /Users/aman/ecom-order-system/order-service/src/main/java/com/ecom/orderservice/OrderServiceApplication.java
 /Users/aman/ecom-order-system/order-service/src/main/java/com/ecom/orderservice/exception/ResourceNotFoundException.java
 /Users/aman/ecom-order-system/order-service/src/main/java/com/ecom/orderservice/dto/PagedResponse.java
+/Users/aman/ecom-order-system/order-service/src/main/java/com/ecom/orderservice/dto/SellerOrderResponse.java
+/Users/aman/ecom-order-system/order-service/src/main/java/com/ecom/orderservice/dto/SellerOrderUpdateRequest.java
 /Users/aman/ecom-order-system/order-service/src/main/java/com/ecom/orderservice/controller/OrderController.java
 /Users/aman/ecom-order-system/order-service/src/main/java/com/ecom/orderservice/entity/OrderStatus.java
 /Users/aman/ecom-order-system/order-service/src/main/java/com/ecom/orderservice/security/JwtUtil.java

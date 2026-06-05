@@ -160,13 +160,44 @@ public class EmailService {
     }
 
     private String buildOrderShippedBody(OrderPlacedEvent event) {
+        StringBuilder itemRows = new StringBuilder();
+        if (event.getItems() != null) {
+            for (OrderPlacedEvent.OrderItemInfo item : event.getItems()) {
+                itemRows.append(String.format(
+                    "<tr><td style='padding:8px;border-bottom:1px solid #eee'>%s</td>" +
+                    "<td style='padding:8px;border-bottom:1px solid #eee;text-align:center'>%d</td></tr>",
+                    item.getProductName(), item.getQuantity()
+                ));
+            }
+        }
+
+        String shippedBy = (event.getSellerName() != null && !event.getSellerName().isBlank())
+            ? event.getSellerName()
+            : "EcomShop";
+
         return "<div style='font-family:Arial,sans-serif;max-width:600px;margin:0 auto'>" +
-            "<h2 style='color:#3498db'>Your Order is On the Way!</h2>" +
-            "<p>Hi <strong>" + event.getUserName() + "</strong>,</p>" +
+            "<h2 style='color:#3498db'>Your Order is On the Way! 🚚</h2>" +
+            "<p>Hello <strong>" + event.getUserName() + "</strong>,</p>" +
             "<p>Great news! Your order <strong>#" + event.getOrderId() + "</strong> has been shipped.</p>" +
-            "<p>Your package is on its way and will be delivered soon.</p>" +
+            "<table style='width:100%;border-collapse:collapse;margin:16px 0;background:#f8f9fa'>" +
+            "<tr><td style='padding:10px;border-bottom:1px solid #e9ecef'><strong>Order ID</strong></td>" +
+            "<td style='padding:10px;border-bottom:1px solid #e9ecef'>#" + event.getOrderId() + "</td></tr>" +
+            "<tr><td style='padding:10px'><strong>Shipped by</strong></td>" +
+            "<td style='padding:10px'>" + shippedBy + "</td></tr>" +
+            "</table>" +
+            "<h4 style='margin-bottom:6px'>Items Shipped:</h4>" +
+            "<table style='width:100%;border-collapse:collapse;margin-bottom:16px'>" +
+            "<tr style='background:#f8f8f8'>" +
+            "<th style='padding:8px;text-align:left'>Product</th>" +
+            "<th style='padding:8px;text-align:center'>Qty</th>" +
+            "</tr>" +
+            itemRows +
+            "</table>" +
+            "<div style='background:#eff6ff;border-left:4px solid #3b82f6;padding:12px;border-radius:4px;margin-bottom:16px'>" +
+            "<strong>Estimated Delivery:</strong> 3-5 business days" +
+            "</div>" +
+            "<p>Thank you for shopping with <strong>EcomShop</strong>!</p>" +
             "<p style='color:#888;font-size:13px'>Order Total: ₹" + event.getTotalAmount() + "</p>" +
-            "<p>Thank you for shopping with us!</p>" +
             "</div>";
     }
 }
