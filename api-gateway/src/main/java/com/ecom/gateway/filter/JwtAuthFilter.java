@@ -30,9 +30,10 @@ public class JwtAuthFilter implements GlobalFilter, Ordered {
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
-        String path = exchange.getRequest().getURI().getPath();
+        String path   = exchange.getRequest().getURI().getPath();
+        String method = exchange.getRequest().getMethod().name();
 
-        if (isPublicPath(path)) {
+        if (isPublicPath(path, method)) {
             return chain.filter(exchange);
         }
 
@@ -84,8 +85,12 @@ public class JwtAuthFilter implements GlobalFilter, Ordered {
         return -1;
     }
 
-    private boolean isPublicPath(String path) {
-        return PUBLIC_PATHS.stream().anyMatch(path::startsWith);
+    private boolean isPublicPath(String path, String method) {
+        if (PUBLIC_PATHS.stream().anyMatch(path::startsWith)) return true;
+        // Product browsing is public for GET requests; /my-products requires SELLER auth
+        return "GET".equals(method)
+            && path.startsWith("/api/products")
+            && !path.startsWith("/api/products/my-products");
     }
 
     private Key getSigningKey() {

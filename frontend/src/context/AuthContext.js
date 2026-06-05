@@ -24,6 +24,7 @@ export function AuthProvider({ children }) {
     localStorage.setItem('user', JSON.stringify({ email: authData.email, name: authData.name, role: authData.role }));
     setToken(authData.token);
     setUser({ email: authData.email, name: authData.name, role: authData.role });
+    return authData;
   };
 
   const register = async (name, email, password) => {

@@ -1,31 +1,76 @@
 import React, { useEffect, useState, useCallback } from 'react';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 import api from '../services/api';
+import { useAuth } from '../context/AuthContext';
+import { useToast } from '../context/ToastContext';
+import LoginPromptModal from '../components/LoginPromptModal';
 
-const PAGE_SIZE = 6;
+const PAGE_SIZE = 16;
 
-function getCart() {
-  return JSON.parse(localStorage.getItem('cart') || '[]');
+function getEmoji(name = '') {
+  const n = name.toLowerCase();
+  if (/phone|mobile|iphone|samsung|oneplus|oppo|vivo|pixel/.test(n)) return '📱';
+  if (/laptop|macbook|dell|hp|lenovo|asus|notebook/.test(n))          return '💻';
+  if (/tv|television|monitor|screen|display/.test(n))                  return '📺';
+  if (/headphone|earphone|airpod|earbud|speaker|audio/.test(n))       return '🎧';
+  if (/camera|dslr|gopro/.test(n))                                     return '📷';
+  if (/watch|smartwatch/.test(n))                                      return '⌚';
+  if (/tablet|ipad/.test(n))                                           return '📱';
+  if (/keyboard|mouse|gaming/.test(n))                                 return '🎮';
+  if (/shoe|boot|sneaker/.test(n))                                     return '👟';
+  if (/shirt|tshirt|cloth|dress|jeans/.test(n))                       return '👕';
+  if (/book|novel/.test(n))                                            return '📚';
+  if (/bag|backpack|purse/.test(n))                                    return '👜';
+  return '🛍️';
 }
 
-function saveCart(cart) {
-  localStorage.setItem('cart', JSON.stringify(cart));
+function pageRange(current, total) {
+  if (total <= 7) return Array.from({ length: total }, (_, i) => i);
+  if (current <= 3) return [0, 1, 2, 3, 4, '…', total - 1];
+  if (current >= total - 4) return [0, '…', total - 5, total - 4, total - 3, total - 2, total - 1];
+  return [0, '…', current - 1, current, current + 1, '…', total - 1];
 }
 
-const SORT_OPTIONS = [
-  { label: 'Newest',              sortBy: 'createdAt', sortDir: 'desc' },
-  { label: 'Price: Low to High',  sortBy: 'price',     sortDir: 'asc'  },
-  { label: 'Price: High to Low',  sortBy: 'price',     sortDir: 'desc' },
-  { label: 'Name A–Z',            sortBy: 'name',      sortDir: 'asc'  },
+const SORTS = [
+  { label: 'Newest First',       sortBy: 'createdAt', sortDir: 'desc' },
+  { label: 'Price: Low to High', sortBy: 'price',     sortDir: 'asc'  },
+  { label: 'Price: High to Low', sortBy: 'price',     sortDir: 'desc' },
+  { label: 'Name A–Z',           sortBy: 'name',      sortDir: 'asc'  },
 ];
 
-const DEFAULT_FILTERS = {
-  search:      '',
-  minPrice:    '',
-  maxPrice:    '',
-  inStockOnly: false,
-  sellerName:  '',
-  sortIndex:   0,
-};
+const PRICE_RANGES = [
+  { label: 'Under ₹500',        min: '',     max: '500'   },
+  { label: '₹500 – ₹2,000',    min: '500',  max: '2000'  },
+  { label: '₹2,000 – ₹10,000', min: '2000', max: '10000' },
+  { label: 'Above ₹10,000',     min: '10000', max: ''     },
+];
+
+const DEFAULT_FILTERS = { search: '', minPrice: '', maxPrice: '', inStockOnly: false, sortIndex: 0 };
+
+function getCart()      { return JSON.parse(localStorage.getItem('cart') || '[]'); }
+function saveCart(cart) { localStorage.setItem('cart', JSON.stringify(cart)); window.dispatchEvent(new Event('cartUpdated')); }
+
+function SkeletonGrid() {
+  return (
+    <div className="p-grid-wrapper">
+      <div className="p-grid">
+        {Array(8).fill(null).map((_, i) => (
+          <div key={i} className="p-card" style={{ cursor: 'default' }}>
+            <div className="p-card-img">
+              <span className="skeleton sk-img" style={{ position: 'absolute', inset: 0 }} />
+            </div>
+            <div className="p-card-body" style={{ paddingBottom: 0 }}>
+              <span className="skeleton sk-line" />
+              <span className="skeleton sk-line" style={{ width: '70%' }} />
+              <span className="skeleton sk-price" />
+            </div>
+            <div style={{ height: 36, margin: '10px 0 0' }} className="skeleton" />
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
 
 export default function Products() {
   const [products, setProducts]       = useState([]);
@@ -35,55 +80,49 @@ export default function Products() {
   const [loading, setLoading]         = useState(true);
   const [error, setError]             = useState('');
   const [addedId, setAddedId]         = useState(null);
+  const [filters, setFilters]         = useState(DEFAULT_FILTERS);
+  const [showLoginModal, setShowLoginModal] = useState(false);
 
-  // Filters — committed means "what was last searched"
-  const [filters, setFilters]           = useState(DEFAULT_FILTERS);
-  const [searchInput, setSearchInput]   = useState('');   // live text in the search box
+  const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
+  const { user, isAuthenticated } = useAuth();
+  const { showToast } = useToast();
+  const isSeller = user?.role === 'SELLER';
+  const isAdmin  = user?.role === 'ADMIN';
 
-  const buildQuery = useCallback((f, page) => {
-    const sort = SORT_OPTIONS[f.sortIndex];
-    const params = new URLSearchParams({
-      page,
-      size: PAGE_SIZE,
-      sortBy:  sort.sortBy,
-      sortDir: sort.sortDir,
-      inStockOnly: f.inStockOnly,
-    });
-    if (f.search)     params.set('search',     f.search);
-    if (f.minPrice)   params.set('minPrice',   f.minPrice);
-    if (f.maxPrice)   params.set('maxPrice',   f.maxPrice);
-    if (f.sellerName) params.set('sellerName', f.sellerName);
-    return `/api/products?${params.toString()}`;
+  const buildUrl = useCallback((f, page) => {
+    const s = SORTS[f.sortIndex];
+    const p = new URLSearchParams({ page, size: PAGE_SIZE, sortBy: s.sortBy, sortDir: s.sortDir, inStockOnly: f.inStockOnly });
+    if (f.search)   p.set('search',   f.search);
+    if (f.minPrice) p.set('minPrice', f.minPrice);
+    if (f.maxPrice) p.set('maxPrice', f.maxPrice);
+    return `/api/products?${p}`;
   }, []);
 
   const fetchProducts = useCallback((activeFilters, page) => {
     setLoading(true);
-    api.get(buildQuery(activeFilters, page))
-      .then((res) => {
-        const paged = res.data.data;
-        setProducts(paged.content);
-        setCurrentPage(paged.currentPage);
-        setTotalPages(paged.totalPages);
-        setTotalItems(paged.totalItems);
+    api.get(buildUrl(activeFilters, page))
+      .then(res => {
+        const d = res.data.data;
+        setProducts(d.content);
+        setCurrentPage(d.currentPage);
+        setTotalPages(d.totalPages);
+        setTotalItems(d.totalItems);
       })
       .catch(() => setError('Failed to load products.'))
       .finally(() => setLoading(false));
-  }, [buildQuery]);
+  }, [buildUrl]);
 
-  // Initial load
   useEffect(() => {
-    fetchProducts(DEFAULT_FILTERS, 0);
-  }, [fetchProducts]);
-
-  const applySearch = () => {
-    const next = { ...filters, search: searchInput.trim() };
-    setFilters(next);
-    fetchProducts(next, 0);
-  };
-
-  const handleSearchKeyDown = (e) => {
-    if (e.key === 'Enter') applySearch();
-  };
+    const q = searchParams.get('search') || '';
+    if (q) {
+      const initial = { ...DEFAULT_FILTERS, search: q };
+      setFilters(initial);
+      fetchProducts(initial, 0);
+    } else {
+      fetchProducts(DEFAULT_FILTERS, 0);
+    }
+  }, [fetchProducts, searchParams]);
 
   const handleFilterChange = (field, value) => {
     const next = { ...filters, [field]: value };
@@ -91,10 +130,25 @@ export default function Products() {
     fetchProducts(next, 0);
   };
 
+  const setPriceRange = (min, max) => {
+    const next = { ...filters, minPrice: min, maxPrice: max };
+    setFilters(next);
+    fetchProducts(next, 0);
+  };
+
+  const activePriceRange = PRICE_RANGES.find(r => r.min === filters.minPrice && r.max === filters.maxPrice);
+
   const clearFilters = () => {
-    setSearchInput('');
-    setFilters(DEFAULT_FILTERS);
-    fetchProducts(DEFAULT_FILTERS, 0);
+    const cleared = { ...DEFAULT_FILTERS, search: filters.search };
+    setFilters(cleared);
+    fetchProducts(cleared, 0);
+  };
+
+  const clearSearch = () => {
+    const cleared = DEFAULT_FILTERS;
+    setFilters(cleared);
+    fetchProducts(cleared, 0);
+    navigate('/products', { replace: true });
   };
 
   const goToPage = (page) => {
@@ -102,245 +156,217 @@ export default function Products() {
     fetchProducts(filters, page);
   };
 
-  const addToCart = (product) => {
+  const addToCart = (product, e) => {
+    e.stopPropagation();
+    if (!isAuthenticated) { setShowLoginModal(true); return; }
     const cart = getCart();
-    const existing = cart.find((item) => item.productId === product.id);
-    if (existing) {
-      existing.quantity += 1;
-    } else {
+    const existing = cart.find(i => i.productId === product.id);
+    if (existing) { existing.quantity += 1; } else {
       cart.push({ productId: product.id, name: product.name, price: product.price, quantity: 1 });
     }
     saveCart(cart);
     setAddedId(product.id);
+    showToast(`${product.name} added to cart`);
     setTimeout(() => setAddedId(null), 1500);
   };
 
-  const hasActiveFilters =
-    filters.search || filters.minPrice || filters.maxPrice ||
-    filters.inStockOnly || filters.sellerName || filters.sortIndex !== 0;
+  const hasNonSearchFilters = filters.minPrice || filters.maxPrice || filters.inStockOnly || filters.sortIndex !== 0;
 
-  if (error) return <div className="alert alert-error" style={{ margin: '2rem' }}>{error}</div>;
+  if (error) return <div className="page"><div className="alert alert-error">{error}</div></div>;
 
   return (
-    <div className="page">
-      <h1 className="page-title">Products</h1>
+    <>
+      {showLoginModal && <LoginPromptModal onClose={() => setShowLoginModal(false)} />}
 
-      {/* ── Search & Filter Bar ─────────────────────────────────────────── */}
-      <div style={searchBarCard}>
-        {/* Row 1: search input */}
-        <div style={searchRow}>
-          <input
-            type="text"
-            placeholder="Search products by name or description..."
-            value={searchInput}
-            onChange={(e) => setSearchInput(e.target.value)}
-            onKeyDown={handleSearchKeyDown}
-            style={searchInput_style}
-          />
-          <button className="btn btn-primary" onClick={applySearch} style={{ minWidth: 90 }}>
-            Search
-          </button>
-        </div>
+      <div className="products-page">
 
-        {/* Row 2: filters */}
-        <div style={filterRow}>
-          <label style={filterLabel}>
-            Min ₹
-            <input
-              type="number"
-              min="0"
-              placeholder="0"
-              value={filters.minPrice}
-              onChange={(e) => handleFilterChange('minPrice', e.target.value)}
-              style={filterInput}
-            />
-          </label>
-
-          <label style={filterLabel}>
-            Max ₹
-            <input
-              type="number"
-              min="0"
-              placeholder="any"
-              value={filters.maxPrice}
-              onChange={(e) => handleFilterChange('maxPrice', e.target.value)}
-              style={filterInput}
-            />
-          </label>
-
-          <label style={{ ...filterLabel, flexDirection: 'row', alignItems: 'center', gap: 6 }}>
-            <input
-              type="checkbox"
-              checked={filters.inStockOnly}
-              onChange={(e) => handleFilterChange('inStockOnly', e.target.checked)}
-              style={{ width: 15, height: 15, cursor: 'pointer' }}
-            />
-            In Stock Only
-          </label>
-
-          <label style={filterLabel}>
-            Sort
-            <select
-              value={filters.sortIndex}
-              onChange={(e) => handleFilterChange('sortIndex', Number(e.target.value))}
-              style={{ ...filterInput, cursor: 'pointer' }}
-            >
-              {SORT_OPTIONS.map((opt, i) => (
-                <option key={i} value={i}>{opt.label}</option>
-              ))}
-            </select>
-          </label>
-
-          {hasActiveFilters && (
-            <button className="btn btn-outline" onClick={clearFilters} style={{ whiteSpace: 'nowrap' }}>
-              Clear Filters
-            </button>
-          )}
-        </div>
-      </div>
-
-      {/* ── Result Count ────────────────────────────────────────────────── */}
-      {!loading && (
-        <p style={resultCount}>
-          {totalItems === 0
-            ? filters.search
-              ? `No products found for "${filters.search}"`
-              : 'No products available.'
-            : `Showing ${products.length} of ${totalItems} product${totalItems !== 1 ? 's' : ''}`}
-        </p>
-      )}
-
-      {/* ── Product Grid ────────────────────────────────────────────────── */}
-      {loading ? (
-        <div className="page-loading">Loading products...</div>
-      ) : products.length === 0 ? (
-        <p className="empty-state" style={{ marginTop: '1rem' }}>
-          {filters.search ? `Try a different keyword.` : 'No products match the selected filters.'}
-        </p>
-      ) : (
-        <>
-          <div className="product-grid">
-            {products.map((product) => (
-              <div key={product.id} className="product-card">
-                <div className="product-card-body">
-                  <h3 className="product-name">{product.name}</h3>
-                  <p className="product-description">{product.description}</p>
-                  {product.sellerName && (
-                    <p style={{ fontSize: '0.78rem', color: '#888', margin: '-4px 0 6px' }}>
-                      Sold by: {product.sellerName}
-                    </p>
-                  )}
-                  <div className="product-meta">
-                    <span className="product-price">₹{Number(product.price).toFixed(2)}</span>
-                    <span className={`product-stock ${product.stockQuantity === 0 ? 'out-of-stock' : ''}`}>
-                      {product.stockQuantity === 0 ? 'Out of stock' : `${product.stockQuantity} in stock`}
-                    </span>
-                  </div>
-                </div>
-                <div className="product-card-footer">
-                  <button
-                    className={`btn ${addedId === product.id ? 'btn-success' : 'btn-primary'} btn-full`}
-                    onClick={() => addToCart(product)}
-                    disabled={product.stockQuantity === 0}
-                  >
-                    {addedId === product.id ? 'Added!' : 'Add to Cart'}
-                  </button>
-                </div>
-              </div>
-            ))}
+        {/* ── Filter Sidebar ────────────────────────────────────────── */}
+        <aside className="filter-sidebar">
+          <div className="filter-header">
+            <span>Filters</span>
+            {hasNonSearchFilters && (
+              <button className="filter-clear" onClick={clearFilters}>CLEAR ALL</button>
+            )}
           </div>
 
-          {totalPages > 1 && (
-            <div style={paginationStyle}>
-              <button
-                className="btn btn-outline"
-                onClick={() => goToPage(currentPage - 1)}
-                disabled={currentPage === 0}
-              >
-                ← Previous
-              </button>
-              <span style={{ color: '#555', fontSize: '0.95rem' }}>
-                Page {currentPage + 1} of {totalPages}
-              </span>
-              <button
-                className="btn btn-outline"
-                onClick={() => goToPage(currentPage + 1)}
-                disabled={currentPage >= totalPages - 1}
-              >
-                Next →
-              </button>
+          {/* Price Range */}
+          <div className="filter-section">
+            <div className="filter-section-title">Price</div>
+            <div className="price-chips">
+              {PRICE_RANGES.map(r => (
+                <button
+                  key={r.label}
+                  className={`price-chip${activePriceRange === r ? ' active' : ''}`}
+                  onClick={() => activePriceRange === r
+                    ? setPriceRange('', '')
+                    : setPriceRange(r.min, r.max)}
+                >
+                  {r.label}
+                </button>
+              ))}
             </div>
+            <div className="price-inputs">
+              <input
+                type="number" min="0" placeholder="Min"
+                value={filters.minPrice}
+                onChange={e => handleFilterChange('minPrice', e.target.value)}
+              />
+              <span>—</span>
+              <input
+                type="number" min="0" placeholder="Max"
+                value={filters.maxPrice}
+                onChange={e => handleFilterChange('maxPrice', e.target.value)}
+              />
+            </div>
+          </div>
+
+          {/* Availability */}
+          <div className="filter-section">
+            <div className="filter-section-title">Availability</div>
+            <div className="filter-opts">
+              <label className="filter-checkbox">
+                <input
+                  type="checkbox"
+                  checked={filters.inStockOnly}
+                  onChange={e => handleFilterChange('inStockOnly', e.target.checked)}
+                />
+                <span>In Stock Only</span>
+              </label>
+            </div>
+          </div>
+
+          {/* Sort */}
+          <div className="filter-section">
+            <div className="filter-section-title">Sort By</div>
+            <div className="filter-opts">
+              {SORTS.map((s, i) => (
+                <label key={i} className="filter-radio">
+                  <input
+                    type="radio" name="sort" value={i}
+                    checked={filters.sortIndex === i}
+                    onChange={() => handleFilterChange('sortIndex', i)}
+                  />
+                  <span>{s.label}</span>
+                </label>
+              ))}
+            </div>
+          </div>
+        </aside>
+
+        {/* ── Products Main Panel ───────────────────────────────────── */}
+        <main className="products-main">
+
+          {/* Results bar */}
+          <div className="results-bar">
+            <span className="results-count">
+              {loading ? 'Loading…' : (
+                <>
+                  <strong>{totalItems}</strong> result{totalItems !== 1 ? 's' : ''}
+                  {filters.search && (
+                    <>
+                      {' for '}
+                      <span className="active-search-chip">
+                        {filters.search}
+                        <button className="chip-close" onClick={clearSearch}>×</button>
+                      </span>
+                    </>
+                  )}
+                </>
+              )}
+            </span>
+          </div>
+
+          {/* Grid or empty state */}
+          {loading ? (
+            <SkeletonGrid />
+          ) : products.length === 0 ? (
+            <div className="empty-state">
+              <div className="empty-state-icon">🔍</div>
+              <h3>No results found{filters.search ? ` for "${filters.search}"` : ''}</h3>
+              <p>Try different keywords or remove filters</p>
+              {(filters.search || hasNonSearchFilters) && (
+                <button className="btn btn-primary" onClick={() => { setFilters(DEFAULT_FILTERS); fetchProducts(DEFAULT_FILTERS, 0); navigate('/products', { replace: true }); }}>
+                  Clear All Filters
+                </button>
+              )}
+            </div>
+          ) : (
+            <>
+              <div className="p-grid-wrapper">
+                <div className="p-grid">
+                  {products.map(product => (
+                    <div
+                      key={product.id}
+                      className="p-card"
+                      onClick={() => navigate(`/products/${product.id}`)}
+                    >
+                      <div className="p-card-img">
+                        {getEmoji(product.name)}
+                        <span className={`p-card-stock badge ${
+                          product.stockQuantity === 0 ? 'badge-danger'
+                          : product.stockQuantity <= 10 ? 'badge-warning'
+                          : 'badge-success'
+                        }`}>
+                          {product.stockQuantity === 0 ? 'Out of Stock'
+                            : product.stockQuantity <= 10 ? `Only ${product.stockQuantity} left`
+                            : 'In Stock'}
+                        </span>
+                      </div>
+                      <div className="p-card-body">
+                        <div className="p-card-name">{product.name}</div>
+                        <div className="p-card-desc">{product.description}</div>
+                        {product.sellerName && (
+                          <div className="p-card-seller">⭐ {product.sellerName}</div>
+                        )}
+                        <div className="p-card-price">₹{Number(product.price).toFixed(2)}</div>
+                      </div>
+                      {isSeller || isAdmin ? (
+                        <span className="p-card-restrict">
+                          {isAdmin ? 'Admin cannot purchase' : 'Use customer account'}
+                        </span>
+                      ) : (
+                        <button
+                          className={`p-card-btn${addedId === product.id ? ' added' : ''}`}
+                          disabled={product.stockQuantity === 0}
+                          onClick={e => addToCart(product, e)}
+                        >
+                          {addedId === product.id ? '✓ Added!' : 'ADD TO CART'}
+                        </button>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {totalPages > 1 && (
+                <div className="pagination">
+                  <button
+                    className="page-btn page-btn-arrow"
+                    onClick={() => goToPage(currentPage - 1)}
+                    disabled={currentPage === 0}
+                  >← Prev</button>
+                  {pageRange(currentPage, totalPages).map((p, i) =>
+                    p === '…' ? (
+                      <span key={`e${i}`} className="page-ellipsis">…</span>
+                    ) : (
+                      <button
+                        key={p}
+                        className={`page-btn${p === currentPage ? ' active' : ''}`}
+                        onClick={() => goToPage(p)}
+                      >{p + 1}</button>
+                    )
+                  )}
+                  <button
+                    className="page-btn page-btn-arrow"
+                    onClick={() => goToPage(currentPage + 1)}
+                    disabled={currentPage >= totalPages - 1}
+                  >Next →</button>
+                </div>
+              )}
+            </>
           )}
-        </>
-      )}
-    </div>
+        </main>
+      </div>
+    </>
   );
 }
-
-// ── Styles ────────────────────────────────────────────────────────────────────
-
-const searchBarCard = {
-  background: '#fff',
-  border: '1px solid #e2e8f0',
-  borderRadius: 10,
-  padding: '1rem 1.25rem',
-  marginBottom: '1rem',
-  boxShadow: '0 1px 4px rgba(0,0,0,0.06)',
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '0.75rem',
-};
-
-const searchRow = {
-  display: 'flex',
-  gap: '0.5rem',
-};
-
-const searchInput_style = {
-  flex: 1,
-  padding: '0.55rem 0.85rem',
-  border: '1px solid #cbd5e0',
-  borderRadius: 6,
-  fontSize: '0.95rem',
-  outline: 'none',
-};
-
-const filterRow = {
-  display: 'flex',
-  flexWrap: 'wrap',
-  gap: '0.75rem',
-  alignItems: 'center',
-};
-
-const filterLabel = {
-  display: 'flex',
-  flexDirection: 'column',
-  fontSize: '0.78rem',
-  fontWeight: 600,
-  color: '#555',
-  gap: 3,
-};
-
-const filterInput = {
-  padding: '0.4rem 0.6rem',
-  border: '1px solid #cbd5e0',
-  borderRadius: 6,
-  fontSize: '0.9rem',
-  width: 110,
-};
-
-const resultCount = {
-  fontSize: '0.88rem',
-  color: '#666',
-  margin: '0 0 0.75rem',
-};
-
-const paginationStyle = {
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  gap: '1.25rem',
-  marginTop: '2rem',
-  paddingTop: '1rem',
-  borderTop: '1px solid #e9ecef',
-};

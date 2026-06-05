@@ -34,67 +34,527 @@
  =========|_|==============|___/=/_/_/_/
 [32m :: Spring Boot :: [39m              [2m (v3.2.4)[0;39m
 
-[2m2026-05-28T18:58:09.788+05:30[0;39m [32m INFO[0;39m [35m87421[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mc.e.o.OrderServiceApplication           [0;39m [2m:[0;39m Starting OrderServiceApplication using Java 23.0.2 with PID 87421 (/Users/aman/ecom-order-system/order-service/target/classes started by aman in /Users/aman/ecom-order-system/order-service)
-[2m2026-05-28T18:58:09.804+05:30[0;39m [32m INFO[0;39m [35m87421[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mc.e.o.OrderServiceApplication           [0;39m [2m:[0;39m No active profile set, falling back to 1 default profile: "default"
-[2m2026-05-28T18:58:11.219+05:30[0;39m [32m INFO[0;39m [35m87421[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36m.s.d.r.c.RepositoryConfigurationDelegate[0;39m [2m:[0;39m Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-[2m2026-05-28T18:58:11.362+05:30[0;39m [32m INFO[0;39m [35m87421[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36m.s.d.r.c.RepositoryConfigurationDelegate[0;39m [2m:[0;39m Finished Spring Data repository scanning in 140 ms. Found 1 JPA repository interface.
-[2m2026-05-28T18:58:11.735+05:30[0;39m [32m INFO[0;39m [35m87421[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mo.s.cloud.context.scope.GenericScope    [0;39m [2m:[0;39m BeanFactory id=b9edf1a9-1518-39e2-9c93-94cb82e84cd7
-[2m2026-05-28T18:58:12.053+05:30[0;39m [33m WARN[0;39m [35m87421[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mtrationDelegate$BeanPostProcessorChecker[0;39m [2m:[0;39m Bean 'org.springframework.cloud.client.loadbalancer.LoadBalancerAutoConfiguration$DeferringLoadBalancerInterceptorConfig' of type [org.springframework.cloud.client.loadbalancer.LoadBalancerAutoConfiguration$DeferringLoadBalancerInterceptorConfig] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). The currently created BeanPostProcessor [lbRestClientPostProcessor] is declared through a non-static factory method on that class; consider declaring it as static instead.
-[2m2026-05-28T18:58:12.057+05:30[0;39m [33m WARN[0;39m [35m87421[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mtrationDelegate$BeanPostProcessorChecker[0;39m [2m:[0;39m Bean 'deferringLoadBalancerInterceptor' of type [org.springframework.cloud.client.loadbalancer.DeferringLoadBalancerInterceptor] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [lbRestClientPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
-[2m2026-05-28T18:58:12.304+05:30[0;39m [32m INFO[0;39m [35m87421[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mo.s.b.w.embedded.tomcat.TomcatWebServer [0;39m [2m:[0;39m Tomcat initialized with port 8083 (http)
-[2m2026-05-28T18:58:12.310+05:30[0;39m [32m INFO[0;39m [35m87421[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mo.apache.catalina.core.StandardService  [0;39m [2m:[0;39m Starting service [Tomcat]
-[2m2026-05-28T18:58:12.310+05:30[0;39m [32m INFO[0;39m [35m87421[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mo.apache.catalina.core.StandardEngine   [0;39m [2m:[0;39m Starting Servlet engine: [Apache Tomcat/10.1.19]
-[2m2026-05-28T18:58:12.345+05:30[0;39m [32m INFO[0;39m [35m87421[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mo.a.c.c.C.[Tomcat].[localhost].[/]      [0;39m [2m:[0;39m Initializing Spring embedded WebApplicationContext
-[2m2026-05-28T18:58:12.346+05:30[0;39m [32m INFO[0;39m [35m87421[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mw.s.c.ServletWebServerApplicationContext[0;39m [2m:[0;39m Root WebApplicationContext: initialization completed in 2464 ms
-[2m2026-05-28T18:58:12.690+05:30[0;39m [32m INFO[0;39m [35m87421[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mo.hibernate.jpa.internal.util.LogHelper [0;39m [2m:[0;39m HHH000204: Processing PersistenceUnitInfo [name: default]
-[2m2026-05-28T18:58:12.719+05:30[0;39m [32m INFO[0;39m [35m87421[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36morg.hibernate.Version                   [0;39m [2m:[0;39m HHH000412: Hibernate ORM core version 6.4.4.Final
-[2m2026-05-28T18:58:12.737+05:30[0;39m [32m INFO[0;39m [35m87421[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mo.h.c.internal.RegionFactoryInitiator   [0;39m [2m:[0;39m HHH000026: Second-level cache disabled
-[2m2026-05-28T18:58:12.857+05:30[0;39m [32m INFO[0;39m [35m87421[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mo.s.o.j.p.SpringPersistenceUnitInfo     [0;39m [2m:[0;39m No LoadTimeWeaver setup: ignoring JPA class transformer
-[2m2026-05-28T18:58:12.872+05:30[0;39m [32m INFO[0;39m [35m87421[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mcom.zaxxer.hikari.HikariDataSource      [0;39m [2m:[0;39m HikariPool-1 - Starting...
-[2m2026-05-28T18:58:12.972+05:30[0;39m [32m INFO[0;39m [35m87421[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mcom.zaxxer.hikari.pool.HikariPool       [0;39m [2m:[0;39m HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@3810806c
-[2m2026-05-28T18:58:12.973+05:30[0;39m [32m INFO[0;39m [35m87421[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mcom.zaxxer.hikari.HikariDataSource      [0;39m [2m:[0;39m HikariPool-1 - Start completed.
-[2m2026-05-28T18:58:13.001+05:30[0;39m [33m WARN[0;39m [35m87421[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36morg.hibernate.orm.deprecation           [0;39m [2m:[0;39m HHH90000025: MySQL8Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-[2m2026-05-28T18:58:13.002+05:30[0;39m [33m WARN[0;39m [35m87421[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36morg.hibernate.orm.deprecation           [0;39m [2m:[0;39m HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
-[2m2026-05-28T18:58:13.501+05:30[0;39m [32m INFO[0;39m [35m87421[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mo.h.e.t.j.p.i.JtaPlatformInitiator      [0;39m [2m:[0;39m HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
-[2m2026-05-28T18:58:13.568+05:30[0;39m [32m INFO[0;39m [35m87421[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mj.LocalContainerEntityManagerFactoryBean[0;39m [2m:[0;39m Initialized JPA EntityManagerFactory for persistence unit 'default'
-[2m2026-05-28T18:58:14.013+05:30[0;39m [33m WARN[0;39m [35m87421[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mJpaBaseConfiguration$JpaWebConfiguration[0;39m [2m:[0;39m spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-[2m2026-05-28T18:58:14.126+05:30[0;39m [32m INFO[0;39m [35m87421[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mo.s.c.openfeign.FeignClientFactoryBean  [0;39m [2m:[0;39m For 'product-service' URL not provided. Will try picking an instance via load-balancing.
-[2m2026-05-28T18:58:14.517+05:30[0;39m [33m WARN[0;39m [35m87421[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36m.s.s.UserDetailsServiceAutoConfiguration[0;39m [2m:[0;39m 
+[2m2026-06-04T22:02:24.003+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mc.e.o.OrderServiceApplication           [0;39m [2m:[0;39m Starting OrderServiceApplication using Java 23.0.2 with PID 34345 (/Users/aman/ecom-order-system/order-service/target/classes started by aman in /Users/aman/ecom-order-system/order-service)
+[2m2026-06-04T22:02:24.005+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mc.e.o.OrderServiceApplication           [0;39m [2m:[0;39m No active profile set, falling back to 1 default profile: "default"
+[2m2026-06-04T22:02:25.699+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36m.s.d.r.c.RepositoryConfigurationDelegate[0;39m [2m:[0;39m Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+[2m2026-06-04T22:02:25.813+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36m.s.d.r.c.RepositoryConfigurationDelegate[0;39m [2m:[0;39m Finished Spring Data repository scanning in 107 ms. Found 1 JPA repository interface.
+[2m2026-06-04T22:02:26.159+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mo.s.cloud.context.scope.GenericScope    [0;39m [2m:[0;39m BeanFactory id=b9edf1a9-1518-39e2-9c93-94cb82e84cd7
+[2m2026-06-04T22:02:26.474+05:30[0;39m [33m WARN[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mtrationDelegate$BeanPostProcessorChecker[0;39m [2m:[0;39m Bean 'org.springframework.cloud.client.loadbalancer.LoadBalancerAutoConfiguration$DeferringLoadBalancerInterceptorConfig' of type [org.springframework.cloud.client.loadbalancer.LoadBalancerAutoConfiguration$DeferringLoadBalancerInterceptorConfig] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). The currently created BeanPostProcessor [lbRestClientPostProcessor] is declared through a non-static factory method on that class; consider declaring it as static instead.
+[2m2026-06-04T22:02:26.477+05:30[0;39m [33m WARN[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mtrationDelegate$BeanPostProcessorChecker[0;39m [2m:[0;39m Bean 'deferringLoadBalancerInterceptor' of type [org.springframework.cloud.client.loadbalancer.DeferringLoadBalancerInterceptor] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [lbRestClientPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+[2m2026-06-04T22:02:26.714+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mo.s.b.w.embedded.tomcat.TomcatWebServer [0;39m [2m:[0;39m Tomcat initialized with port 8083 (http)
+[2m2026-06-04T22:02:26.723+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mo.apache.catalina.core.StandardService  [0;39m [2m:[0;39m Starting service [Tomcat]
+[2m2026-06-04T22:02:26.723+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mo.apache.catalina.core.StandardEngine   [0;39m [2m:[0;39m Starting Servlet engine: [Apache Tomcat/10.1.19]
+[2m2026-06-04T22:02:26.766+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mo.a.c.c.C.[Tomcat].[localhost].[/]      [0;39m [2m:[0;39m Initializing Spring embedded WebApplicationContext
+[2m2026-06-04T22:02:26.767+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mw.s.c.ServletWebServerApplicationContext[0;39m [2m:[0;39m Root WebApplicationContext: initialization completed in 2696 ms
+[2m2026-06-04T22:02:27.144+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mo.hibernate.jpa.internal.util.LogHelper [0;39m [2m:[0;39m HHH000204: Processing PersistenceUnitInfo [name: default]
+[2m2026-06-04T22:02:27.176+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36morg.hibernate.Version                   [0;39m [2m:[0;39m HHH000412: Hibernate ORM core version 6.4.4.Final
+[2m2026-06-04T22:02:27.196+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mo.h.c.internal.RegionFactoryInitiator   [0;39m [2m:[0;39m HHH000026: Second-level cache disabled
+[2m2026-06-04T22:02:27.329+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mo.s.o.j.p.SpringPersistenceUnitInfo     [0;39m [2m:[0;39m No LoadTimeWeaver setup: ignoring JPA class transformer
+[2m2026-06-04T22:02:27.345+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mcom.zaxxer.hikari.HikariDataSource      [0;39m [2m:[0;39m HikariPool-1 - Starting...
+[2m2026-06-04T22:02:27.557+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mcom.zaxxer.hikari.pool.HikariPool       [0;39m [2m:[0;39m HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@71e89a26
+[2m2026-06-04T22:02:27.558+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mcom.zaxxer.hikari.HikariDataSource      [0;39m [2m:[0;39m HikariPool-1 - Start completed.
+[2m2026-06-04T22:02:27.607+05:30[0;39m [33m WARN[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36morg.hibernate.orm.deprecation           [0;39m [2m:[0;39m HHH90000025: MySQL8Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+[2m2026-06-04T22:02:27.608+05:30[0;39m [33m WARN[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36morg.hibernate.orm.deprecation           [0;39m [2m:[0;39m HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
+[2m2026-06-04T22:02:28.188+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mo.h.e.t.j.p.i.JtaPlatformInitiator      [0;39m [2m:[0;39m HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+[2m2026-06-04T22:02:28.240+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mj.LocalContainerEntityManagerFactoryBean[0;39m [2m:[0;39m Initialized JPA EntityManagerFactory for persistence unit 'default'
+[2m2026-06-04T22:02:28.681+05:30[0;39m [33m WARN[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mJpaBaseConfiguration$JpaWebConfiguration[0;39m [2m:[0;39m spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+[2m2026-06-04T22:02:28.788+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mo.s.c.openfeign.FeignClientFactoryBean  [0;39m [2m:[0;39m For 'product-service' URL not provided. Will try picking an instance via load-balancing.
+[2m2026-06-04T22:02:29.172+05:30[0;39m [33m WARN[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36m.s.s.UserDetailsServiceAutoConfiguration[0;39m [2m:[0;39m 
 
-Using generated security password: cdd0d868-1434-4fe1-a803-c5eef5c46fc2
+Using generated security password: c5e78496-95b6-4a85-8336-0acd46949944
 
 This generated password is for development use only. Your security configuration must be updated before running your application in production.
 
-[2m2026-05-28T18:58:14.942+05:30[0;39m [32m INFO[0;39m [35m87421[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mo.s.b.a.e.web.EndpointLinksResolver     [0;39m [2m:[0;39m Exposing 3 endpoint(s) beneath base path '/actuator'
-[2m2026-05-28T18:58:15.032+05:30[0;39m [32m INFO[0;39m [35m87421[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mo.s.s.web.DefaultSecurityFilterChain    [0;39m [2m:[0;39m Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@47d6d2a7, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@61f56074, org.springframework.security.web.context.SecurityContextHolderFilter@3d1637ff, org.springframework.security.web.header.HeaderWriterFilter@7db373b2, org.springframework.web.filter.CorsFilter@95d1ba6, org.springframework.security.web.authentication.logout.LogoutFilter@536905ed, com.ecom.orderservice.security.JwtAuthFilter@6a0e97fc, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@5a30ab46, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@7005b6e, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@637798b4, org.springframework.security.web.session.SessionManagementFilter@2d739a6f, org.springframework.security.web.access.ExceptionTranslationFilter@24a6655d, org.springframework.security.web.access.intercept.AuthorizationFilter@74cca90]
-[2m2026-05-28T18:58:15.676+05:30[0;39m [32m INFO[0;39m [35m87421[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mDiscoveryClientOptionalArgsConfiguration[0;39m [2m:[0;39m Eureka HTTP Client uses RestTemplate.
-[2m2026-05-28T18:58:15.715+05:30[0;39m [33m WARN[0;39m [35m87421[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36miguration$LoadBalancerCaffeineWarnLogger[0;39m [2m:[0;39m Spring Cloud LoadBalancer is currently working with the default cache. While this cache implementation is useful for development and tests, it's recommended to use Caffeine cache in production.You can switch to using Caffeine cache, by adding it and org.springframework.cache.caffeine.CaffeineCacheManager to the classpath.
-[2m2026-05-28T18:58:15.780+05:30[0;39m [32m INFO[0;39m [35m87421[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mo.s.c.n.eureka.InstanceInfoFactory      [0;39m [2m:[0;39m Setting initial instance status as: STARTING
-[2m2026-05-28T18:58:15.840+05:30[0;39m [32m INFO[0;39m [35m87421[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mcom.netflix.discovery.DiscoveryClient   [0;39m [2m:[0;39m Initializing Eureka in region us-east-1
-[2m2026-05-28T18:58:15.842+05:30[0;39m [32m INFO[0;39m [35m87421[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mc.n.d.s.r.aws.ConfigClusterResolver     [0;39m [2m:[0;39m Resolving eureka endpoints via configuration
-[2m2026-05-28T18:58:15.852+05:30[0;39m [32m INFO[0;39m [35m87421[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mcom.netflix.discovery.DiscoveryClient   [0;39m [2m:[0;39m Disable delta property : false
-[2m2026-05-28T18:58:15.852+05:30[0;39m [32m INFO[0;39m [35m87421[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mcom.netflix.discovery.DiscoveryClient   [0;39m [2m:[0;39m Single vip registry refresh property : null
-[2m2026-05-28T18:58:15.852+05:30[0;39m [32m INFO[0;39m [35m87421[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mcom.netflix.discovery.DiscoveryClient   [0;39m [2m:[0;39m Force full registry fetch : false
-[2m2026-05-28T18:58:15.852+05:30[0;39m [32m INFO[0;39m [35m87421[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mcom.netflix.discovery.DiscoveryClient   [0;39m [2m:[0;39m Application is null : false
-[2m2026-05-28T18:58:15.852+05:30[0;39m [32m INFO[0;39m [35m87421[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mcom.netflix.discovery.DiscoveryClient   [0;39m [2m:[0;39m Registered Applications size is zero : true
-[2m2026-05-28T18:58:15.852+05:30[0;39m [32m INFO[0;39m [35m87421[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mcom.netflix.discovery.DiscoveryClient   [0;39m [2m:[0;39m Application version is -1: true
-[2m2026-05-28T18:58:15.852+05:30[0;39m [32m INFO[0;39m [35m87421[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mcom.netflix.discovery.DiscoveryClient   [0;39m [2m:[0;39m Getting all instance registry info from the eureka server
-[2m2026-05-28T18:58:15.969+05:30[0;39m [32m INFO[0;39m [35m87421[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mcom.netflix.discovery.DiscoveryClient   [0;39m [2m:[0;39m The response status is 200
-[2m2026-05-28T18:58:15.970+05:30[0;39m [32m INFO[0;39m [35m87421[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mcom.netflix.discovery.DiscoveryClient   [0;39m [2m:[0;39m Starting heartbeat executor: renew interval is: 30
-[2m2026-05-28T18:58:15.971+05:30[0;39m [32m INFO[0;39m [35m87421[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mc.n.discovery.InstanceInfoReplicator    [0;39m [2m:[0;39m InstanceInfoReplicator onDemand update allowed rate per min is 4
-[2m2026-05-28T18:58:15.973+05:30[0;39m [32m INFO[0;39m [35m87421[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mcom.netflix.discovery.DiscoveryClient   [0;39m [2m:[0;39m Discovery Client initialized at timestamp 1779974895973 with initial instances count: 0
-[2m2026-05-28T18:58:15.981+05:30[0;39m [32m INFO[0;39m [35m87421[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mo.s.c.n.e.s.EurekaServiceRegistry       [0;39m [2m:[0;39m Registering application ORDER-SERVICE with eureka with status UP
-[2m2026-05-28T18:58:15.982+05:30[0;39m [32m INFO[0;39m [35m87421[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mcom.netflix.discovery.DiscoveryClient   [0;39m [2m:[0;39m Saw local status change event StatusChangeEvent [timestamp=1779974895982, current=UP, previous=STARTING]
-[2m2026-05-28T18:58:15.982+05:30[0;39m [32m INFO[0;39m [35m87421[0;39m [2m---[0;39m [2m[order-service] [nfoReplicator-0][0;39m [2m[0;39m[36mcom.netflix.discovery.DiscoveryClient   [0;39m [2m:[0;39m DiscoveryClient_ORDER-SERVICE/192.168.1.41:order-service:8083: registering service...
-[2m2026-05-28T18:58:15.990+05:30[0;39m [32m INFO[0;39m [35m87421[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mo.s.b.w.embedded.tomcat.TomcatWebServer [0;39m [2m:[0;39m Tomcat started on port 8083 (http) with context path ''
-[2m2026-05-28T18:58:15.990+05:30[0;39m [32m INFO[0;39m [35m87421[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36m.s.c.n.e.s.EurekaAutoServiceRegistration[0;39m [2m:[0;39m Updating port to 8083
-[2m2026-05-28T18:58:16.001+05:30[0;39m [32m INFO[0;39m [35m87421[0;39m [2m---[0;39m [2m[order-service] [nfoReplicator-0][0;39m [2m[0;39m[36mcom.netflix.discovery.DiscoveryClient   [0;39m [2m:[0;39m DiscoveryClient_ORDER-SERVICE/192.168.1.41:order-service:8083 - registration status: 204
-[2m2026-05-28T18:58:16.005+05:30[0;39m [32m INFO[0;39m [35m87421[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mc.e.o.OrderServiceApplication           [0;39m [2m:[0;39m Started OrderServiceApplication in 6.569 seconds (process running for 6.865)
-[2m2026-05-28T18:58:45.986+05:30[0;39m [32m INFO[0;39m [35m87421[0;39m [2m---[0;39m [2m[order-service] [freshExecutor-0][0;39m [2m[0;39m[36mcom.netflix.discovery.DiscoveryClient   [0;39m [2m:[0;39m Disable delta property : false
-[2m2026-05-28T18:58:45.994+05:30[0;39m [32m INFO[0;39m [35m87421[0;39m [2m---[0;39m [2m[order-service] [freshExecutor-0][0;39m [2m[0;39m[36mcom.netflix.discovery.DiscoveryClient   [0;39m [2m:[0;39m Single vip registry refresh property : null
-[2m2026-05-28T18:58:45.994+05:30[0;39m [32m INFO[0;39m [35m87421[0;39m [2m---[0;39m [2m[order-service] [freshExecutor-0][0;39m [2m[0;39m[36mcom.netflix.discovery.DiscoveryClient   [0;39m [2m:[0;39m Force full registry fetch : false
-[2m2026-05-28T18:58:45.995+05:30[0;39m [32m INFO[0;39m [35m87421[0;39m [2m---[0;39m [2m[order-service] [freshExecutor-0][0;39m [2m[0;39m[36mcom.netflix.discovery.DiscoveryClient   [0;39m [2m:[0;39m Application is null : false
-[2m2026-05-28T18:58:45.995+05:30[0;39m [32m INFO[0;39m [35m87421[0;39m [2m---[0;39m [2m[order-service] [freshExecutor-0][0;39m [2m[0;39m[36mcom.netflix.discovery.DiscoveryClient   [0;39m [2m:[0;39m Registered Applications size is zero : true
-[2m2026-05-28T18:58:45.995+05:30[0;39m [32m INFO[0;39m [35m87421[0;39m [2m---[0;39m [2m[order-service] [freshExecutor-0][0;39m [2m[0;39m[36mcom.netflix.discovery.DiscoveryClient   [0;39m [2m:[0;39m Application version is -1: false
-[2m2026-05-28T18:58:45.995+05:30[0;39m [32m INFO[0;39m [35m87421[0;39m [2m---[0;39m [2m[order-service] [freshExecutor-0][0;39m [2m[0;39m[36mcom.netflix.discovery.DiscoveryClient   [0;39m [2m:[0;39m Getting all instance registry info from the eureka server
-[2m2026-05-28T18:58:46.045+05:30[0;39m [32m INFO[0;39m [35m87421[0;39m [2m---[0;39m [2m[order-service] [freshExecutor-0][0;39m [2m[0;39m[36mcom.netflix.discovery.DiscoveryClient   [0;39m [2m:[0;39m The response status is 200
+[2m2026-06-04T22:02:29.642+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mo.s.b.a.e.web.EndpointLinksResolver     [0;39m [2m:[0;39m Exposing 3 endpoint(s) beneath base path '/actuator'
+[2m2026-06-04T22:02:29.739+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mo.s.s.web.DefaultSecurityFilterChain    [0;39m [2m:[0;39m Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@31eed3bc, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@7ef60643, org.springframework.security.web.context.SecurityContextHolderFilter@1b9b8759, org.springframework.security.web.header.HeaderWriterFilter@7c458ad3, org.springframework.web.filter.CorsFilter@1fd49ed3, org.springframework.security.web.authentication.logout.LogoutFilter@4a5f435b, com.ecom.orderservice.security.JwtAuthFilter@c0004b7, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@496de48b, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@328c6f65, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@7d972029, org.springframework.security.web.session.SessionManagementFilter@c0ef9a8, org.springframework.security.web.access.ExceptionTranslationFilter@2142754a, org.springframework.security.web.access.intercept.AuthorizationFilter@1bbe7fcb]
+[2m2026-06-04T22:02:30.422+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mDiscoveryClientOptionalArgsConfiguration[0;39m [2m:[0;39m Eureka HTTP Client uses RestTemplate.
+[2m2026-06-04T22:02:30.462+05:30[0;39m [33m WARN[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36miguration$LoadBalancerCaffeineWarnLogger[0;39m [2m:[0;39m Spring Cloud LoadBalancer is currently working with the default cache. While this cache implementation is useful for development and tests, it's recommended to use Caffeine cache in production.You can switch to using Caffeine cache, by adding it and org.springframework.cache.caffeine.CaffeineCacheManager to the classpath.
+[2m2026-06-04T22:02:30.504+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mo.s.c.n.eureka.InstanceInfoFactory      [0;39m [2m:[0;39m Setting initial instance status as: STARTING
+[2m2026-06-04T22:02:30.553+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mcom.netflix.discovery.DiscoveryClient   [0;39m [2m:[0;39m Initializing Eureka in region us-east-1
+[2m2026-06-04T22:02:30.555+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mc.n.d.s.r.aws.ConfigClusterResolver     [0;39m [2m:[0;39m Resolving eureka endpoints via configuration
+[2m2026-06-04T22:02:30.565+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mcom.netflix.discovery.DiscoveryClient   [0;39m [2m:[0;39m Disable delta property : false
+[2m2026-06-04T22:02:30.565+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mcom.netflix.discovery.DiscoveryClient   [0;39m [2m:[0;39m Single vip registry refresh property : null
+[2m2026-06-04T22:02:30.565+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mcom.netflix.discovery.DiscoveryClient   [0;39m [2m:[0;39m Force full registry fetch : false
+[2m2026-06-04T22:02:30.565+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mcom.netflix.discovery.DiscoveryClient   [0;39m [2m:[0;39m Application is null : false
+[2m2026-06-04T22:02:30.565+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mcom.netflix.discovery.DiscoveryClient   [0;39m [2m:[0;39m Registered Applications size is zero : true
+[2m2026-06-04T22:02:30.565+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mcom.netflix.discovery.DiscoveryClient   [0;39m [2m:[0;39m Application version is -1: true
+[2m2026-06-04T22:02:30.565+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mcom.netflix.discovery.DiscoveryClient   [0;39m [2m:[0;39m Getting all instance registry info from the eureka server
+[2m2026-06-04T22:02:30.700+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mcom.netflix.discovery.DiscoveryClient   [0;39m [2m:[0;39m The response status is 200
+[2m2026-06-04T22:02:30.701+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mcom.netflix.discovery.DiscoveryClient   [0;39m [2m:[0;39m Starting heartbeat executor: renew interval is: 30
+[2m2026-06-04T22:02:30.702+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mc.n.discovery.InstanceInfoReplicator    [0;39m [2m:[0;39m InstanceInfoReplicator onDemand update allowed rate per min is 4
+[2m2026-06-04T22:02:30.704+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mcom.netflix.discovery.DiscoveryClient   [0;39m [2m:[0;39m Discovery Client initialized at timestamp 1780590750703 with initial instances count: 3
+[2m2026-06-04T22:02:30.712+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mo.s.c.n.e.s.EurekaServiceRegistry       [0;39m [2m:[0;39m Registering application ORDER-SERVICE with eureka with status UP
+[2m2026-06-04T22:02:30.713+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mcom.netflix.discovery.DiscoveryClient   [0;39m [2m:[0;39m Saw local status change event StatusChangeEvent [timestamp=1780590750713, current=UP, previous=STARTING]
+[2m2026-06-04T22:02:30.713+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [nfoReplicator-0][0;39m [2m[0;39m[36mcom.netflix.discovery.DiscoveryClient   [0;39m [2m:[0;39m DiscoveryClient_ORDER-SERVICE/192.168.1.41:order-service:8083: registering service...
+[2m2026-06-04T22:02:30.721+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mo.s.b.w.embedded.tomcat.TomcatWebServer [0;39m [2m:[0;39m Tomcat started on port 8083 (http) with context path ''
+[2m2026-06-04T22:02:30.722+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36m.s.c.n.e.s.EurekaAutoServiceRegistration[0;39m [2m:[0;39m Updating port to 8083
+[2m2026-06-04T22:02:30.735+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [nfoReplicator-0][0;39m [2m[0;39m[36mcom.netflix.discovery.DiscoveryClient   [0;39m [2m:[0;39m DiscoveryClient_ORDER-SERVICE/192.168.1.41:order-service:8083 - registration status: 204
+[2m2026-06-04T22:02:30.738+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [           main][0;39m [2m[0;39m[36mc.e.o.OrderServiceApplication           [0;39m [2m:[0;39m Started OrderServiceApplication in 7.171 seconds (process running for 7.638)
+[2m2026-06-04T22:07:30.563+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [trap-executor-0][0;39m [2m[0;39m[36mc.n.d.s.r.aws.ConfigClusterResolver     [0;39m [2m:[0;39m Resolving eureka endpoints via configuration
+[2m2026-06-04T22:12:30.561+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [trap-executor-0][0;39m [2m[0;39m[36mc.n.d.s.r.aws.ConfigClusterResolver     [0;39m [2m:[0;39m Resolving eureka endpoints via configuration
+[2m2026-06-04T22:17:30.562+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [trap-executor-0][0;39m [2m[0;39m[36mc.n.d.s.r.aws.ConfigClusterResolver     [0;39m [2m:[0;39m Resolving eureka endpoints via configuration
+[2m2026-06-04T22:22:30.568+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [trap-executor-0][0;39m [2m[0;39m[36mc.n.d.s.r.aws.ConfigClusterResolver     [0;39m [2m:[0;39m Resolving eureka endpoints via configuration
+[2m2026-06-04T22:27:30.565+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [trap-executor-0][0;39m [2m[0;39m[36mc.n.d.s.r.aws.ConfigClusterResolver     [0;39m [2m:[0;39m Resolving eureka endpoints via configuration
+[2m2026-06-04T22:32:30.562+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [trap-executor-0][0;39m [2m[0;39m[36mc.n.d.s.r.aws.ConfigClusterResolver     [0;39m [2m:[0;39m Resolving eureka endpoints via configuration
+[2m2026-06-04T22:37:30.568+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [trap-executor-0][0;39m [2m[0;39m[36mc.n.d.s.r.aws.ConfigClusterResolver     [0;39m [2m:[0;39m Resolving eureka endpoints via configuration
+[2m2026-06-04T22:42:30.567+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [trap-executor-0][0;39m [2m[0;39m[36mc.n.d.s.r.aws.ConfigClusterResolver     [0;39m [2m:[0;39m Resolving eureka endpoints via configuration
+[2m2026-06-04T22:44:21.875+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [nio-8083-exec-1][0;39m [2m[0;39m[36mo.a.c.c.C.[Tomcat].[localhost].[/]      [0;39m [2m:[0;39m Initializing Spring DispatcherServlet 'dispatcherServlet'
+[2m2026-06-04T22:44:21.876+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [nio-8083-exec-1][0;39m [2m[0;39m[36mo.s.web.servlet.DispatcherServlet       [0;39m [2m:[0;39m Initializing Servlet 'dispatcherServlet'
+[2m2026-06-04T22:44:21.959+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [nio-8083-exec-1][0;39m [2m[0;39m[36mo.s.web.servlet.DispatcherServlet       [0;39m [2m:[0;39m Completed initialization in 83 ms
+Hibernate: 
+    select
+        o1_0.id,
+        o1_0.created_at,
+        o1_0.status,
+        o1_0.total_amount,
+        o1_0.updated_at,
+        o1_0.user_email,
+        o1_0.user_id 
+    from
+        orders o1_0 
+    where
+        o1_0.user_id=? 
+    order by
+        o1_0.created_at desc 
+    limit
+        ?, ?
+Hibernate: 
+    select
+        oi1_0.order_id,
+        oi1_0.id,
+        oi1_0.product_id,
+        oi1_0.product_name,
+        oi1_0.quantity,
+        oi1_0.unit_price 
+    from
+        order_items oi1_0 
+    where
+        oi1_0.order_id=?
+Hibernate: 
+    select
+        oi1_0.order_id,
+        oi1_0.id,
+        oi1_0.product_id,
+        oi1_0.product_name,
+        oi1_0.quantity,
+        oi1_0.unit_price 
+    from
+        order_items oi1_0 
+    where
+        oi1_0.order_id=?
+Hibernate: 
+    select
+        oi1_0.order_id,
+        oi1_0.id,
+        oi1_0.product_id,
+        oi1_0.product_name,
+        oi1_0.quantity,
+        oi1_0.unit_price 
+    from
+        order_items oi1_0 
+    where
+        oi1_0.order_id=?
+Hibernate: 
+    select
+        o1_0.id,
+        o1_0.created_at,
+        o1_0.status,
+        o1_0.total_amount,
+        o1_0.updated_at,
+        o1_0.user_email,
+        o1_0.user_id 
+    from
+        orders o1_0 
+    where
+        o1_0.user_id=? 
+    order by
+        o1_0.created_at desc 
+    limit
+        ?, ?
+Hibernate: 
+    select
+        oi1_0.order_id,
+        oi1_0.id,
+        oi1_0.product_id,
+        oi1_0.product_name,
+        oi1_0.quantity,
+        oi1_0.unit_price 
+    from
+        order_items oi1_0 
+    where
+        oi1_0.order_id=?
+Hibernate: 
+    select
+        oi1_0.order_id,
+        oi1_0.id,
+        oi1_0.product_id,
+        oi1_0.product_name,
+        oi1_0.quantity,
+        oi1_0.unit_price 
+    from
+        order_items oi1_0 
+    where
+        oi1_0.order_id=?
+Hibernate: 
+    select
+        oi1_0.order_id,
+        oi1_0.id,
+        oi1_0.product_id,
+        oi1_0.product_name,
+        oi1_0.quantity,
+        oi1_0.unit_price 
+    from
+        order_items oi1_0 
+    where
+        oi1_0.order_id=?
+Hibernate: 
+    select
+        o1_0.id,
+        o1_0.created_at,
+        o1_0.status,
+        o1_0.total_amount,
+        o1_0.updated_at,
+        o1_0.user_email,
+        o1_0.user_id 
+    from
+        orders o1_0 
+    where
+        o1_0.user_id=? 
+    order by
+        o1_0.created_at desc 
+    limit
+        ?, ?
+Hibernate: 
+    select
+        oi1_0.order_id,
+        oi1_0.id,
+        oi1_0.product_id,
+        oi1_0.product_name,
+        oi1_0.quantity,
+        oi1_0.unit_price 
+    from
+        order_items oi1_0 
+    where
+        oi1_0.order_id=?
+Hibernate: 
+    select
+        oi1_0.order_id,
+        oi1_0.id,
+        oi1_0.product_id,
+        oi1_0.product_name,
+        oi1_0.quantity,
+        oi1_0.unit_price 
+    from
+        order_items oi1_0 
+    where
+        oi1_0.order_id=?
+Hibernate: 
+    select
+        oi1_0.order_id,
+        oi1_0.id,
+        oi1_0.product_id,
+        oi1_0.product_name,
+        oi1_0.quantity,
+        oi1_0.unit_price 
+    from
+        order_items oi1_0 
+    where
+        oi1_0.order_id=?
+Hibernate: 
+    select
+        o1_0.id,
+        o1_0.created_at,
+        o1_0.status,
+        o1_0.total_amount,
+        o1_0.updated_at,
+        o1_0.user_email,
+        o1_0.user_id 
+    from
+        orders o1_0 
+    where
+        o1_0.user_id=? 
+    order by
+        o1_0.created_at desc 
+    limit
+        ?, ?
+Hibernate: 
+    select
+        oi1_0.order_id,
+        oi1_0.id,
+        oi1_0.product_id,
+        oi1_0.product_name,
+        oi1_0.quantity,
+        oi1_0.unit_price 
+    from
+        order_items oi1_0 
+    where
+        oi1_0.order_id=?
+Hibernate: 
+    select
+        oi1_0.order_id,
+        oi1_0.id,
+        oi1_0.product_id,
+        oi1_0.product_name,
+        oi1_0.quantity,
+        oi1_0.unit_price 
+    from
+        order_items oi1_0 
+    where
+        oi1_0.order_id=?
+Hibernate: 
+    select
+        oi1_0.order_id,
+        oi1_0.id,
+        oi1_0.product_id,
+        oi1_0.product_name,
+        oi1_0.quantity,
+        oi1_0.unit_price 
+    from
+        order_items oi1_0 
+    where
+        oi1_0.order_id=?
+[2m2026-06-04T22:47:30.567+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [trap-executor-0][0;39m [2m[0;39m[36mc.n.d.s.r.aws.ConfigClusterResolver     [0;39m [2m:[0;39m Resolving eureka endpoints via configuration
+[2m2026-06-04T22:48:12.304+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [nio-8083-exec-7][0;39m [2m[0;39m[36mc.e.o.controller.OrderController        [0;39m [2m:[0;39m User amankumar260899@gmail.com placing order
+[2m2026-06-04T22:48:12.324+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [nio-8083-exec-7][0;39m [2m[0;39m[36mc.e.orderservice.service.OrderService   [0;39m [2m:[0;39m Placing order for userId=5 email=amankumar260899@gmail.com
+Hibernate: 
+    insert 
+    into
+        orders
+        (created_at, status, total_amount, updated_at, user_email, user_id) 
+    values
+        (?, ?, ?, ?, ?, ?)
+Hibernate: 
+    insert 
+    into
+        order_items
+        (order_id, product_id, product_name, quantity, unit_price) 
+    values
+        (?, ?, ?, ?, ?)
+[2m2026-06-04T22:48:12.812+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [nio-8083-exec-7][0;39m [2m[0;39m[36mc.e.orderservice.service.OrderService   [0;39m [2m:[0;39m Order 18 placed for userId=5
+[2m2026-06-04T22:48:12.823+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [nio-8083-exec-7][0;39m [2m[0;39m[36mo.s.a.r.c.CachingConnectionFactory      [0;39m [2m:[0;39m Attempting to connect to: [localhost:5672]
+[2m2026-06-04T22:48:12.899+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [nio-8083-exec-7][0;39m [2m[0;39m[36mo.s.a.r.c.CachingConnectionFactory      [0;39m [2m:[0;39m Created new connection: rabbitConnectionFactory#500341c4:0/SimpleConnection@bc8ba66 [delegate=amqp://guest@127.0.0.1:5672/, localPort=53620]
+[2m2026-06-04T22:48:12.973+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [nio-8083-exec-7][0;39m [2m[0;39m[36mc.e.orderservice.service.OrderService   [0;39m [2m:[0;39m Published order.placed event for order 18 with 1 seller notification(s)
+Hibernate: 
+    select
+        o1_0.id,
+        o1_0.created_at,
+        o1_0.status,
+        o1_0.total_amount,
+        o1_0.updated_at,
+        o1_0.user_email,
+        o1_0.user_id 
+    from
+        orders o1_0 
+    where
+        o1_0.user_id=? 
+    order by
+        o1_0.created_at desc 
+    limit
+        ?, ?
+Hibernate: 
+    select
+        oi1_0.order_id,
+        oi1_0.id,
+        oi1_0.product_id,
+        oi1_0.product_name,
+        oi1_0.quantity,
+        oi1_0.unit_price 
+    from
+        order_items oi1_0 
+    where
+        oi1_0.order_id=?
+Hibernate: 
+    select
+        oi1_0.order_id,
+        oi1_0.id,
+        oi1_0.product_id,
+        oi1_0.product_name,
+        oi1_0.quantity,
+        oi1_0.unit_price 
+    from
+        order_items oi1_0 
+    where
+        oi1_0.order_id=?
+Hibernate: 
+    select
+        oi1_0.order_id,
+        oi1_0.id,
+        oi1_0.product_id,
+        oi1_0.product_name,
+        oi1_0.quantity,
+        oi1_0.unit_price 
+    from
+        order_items oi1_0 
+    where
+        oi1_0.order_id=?
+Hibernate: 
+    select
+        oi1_0.order_id,
+        oi1_0.id,
+        oi1_0.product_id,
+        oi1_0.product_name,
+        oi1_0.quantity,
+        oi1_0.unit_price 
+    from
+        order_items oi1_0 
+    where
+        oi1_0.order_id=?
+Hibernate: 
+    select
+        o1_0.id,
+        o1_0.created_at,
+        o1_0.status,
+        o1_0.total_amount,
+        o1_0.updated_at,
+        o1_0.user_email,
+        o1_0.user_id 
+    from
+        orders o1_0 
+    where
+        o1_0.user_id=? 
+    order by
+        o1_0.created_at desc 
+    limit
+        ?, ?
+Hibernate: 
+    select
+        oi1_0.order_id,
+        oi1_0.id,
+        oi1_0.product_id,
+        oi1_0.product_name,
+        oi1_0.quantity,
+        oi1_0.unit_price 
+    from
+        order_items oi1_0 
+    where
+        oi1_0.order_id=?
+Hibernate: 
+    select
+        oi1_0.order_id,
+        oi1_0.id,
+        oi1_0.product_id,
+        oi1_0.product_name,
+        oi1_0.quantity,
+        oi1_0.unit_price 
+    from
+        order_items oi1_0 
+    where
+        oi1_0.order_id=?
+Hibernate: 
+    select
+        oi1_0.order_id,
+        oi1_0.id,
+        oi1_0.product_id,
+        oi1_0.product_name,
+        oi1_0.quantity,
+        oi1_0.unit_price 
+    from
+        order_items oi1_0 
+    where
+        oi1_0.order_id=?
+Hibernate: 
+    select
+        oi1_0.order_id,
+        oi1_0.id,
+        oi1_0.product_id,
+        oi1_0.product_name,
+        oi1_0.quantity,
+        oi1_0.unit_price 
+    from
+        order_items oi1_0 
+    where
+        oi1_0.order_id=?
+[2m2026-06-04T22:52:30.582+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [trap-executor-0][0;39m [2m[0;39m[36mc.n.d.s.r.aws.ConfigClusterResolver     [0;39m [2m:[0;39m Resolving eureka endpoints via configuration
+[2m2026-06-04T22:57:30.580+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [trap-executor-0][0;39m [2m[0;39m[36mc.n.d.s.r.aws.ConfigClusterResolver     [0;39m [2m:[0;39m Resolving eureka endpoints via configuration
+[2m2026-06-04T23:02:30.577+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [trap-executor-0][0;39m [2m[0;39m[36mc.n.d.s.r.aws.ConfigClusterResolver     [0;39m [2m:[0;39m Resolving eureka endpoints via configuration
+[2m2026-06-04T23:07:30.581+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [trap-executor-0][0;39m [2m[0;39m[36mc.n.d.s.r.aws.ConfigClusterResolver     [0;39m [2m:[0;39m Resolving eureka endpoints via configuration
+[2m2026-06-04T23:12:30.582+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [trap-executor-0][0;39m [2m[0;39m[36mc.n.d.s.r.aws.ConfigClusterResolver     [0;39m [2m:[0;39m Resolving eureka endpoints via configuration
+[2m2026-06-04T23:17:30.582+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [trap-executor-0][0;39m [2m[0;39m[36mc.n.d.s.r.aws.ConfigClusterResolver     [0;39m [2m:[0;39m Resolving eureka endpoints via configuration
+[2m2026-06-04T23:22:30.584+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [trap-executor-0][0;39m [2m[0;39m[36mc.n.d.s.r.aws.ConfigClusterResolver     [0;39m [2m:[0;39m Resolving eureka endpoints via configuration
+[2m2026-06-04T23:27:30.580+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [trap-executor-0][0;39m [2m[0;39m[36mc.n.d.s.r.aws.ConfigClusterResolver     [0;39m [2m:[0;39m Resolving eureka endpoints via configuration
+[2m2026-06-04T23:32:30.577+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [trap-executor-0][0;39m [2m[0;39m[36mc.n.d.s.r.aws.ConfigClusterResolver     [0;39m [2m:[0;39m Resolving eureka endpoints via configuration
+[2m2026-06-04T23:37:30.567+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [trap-executor-0][0;39m [2m[0;39m[36mc.n.d.s.r.aws.ConfigClusterResolver     [0;39m [2m:[0;39m Resolving eureka endpoints via configuration
+[2m2026-06-04T23:42:30.564+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [trap-executor-0][0;39m [2m[0;39m[36mc.n.d.s.r.aws.ConfigClusterResolver     [0;39m [2m:[0;39m Resolving eureka endpoints via configuration
+[2m2026-06-04T23:47:30.560+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [trap-executor-0][0;39m [2m[0;39m[36mc.n.d.s.r.aws.ConfigClusterResolver     [0;39m [2m:[0;39m Resolving eureka endpoints via configuration
+[2m2026-06-04T23:52:30.558+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [trap-executor-0][0;39m [2m[0;39m[36mc.n.d.s.r.aws.ConfigClusterResolver     [0;39m [2m:[0;39m Resolving eureka endpoints via configuration
+[2m2026-06-04T23:57:30.563+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [trap-executor-0][0;39m [2m[0;39m[36mc.n.d.s.r.aws.ConfigClusterResolver     [0;39m [2m:[0;39m Resolving eureka endpoints via configuration
+[2m2026-06-05T00:02:30.560+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [trap-executor-0][0;39m [2m[0;39m[36mc.n.d.s.r.aws.ConfigClusterResolver     [0;39m [2m:[0;39m Resolving eureka endpoints via configuration
+[2m2026-06-05T00:07:30.558+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [trap-executor-0][0;39m [2m[0;39m[36mc.n.d.s.r.aws.ConfigClusterResolver     [0;39m [2m:[0;39m Resolving eureka endpoints via configuration
+[2m2026-06-05T00:12:30.559+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [trap-executor-0][0;39m [2m[0;39m[36mc.n.d.s.r.aws.ConfigClusterResolver     [0;39m [2m:[0;39m Resolving eureka endpoints via configuration
+[2m2026-06-05T00:17:30.557+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [trap-executor-0][0;39m [2m[0;39m[36mc.n.d.s.r.aws.ConfigClusterResolver     [0;39m [2m:[0;39m Resolving eureka endpoints via configuration
+[2m2026-06-05T00:22:30.552+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [trap-executor-0][0;39m [2m[0;39m[36mc.n.d.s.r.aws.ConfigClusterResolver     [0;39m [2m:[0;39m Resolving eureka endpoints via configuration
+[2m2026-06-05T00:27:30.548+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [trap-executor-0][0;39m [2m[0;39m[36mc.n.d.s.r.aws.ConfigClusterResolver     [0;39m [2m:[0;39m Resolving eureka endpoints via configuration
+[2m2026-06-05T00:36:11.349+05:30[0;39m [33m WARN[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [l-1 housekeeper][0;39m [2m[0;39m[36mcom.zaxxer.hikari.pool.HikariPool       [0;39m [2m:[0;39m HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=5m42s719ms).
+[2m2026-06-05T00:44:02.416+05:30[0;39m [33m WARN[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [l-1 housekeeper][0;39m [2m[0;39m[36mcom.zaxxer.hikari.pool.HikariPool       [0;39m [2m:[0;39m HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=7m51s68ms).
+[2m2026-06-05T00:46:28.546+05:30[0;39m [33m WARN[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [l-1 housekeeper][0;39m [2m[0;39m[36mcom.zaxxer.hikari.pool.HikariPool       [0;39m [2m:[0;39m HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1m56s122ms).
+[2m2026-06-05T00:46:30.428+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [trap-executor-0][0;39m [2m[0;39m[36mc.n.d.s.r.aws.ConfigClusterResolver     [0;39m [2m:[0;39m Resolving eureka endpoints via configuration
+[2m2026-06-05T00:51:30.409+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [trap-executor-0][0;39m [2m[0;39m[36mc.n.d.s.r.aws.ConfigClusterResolver     [0;39m [2m:[0;39m Resolving eureka endpoints via configuration
+[2m2026-06-05T00:56:30.415+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [trap-executor-0][0;39m [2m[0;39m[36mc.n.d.s.r.aws.ConfigClusterResolver     [0;39m [2m:[0;39m Resolving eureka endpoints via configuration
+[2m2026-06-05T01:01:30.408+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [trap-executor-0][0;39m [2m[0;39m[36mc.n.d.s.r.aws.ConfigClusterResolver     [0;39m [2m:[0;39m Resolving eureka endpoints via configuration
+[2m2026-06-05T01:06:30.408+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [trap-executor-0][0;39m [2m[0;39m[36mc.n.d.s.r.aws.ConfigClusterResolver     [0;39m [2m:[0;39m Resolving eureka endpoints via configuration
+[2m2026-06-05T01:11:30.415+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [trap-executor-0][0;39m [2m[0;39m[36mc.n.d.s.r.aws.ConfigClusterResolver     [0;39m [2m:[0;39m Resolving eureka endpoints via configuration
+[2m2026-06-05T01:16:30.409+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [trap-executor-0][0;39m [2m[0;39m[36mc.n.d.s.r.aws.ConfigClusterResolver     [0;39m [2m:[0;39m Resolving eureka endpoints via configuration
+[2m2026-06-05T01:21:30.405+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [trap-executor-0][0;39m [2m[0;39m[36mc.n.d.s.r.aws.ConfigClusterResolver     [0;39m [2m:[0;39m Resolving eureka endpoints via configuration
+[2m2026-06-05T01:26:30.405+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [trap-executor-0][0;39m [2m[0;39m[36mc.n.d.s.r.aws.ConfigClusterResolver     [0;39m [2m:[0;39m Resolving eureka endpoints via configuration
+[2m2026-06-05T01:31:30.401+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [trap-executor-0][0;39m [2m[0;39m[36mc.n.d.s.r.aws.ConfigClusterResolver     [0;39m [2m:[0;39m Resolving eureka endpoints via configuration
+[2m2026-06-05T01:36:30.397+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [trap-executor-0][0;39m [2m[0;39m[36mc.n.d.s.r.aws.ConfigClusterResolver     [0;39m [2m:[0;39m Resolving eureka endpoints via configuration
+[2m2026-06-05T01:41:30.392+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [trap-executor-0][0;39m [2m[0;39m[36mc.n.d.s.r.aws.ConfigClusterResolver     [0;39m [2m:[0;39m Resolving eureka endpoints via configuration
+[2m2026-06-05T01:46:30.387+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [trap-executor-0][0;39m [2m[0;39m[36mc.n.d.s.r.aws.ConfigClusterResolver     [0;39m [2m:[0;39m Resolving eureka endpoints via configuration
+[2m2026-06-05T01:51:30.379+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [trap-executor-0][0;39m [2m[0;39m[36mc.n.d.s.r.aws.ConfigClusterResolver     [0;39m [2m:[0;39m Resolving eureka endpoints via configuration
+[2m2026-06-05T01:56:30.374+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [trap-executor-0][0;39m [2m[0;39m[36mc.n.d.s.r.aws.ConfigClusterResolver     [0;39m [2m:[0;39m Resolving eureka endpoints via configuration
+[2m2026-06-05T02:01:30.370+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [trap-executor-0][0;39m [2m[0;39m[36mc.n.d.s.r.aws.ConfigClusterResolver     [0;39m [2m:[0;39m Resolving eureka endpoints via configuration
+[2m2026-06-05T02:06:30.367+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [trap-executor-0][0;39m [2m[0;39m[36mc.n.d.s.r.aws.ConfigClusterResolver     [0;39m [2m:[0;39m Resolving eureka endpoints via configuration
+[2m2026-06-05T02:11:30.362+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [trap-executor-0][0;39m [2m[0;39m[36mc.n.d.s.r.aws.ConfigClusterResolver     [0;39m [2m:[0;39m Resolving eureka endpoints via configuration
+[2m2026-06-05T02:16:30.359+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [trap-executor-0][0;39m [2m[0;39m[36mc.n.d.s.r.aws.ConfigClusterResolver     [0;39m [2m:[0;39m Resolving eureka endpoints via configuration
+[2m2026-06-05T02:21:30.354+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [trap-executor-0][0;39m [2m[0;39m[36mc.n.d.s.r.aws.ConfigClusterResolver     [0;39m [2m:[0;39m Resolving eureka endpoints via configuration
+[2m2026-06-05T02:59:08.699+05:30[0;39m [33m WARN[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [l-1 housekeeper][0;39m [2m[0;39m[36mcom.zaxxer.hikari.pool.HikariPool       [0;39m [2m:[0;39m HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=32m57s293ms).
+[2m2026-06-05T02:59:09.875+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [trap-executor-0][0;39m [2m[0;39m[36mc.n.d.s.r.aws.ConfigClusterResolver     [0;39m [2m:[0;39m Resolving eureka endpoints via configuration
+[2m2026-06-05T04:23:33.550+05:30[0;39m [33m WARN[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [l-1 housekeeper][0;39m [2m[0;39m[36mcom.zaxxer.hikari.pool.HikariPool       [0;39m [2m:[0;39m HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1h24m24s850ms).
+[2m2026-06-05T04:26:35.960+05:30[0;39m [33m WARN[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [l-1 housekeeper][0;39m [2m[0;39m[36mcom.zaxxer.hikari.pool.HikariPool       [0;39m [2m:[0;39m HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=2m30s433ms).
+[2m2026-06-05T05:23:35.431+05:30[0;39m [33m WARN[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [l-1 housekeeper][0;39m [2m[0;39m[36mcom.zaxxer.hikari.pool.HikariPool       [0;39m [2m:[0;39m HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=56m29s469ms).
+[2m2026-06-05T05:27:43.861+05:30[0;39m [33m WARN[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [l-1 housekeeper][0;39m [2m[0;39m[36mcom.zaxxer.hikari.pool.HikariPool       [0;39m [2m:[0;39m HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=3m38s419ms).
+[2m2026-06-05T05:43:52.538+05:30[0;39m [33m WARN[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [l-1 housekeeper][0;39m [2m[0;39m[36mcom.zaxxer.hikari.pool.HikariPool       [0;39m [2m:[0;39m HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=16m8s676ms).
+[2m2026-06-05T06:28:38.913+05:30[0;39m [33m WARN[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [l-1 housekeeper][0;39m [2m[0;39m[36mcom.zaxxer.hikari.pool.HikariPool       [0;39m [2m:[0;39m HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=44m46s376ms).
+[2m2026-06-05T06:29:10.017+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [trap-executor-0][0;39m [2m[0;39m[36mc.n.d.s.r.aws.ConfigClusterResolver     [0;39m [2m:[0;39m Resolving eureka endpoints via configuration
+[2m2026-06-05T07:16:16.386+05:30[0;39m [33m WARN[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [l-1 housekeeper][0;39m [2m[0;39m[36mcom.zaxxer.hikari.pool.HikariPool       [0;39m [2m:[0;39m HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=47m7s462ms).
+[2m2026-06-05T07:29:53.407+05:30[0;39m [33m WARN[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [l-1 housekeeper][0;39m [2m[0;39m[36mcom.zaxxer.hikari.pool.HikariPool       [0;39m [2m:[0;39m HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=13m7s9ms).
+[2m2026-06-05T08:02:31.936+05:30[0;39m [33m WARN[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [l-1 housekeeper][0;39m [2m[0;39m[36mcom.zaxxer.hikari.pool.HikariPool       [0;39m [2m:[0;39m HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=32m38s529ms).
+[2m2026-06-05T08:18:18.516+05:30[0;39m [33m WARN[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [l-1 housekeeper][0;39m [2m[0;39m[36mcom.zaxxer.hikari.pool.HikariPool       [0;39m [2m:[0;39m HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=15m46s581ms).
+[2m2026-06-05T08:30:42.208+05:30[0;39m [33m WARN[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [l-1 housekeeper][0;39m [2m[0;39m[36mcom.zaxxer.hikari.pool.HikariPool       [0;39m [2m:[0;39m HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=12m23s691ms).
+[2m2026-06-05T08:34:56.987+05:30[0;39m [33m WARN[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [l-1 housekeeper][0;39m [2m[0;39m[36mcom.zaxxer.hikari.pool.HikariPool       [0;39m [2m:[0;39m HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=3m44s768ms).
+[2m2026-06-05T08:39:31.350+05:30[0;39m [33m WARN[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [l-1 housekeeper][0;39m [2m[0;39m[36mcom.zaxxer.hikari.pool.HikariPool       [0;39m [2m:[0;39m HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=4m34s362ms).
+[2m2026-06-05T08:40:02.361+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [trap-executor-0][0;39m [2m[0;39m[36mc.n.d.s.r.aws.ConfigClusterResolver     [0;39m [2m:[0;39m Resolving eureka endpoints via configuration
+[2m2026-06-05T08:46:19.520+05:30[0;39m [33m WARN[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [l-1 housekeeper][0;39m [2m[0;39m[36mcom.zaxxer.hikari.pool.HikariPool       [0;39m [2m:[0;39m HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=6m18s160ms).
+[2m2026-06-05T08:50:50.523+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [trap-executor-0][0;39m [2m[0;39m[36mc.n.d.s.r.aws.ConfigClusterResolver     [0;39m [2m:[0;39m Resolving eureka endpoints via configuration
+[2m2026-06-05T08:55:50.519+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [trap-executor-0][0;39m [2m[0;39m[36mc.n.d.s.r.aws.ConfigClusterResolver     [0;39m [2m:[0;39m Resolving eureka endpoints via configuration
+[2m2026-06-05T09:00:50.522+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [trap-executor-0][0;39m [2m[0;39m[36mc.n.d.s.r.aws.ConfigClusterResolver     [0;39m [2m:[0;39m Resolving eureka endpoints via configuration
+[2m2026-06-05T09:05:50.524+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [trap-executor-0][0;39m [2m[0;39m[36mc.n.d.s.r.aws.ConfigClusterResolver     [0;39m [2m:[0;39m Resolving eureka endpoints via configuration
+[2m2026-06-05T09:10:50.520+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [trap-executor-0][0;39m [2m[0;39m[36mc.n.d.s.r.aws.ConfigClusterResolver     [0;39m [2m:[0;39m Resolving eureka endpoints via configuration
+[2m2026-06-05T09:15:50.518+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [trap-executor-0][0;39m [2m[0;39m[36mc.n.d.s.r.aws.ConfigClusterResolver     [0;39m [2m:[0;39m Resolving eureka endpoints via configuration
+[2m2026-06-05T09:20:50.531+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [trap-executor-0][0;39m [2m[0;39m[36mc.n.d.s.r.aws.ConfigClusterResolver     [0;39m [2m:[0;39m Resolving eureka endpoints via configuration
+[2m2026-06-05T09:25:50.528+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [trap-executor-0][0;39m [2m[0;39m[36mc.n.d.s.r.aws.ConfigClusterResolver     [0;39m [2m:[0;39m Resolving eureka endpoints via configuration
+[2m2026-06-05T09:30:50.521+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [trap-executor-0][0;39m [2m[0;39m[36mc.n.d.s.r.aws.ConfigClusterResolver     [0;39m [2m:[0;39m Resolving eureka endpoints via configuration
+[2m2026-06-05T09:35:50.521+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [trap-executor-0][0;39m [2m[0;39m[36mc.n.d.s.r.aws.ConfigClusterResolver     [0;39m [2m:[0;39m Resolving eureka endpoints via configuration
+[2m2026-06-05T09:40:50.524+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [trap-executor-0][0;39m [2m[0;39m[36mc.n.d.s.r.aws.ConfigClusterResolver     [0;39m [2m:[0;39m Resolving eureka endpoints via configuration
+[2m2026-06-05T09:45:50.528+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [trap-executor-0][0;39m [2m[0;39m[36mc.n.d.s.r.aws.ConfigClusterResolver     [0;39m [2m:[0;39m Resolving eureka endpoints via configuration
+[2m2026-06-05T09:50:50.531+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [trap-executor-0][0;39m [2m[0;39m[36mc.n.d.s.r.aws.ConfigClusterResolver     [0;39m [2m:[0;39m Resolving eureka endpoints via configuration
+[2m2026-06-05T09:55:50.540+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [trap-executor-0][0;39m [2m[0;39m[36mc.n.d.s.r.aws.ConfigClusterResolver     [0;39m [2m:[0;39m Resolving eureka endpoints via configuration
+[2m2026-06-05T10:00:50.538+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [trap-executor-0][0;39m [2m[0;39m[36mc.n.d.s.r.aws.ConfigClusterResolver     [0;39m [2m:[0;39m Resolving eureka endpoints via configuration
+[2m2026-06-05T10:05:50.534+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [trap-executor-0][0;39m [2m[0;39m[36mc.n.d.s.r.aws.ConfigClusterResolver     [0;39m [2m:[0;39m Resolving eureka endpoints via configuration
+[2m2026-06-05T10:10:50.530+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [trap-executor-0][0;39m [2m[0;39m[36mc.n.d.s.r.aws.ConfigClusterResolver     [0;39m [2m:[0;39m Resolving eureka endpoints via configuration
+[2m2026-06-05T10:15:50.528+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [trap-executor-0][0;39m [2m[0;39m[36mc.n.d.s.r.aws.ConfigClusterResolver     [0;39m [2m:[0;39m Resolving eureka endpoints via configuration
+[2m2026-06-05T10:20:50.527+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [trap-executor-0][0;39m [2m[0;39m[36mc.n.d.s.r.aws.ConfigClusterResolver     [0;39m [2m:[0;39m Resolving eureka endpoints via configuration
+[2m2026-06-05T10:25:50.527+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [trap-executor-0][0;39m [2m[0;39m[36mc.n.d.s.r.aws.ConfigClusterResolver     [0;39m [2m:[0;39m Resolving eureka endpoints via configuration
+[2m2026-06-05T10:30:50.521+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [trap-executor-0][0;39m [2m[0;39m[36mc.n.d.s.r.aws.ConfigClusterResolver     [0;39m [2m:[0;39m Resolving eureka endpoints via configuration
+[2m2026-06-05T10:35:50.517+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [trap-executor-0][0;39m [2m[0;39m[36mc.n.d.s.r.aws.ConfigClusterResolver     [0;39m [2m:[0;39m Resolving eureka endpoints via configuration
+[2m2026-06-05T10:40:50.518+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [trap-executor-0][0;39m [2m[0;39m[36mc.n.d.s.r.aws.ConfigClusterResolver     [0;39m [2m:[0;39m Resolving eureka endpoints via configuration
+[2m2026-06-05T10:45:50.514+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [trap-executor-0][0;39m [2m[0;39m[36mc.n.d.s.r.aws.ConfigClusterResolver     [0;39m [2m:[0;39m Resolving eureka endpoints via configuration
+[2m2026-06-05T10:50:50.507+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [trap-executor-0][0;39m [2m[0;39m[36mc.n.d.s.r.aws.ConfigClusterResolver     [0;39m [2m:[0;39m Resolving eureka endpoints via configuration
+[2m2026-06-05T10:55:50.507+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [trap-executor-0][0;39m [2m[0;39m[36mc.n.d.s.r.aws.ConfigClusterResolver     [0;39m [2m:[0;39m Resolving eureka endpoints via configuration
+[2m2026-06-05T11:00:50.502+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [trap-executor-0][0;39m [2m[0;39m[36mc.n.d.s.r.aws.ConfigClusterResolver     [0;39m [2m:[0;39m Resolving eureka endpoints via configuration
+[2m2026-06-05T11:05:50.501+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [trap-executor-0][0;39m [2m[0;39m[36mc.n.d.s.r.aws.ConfigClusterResolver     [0;39m [2m:[0;39m Resolving eureka endpoints via configuration
+[2m2026-06-05T11:10:50.502+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [trap-executor-0][0;39m [2m[0;39m[36mc.n.d.s.r.aws.ConfigClusterResolver     [0;39m [2m:[0;39m Resolving eureka endpoints via configuration
+[2m2026-06-05T11:15:50.505+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [trap-executor-0][0;39m [2m[0;39m[36mc.n.d.s.r.aws.ConfigClusterResolver     [0;39m [2m:[0;39m Resolving eureka endpoints via configuration
+[2m2026-06-05T11:20:50.504+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [trap-executor-0][0;39m [2m[0;39m[36mc.n.d.s.r.aws.ConfigClusterResolver     [0;39m [2m:[0;39m Resolving eureka endpoints via configuration
+[2m2026-06-05T11:25:50.505+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [trap-executor-0][0;39m [2m[0;39m[36mc.n.d.s.r.aws.ConfigClusterResolver     [0;39m [2m:[0;39m Resolving eureka endpoints via configuration
+[2m2026-06-05T11:30:50.508+05:30[0;39m [32m INFO[0;39m [35m34345[0;39m [2m---[0;39m [2m[order-service] [trap-executor-0][0;39m [2m[0;39m[36mc.n.d.s.r.aws.ConfigClusterResolver     [0;39m [2m:[0;39m Resolving eureka endpoints via configuration

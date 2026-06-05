@@ -1,20 +1,54 @@
 import React, { useEffect, useState, useCallback } from 'react';
+import { Link } from 'react-router-dom';
 import api from '../services/api';
 
 const PAGE_SIZE = 5;
 
-const STATUS_COLORS = {
-  PENDING:   '#f59e0b',
-  CONFIRMED: '#3b82f6',
-  SHIPPED:   '#8b5cf6',
-  DELIVERED: '#10b981',
-  CANCELLED: '#ef4444',
-};
-
-function formatDate(dateStr) {
-  if (!dateStr) return '';
-  return new Date(dateStr).toLocaleString();
+function formatDate(iso) {
+  if (!iso) return '';
+  return new Date(iso).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
 }
+
+function pageRange(current, total) {
+  if (total <= 7) return Array.from({ length: total }, (_, i) => i);
+  if (current <= 3) return [0, 1, 2, 3, 4, '…', total - 1];
+  if (current >= total - 4) return [0, '…', total - 5, total - 4, total - 3, total - 2, total - 1];
+  return [0, '…', current - 1, current, current + 1, '…', total - 1];
+}
+
+const TIMELINE_STEPS = ['PENDING', 'CONFIRMED', 'SHIPPED', 'DELIVERED'];
+const STEP_LABELS    = ['Order Placed', 'Confirmed', 'Shipped', 'Delivered'];
+
+function getStepClass(stepStatus, orderStatus) {
+  if (orderStatus === 'CANCELLED') return stepStatus === 'PENDING' ? 'cancelled' : '';
+  const orderIdx = TIMELINE_STEPS.indexOf(orderStatus);
+  const stepIdx  = TIMELINE_STEPS.indexOf(stepStatus);
+  if (stepIdx <  orderIdx) return 'done';
+  if (stepIdx === orderIdx) return 'active';
+  return '';
+}
+
+function getEmoji(name = '') {
+  const n = (name || '').toLowerCase();
+  if (/phone|mobile|iphone|samsung/.test(n)) return '📱';
+  if (/laptop|macbook|notebook/.test(n))     return '💻';
+  if (/tv|television|monitor/.test(n))       return '📺';
+  if (/headphone|earphone|speaker/.test(n))  return '🎧';
+  if (/camera|dslr/.test(n))                 return '📷';
+  if (/watch/.test(n))                       return '⌚';
+  if (/shoe|sneaker/.test(n))                return '👟';
+  if (/shirt|cloth|dress/.test(n))           return '👕';
+  if (/book/.test(n))                        return '📚';
+  return '🛍️';
+}
+
+const STATUS_BADGE = {
+  PENDING:   'badge badge-warning',
+  CONFIRMED: 'badge badge-info',
+  SHIPPED:   'badge badge-purple',
+  DELIVERED: 'badge badge-success',
+  CANCELLED: 'badge badge-danger',
+};
 
 export default function Orders() {
   const [orders, setOrders]           = useState([]);
@@ -28,20 +62,18 @@ export default function Orders() {
   const fetchPage = useCallback((page) => {
     setLoading(true);
     api.get(`/api/orders/my-orders?page=${page}&size=${PAGE_SIZE}`)
-      .then((res) => {
-        const paged = res.data.data;
-        setOrders(paged.content);
-        setCurrentPage(paged.currentPage);
-        setTotalPages(paged.totalPages);
-        setTotalItems(paged.totalItems);
+      .then(res => {
+        const d = res.data.data;
+        setOrders(d.content);
+        setCurrentPage(d.currentPage);
+        setTotalPages(d.totalPages);
+        setTotalItems(d.totalItems);
       })
       .catch(() => setError('Failed to load orders.'))
       .finally(() => setLoading(false));
   }, []);
 
-  useEffect(() => {
-    fetchPage(0);
-  }, [fetchPage]);
+  useEffect(() => { fetchPage(0); }, [fetchPage]);
 
   const goToPage = (page) => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -49,102 +81,107 @@ export default function Orders() {
     fetchPage(page);
   };
 
-  const toggleExpand = (id) => {
-    setExpandedId(expandedId === id ? null : id);
-  };
-
-  if (loading) return <div className="page-loading">Loading orders...</div>;
-  if (error)   return <div className="alert alert-error" style={{ margin: '2rem' }}>{error}</div>;
+  if (loading) return <div className="page-loading">Loading orders…</div>;
+  if (error)   return <div className="page"><div className="alert alert-error">{error}</div></div>;
 
   return (
-    <div className="page">
-      <h1 className="page-title">
+    <div className="orders-page">
+      <h1>
         My Orders
         {totalItems > 0 && (
-          <span style={{ fontSize: '0.9rem', fontWeight: 400, color: '#888', marginLeft: '0.75rem' }}>
-            ({totalItems} total)
+          <span style={{ fontSize: '14px', fontWeight: 400, color: 'var(--text-light)', marginLeft: '10px' }}>
+            {totalItems} order{totalItems !== 1 ? 's' : ''}
           </span>
         )}
       </h1>
 
       {orders.length === 0 ? (
         <div className="empty-state">
-          <p>You haven't placed any orders yet.</p>
-          <a href="/products" className="btn btn-primary" style={{ display: 'inline-block', marginTop: '1rem' }}>
-            Start Shopping
-          </a>
+          <div className="empty-state-icon">📦</div>
+          <h3>No orders yet</h3>
+          <p>You haven't placed any orders. Start shopping!</p>
+          <Link to="/products" className="btn btn-primary">Shop Now</Link>
         </div>
       ) : (
         <>
-          <div className="orders-list">
-            {orders.map((order) => (
-              <div key={order.id} className="order-card">
-                <div className="order-header" onClick={() => toggleExpand(order.id)}>
-                  <div className="order-header-left">
-                    <span className="order-id">Order #{order.id}</span>
-                    <span
-                      className="order-status"
-                      style={{ backgroundColor: STATUS_COLORS[order.status] || '#6b7280' }}
-                    >
-                      {order.status}
-                    </span>
-                  </div>
-                  <div className="order-header-right">
-                    <span className="order-total">${Number(order.totalAmount).toFixed(2)}</span>
-                    <span className="order-date">{formatDate(order.createdAt)}</span>
-                    <span className="expand-icon">{expandedId === order.id ? '▲' : '▼'}</span>
-                  </div>
-                </div>
+          {orders.map(order => (
+            <div key={order.id} className="order-card">
 
-                {expandedId === order.id && (
-                  <div className="order-items">
-                    <table className="items-table">
-                      <thead>
-                        <tr>
-                          <th>Product</th>
-                          <th>Qty</th>
-                          <th>Unit Price</th>
-                          <th>Subtotal</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {order.items.map((item) => (
-                          <tr key={item.id}>
-                            <td>{item.productName}</td>
-                            <td>{item.quantity}</td>
-                            <td>${Number(item.unitPrice).toFixed(2)}</td>
-                            <td>${Number(item.subtotal).toFixed(2)}</td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                )}
+              {/* Header */}
+              <div
+                className="order-card-header"
+                onClick={() => setExpandedId(expandedId === order.id ? null : order.id)}
+              >
+                <div>
+                  <div className="order-id">Order #{order.id}</div>
+                  <div className="order-date">{formatDate(order.createdAt)}</div>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                  <span className={STATUS_BADGE[order.status] || 'badge badge-gray'}>
+                    {order.status}
+                  </span>
+                  <span className="order-total">₹{Number(order.totalAmount).toFixed(2)}</span>
+                  <span className={`expand-icon${expandedId === order.id ? ' open' : ''}`}>▼</span>
+                </div>
               </div>
-            ))}
-          </div>
+
+              {/* Timeline (always visible) */}
+              {order.status !== 'CANCELLED' && (
+                <div className="order-timeline">
+                  {TIMELINE_STEPS.map((step, i) => (
+                    <div key={step} className={`timeline-step ${getStepClass(step, order.status)}`}>
+                      <div className="timeline-dot">
+                        {getStepClass(step, order.status) === 'done' ? '✓' : i + 1}
+                      </div>
+                      <div className="timeline-label">{STEP_LABELS[i]}</div>
+                    </div>
+                  ))}
+                </div>
+              )}
+              {order.status === 'CANCELLED' && (
+                <div style={{ padding: '12px 16px', background: 'var(--danger-light)' }}>
+                  <span className="badge badge-danger">Order Cancelled</span>
+                </div>
+              )}
+
+              {/* Items (expanded) */}
+              {expandedId === order.id && (
+                <div className="order-items-section">
+                  {order.items.map(item => (
+                    <div key={item.id} className="order-item-row">
+                      <div className="order-item-img">{getEmoji(item.productName)}</div>
+                      <div style={{ flex: 1 }}>
+                        <div className="order-item-name">{item.productName}</div>
+                        <div className="order-item-meta">Qty: {item.quantity} × ₹{Number(item.unitPrice).toFixed(2)}</div>
+                      </div>
+                      <div className="order-item-price">₹{Number(item.subtotal).toFixed(2)}</div>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {/* Footer */}
+              <div className="order-card-footer">
+                <span style={{ fontSize: '13px', color: 'var(--text-light)' }}>
+                  {order.items?.length || 0} item{(order.items?.length || 0) !== 1 ? 's' : ''}
+                </span>
+                <button className="order-track-btn">TRACK ORDER</button>
+              </div>
+
+            </div>
+          ))}
 
           {totalPages > 1 && (
-            <div style={paginationStyle}>
-              <button
-                className="btn btn-outline"
-                onClick={() => goToPage(currentPage - 1)}
-                disabled={currentPage === 0}
-              >
-                ← Previous
-              </button>
-
-              <span style={{ color: '#555', fontSize: '0.95rem' }}>
-                Page {currentPage + 1} of {totalPages}
-              </span>
-
-              <button
-                className="btn btn-outline"
-                onClick={() => goToPage(currentPage + 1)}
-                disabled={currentPage >= totalPages - 1}
-              >
-                Next →
-              </button>
+            <div className="pagination">
+              <button className="page-btn page-btn-arrow" onClick={() => goToPage(currentPage - 1)} disabled={currentPage === 0}>← Prev</button>
+              {pageRange(currentPage, totalPages).map((p, i) =>
+                p === '…' ? (
+                  <span key={`e${i}`} className="page-ellipsis">…</span>
+                ) : (
+                  <button key={p} className={`page-btn${p === currentPage ? ' active' : ''}`} onClick={() => goToPage(p)}>{p + 1}</button>
+                )
+              )}
+              <button className="page-btn page-btn-arrow" onClick={() => goToPage(currentPage + 1)} disabled={currentPage >= totalPages - 1}>Next →</button>
             </div>
           )}
         </>
@@ -152,13 +189,3 @@ export default function Orders() {
     </div>
   );
 }
-
-const paginationStyle = {
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  gap: '1.25rem',
-  marginTop: '2rem',
-  paddingTop: '1rem',
-  borderTop: '1px solid #e9ecef',
-};

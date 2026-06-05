@@ -27,14 +27,14 @@ public class SecurityConfig {
                 .requestMatchers("/actuator/health", "/actuator/circuitbreakers").permitAll()
                 .requestMatchers("/swagger-ui.html", "/swagger-ui/**", "/api-docs", "/api-docs/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/orders/health/**").hasRole("ADMIN")
-                // Place order — sellers can shop as customers
-                .requestMatchers(HttpMethod.POST, "/api/orders").hasAnyRole("ADMIN", "CUSTOMER", "SELLER")
-                // View own orders — all three roles
-                .requestMatchers(HttpMethod.GET, "/api/orders/my-orders").hasAnyRole("ADMIN", "CUSTOMER", "SELLER")
-                // View single order — ownership/admin check is done in service layer
-                .requestMatchers(HttpMethod.GET, "/api/orders/**").hasAnyRole("ADMIN", "CUSTOMER", "SELLER")
-                // Cancel order — all three roles (ownership checked in service)
-                .requestMatchers(HttpMethod.PUT, "/api/orders/*/cancel").hasAnyRole("ADMIN", "CUSTOMER", "SELLER")
+                // Place order — CUSTOMER only; ADMIN and SELLER must use separate customer accounts
+                .requestMatchers(HttpMethod.POST, "/api/orders").hasRole("CUSTOMER")
+                // View own orders — CUSTOMER only (admins use /admin endpoints for platform management)
+                .requestMatchers(HttpMethod.GET, "/api/orders/my-orders").hasRole("CUSTOMER")
+                // View any order by ID — ADMIN can read for support/management, CUSTOMER for their own (checked in service)
+                .requestMatchers(HttpMethod.GET, "/api/orders/**").hasAnyRole("ADMIN", "CUSTOMER")
+                // Cancel order — CUSTOMER only
+                .requestMatchers(HttpMethod.PUT, "/api/orders/*/cancel").hasRole("CUSTOMER")
                 // Update status — ADMIN only (also enforced by @PreAuthorize in controller)
                 .requestMatchers(HttpMethod.PUT, "/api/orders/*/status").hasRole("ADMIN")
                 .anyRequest().authenticated()
