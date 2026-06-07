@@ -10,14 +10,12 @@
     {
       "name": "jwt.expiration",
       "type": "java.lang.Long",
-      "sourceType": "com.ecom.userservice.config.JwtProperties",
-      "defaultValue": 0
+      "sourceType": "com.ecom.userservice.config.JwtProperties"
     },
     {
       "name": "jwt.refresh-expiration",
       "type": "java.lang.Long",
-      "sourceType": "com.ecom.userservice.config.JwtProperties",
-      "defaultValue": 0
+      "sourceType": "com.ecom.userservice.config.JwtProperties"
     },
     {
       "name": "jwt.secret",

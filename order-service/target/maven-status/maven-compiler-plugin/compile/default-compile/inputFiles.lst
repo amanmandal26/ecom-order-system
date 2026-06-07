@@ -22,6 +22,7 @@
 /Users/aman/ecom-order-system/order-service/src/main/java/com/ecom/orderservice/dto/SellerOrderUpdateRequest.java
 /Users/aman/ecom-order-system/order-service/src/main/java/com/ecom/orderservice/controller/OrderController.java
 /Users/aman/ecom-order-system/order-service/src/main/java/com/ecom/orderservice/entity/OrderStatus.java
+/Users/aman/ecom-order-system/order-service/src/main/java/com/ecom/orderservice/exception/BadRequestException.java
 /Users/aman/ecom-order-system/order-service/src/main/java/com/ecom/orderservice/security/JwtUtil.java
 /Users/aman/ecom-order-system/order-service/src/main/java/com/ecom/orderservice/config/AppConfig.java
 /Users/aman/ecom-order-system/order-service/src/main/java/com/ecom/orderservice/repository/OrderRepository.java

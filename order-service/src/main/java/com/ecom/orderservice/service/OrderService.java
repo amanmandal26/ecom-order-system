@@ -7,6 +7,7 @@ import com.ecom.orderservice.entity.Order;
 import com.ecom.orderservice.entity.OrderItem;
 import com.ecom.orderservice.entity.OrderStatus;
 import com.ecom.orderservice.event.OrderPlacedEvent;
+import com.ecom.orderservice.exception.BadRequestException;
 import com.ecom.orderservice.exception.InsufficientStockException;
 import com.ecom.orderservice.exception.OrderCancellationException;
 import com.ecom.orderservice.exception.ResourceNotFoundException;
@@ -20,7 +21,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,11 +38,15 @@ public class OrderService {
 
     private final OrderRepository orderRepository;
     private final ProductClient productClient;
-    private final RabbitTemplate rabbitTemplate;
+    private final AmqpTemplate rabbitTemplate;
 
     @CircuitBreaker(name = "productService", fallbackMethod = "placeOrderFallback")
     public OrderResponse placeOrder(OrderRequest request, Long userId, String userEmail) {
         log.info("Placing order for userId={} email={}", userId, userEmail);
+
+        if (request.getItems() == null || request.getItems().isEmpty()) {
+            throw new BadRequestException("Order must contain at least one item");
+        }
 
         List<OrderItem> items = new ArrayList<>();
         List<OrderPlacedEvent.SellerNotification> sellerNotifications = new ArrayList<>();
@@ -123,6 +128,7 @@ public class OrderService {
 
     // Resilience4j calls this when the circuit is OPEN or the decorated method throws.
     // Signature must match placeOrder exactly, with an extra Exception parameter at the end.
+    @SuppressWarnings("unused")
     private OrderResponse placeOrderFallback(OrderRequest request, Long userId, String userEmail, Exception ex) {
         log.error("Circuit breaker open — product service unavailable. userId={} cause={}", userId, ex.getMessage());
         throw new ServiceUnavailableException(
@@ -291,7 +297,7 @@ public class OrderService {
             log.info("Published order.shipped event for order {} by seller '{}'", orderId, sellerName);
         }
 
-        return OrderResponse.fromOrder(order);
+        return OrderResponse.fromOrder(orderRepository.save(order));
     }
 
     private Order findOrderOrThrow(Long id) {
