@@ -22,7 +22,11 @@ public class JwtAuthFilter implements GlobalFilter, Ordered {
 
     private static final String SECRET = "ecom-super-secret-key-that-is-long-enough-for-hs256-algorithm";
 
-    // These paths bypass JWT validation at the gateway level
+    // These paths bypass JWT validation at the gateway level.
+    // /api/auth/ prefix covers login, register, forgot-password, reset-password, AND refresh.
+    // refresh uses its own auth (the refresh token in the body), so no JWT is needed at the gateway.
+    // logout is covered by the /api/auth/ prefix too — user-service's own SecurityConfig
+    // enforces JWT validation for that specific endpoint internally.
     private static final List<String> PUBLIC_PATHS = List.of(
         "/api/auth/",
         "/api/sellers/register"

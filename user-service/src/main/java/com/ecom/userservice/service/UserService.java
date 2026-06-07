@@ -8,7 +8,9 @@ import com.ecom.userservice.dto.ResetPasswordRequest;
 import com.ecom.userservice.dto.SellerApprovalRequest;
 import com.ecom.userservice.dto.SellerRegistrationRequest;
 import com.ecom.userservice.dto.SellerResponse;
+import com.ecom.userservice.dto.TokenRefreshResponse;
 import com.ecom.userservice.entity.PasswordResetToken;
+import com.ecom.userservice.entity.RefreshToken;
 import com.ecom.userservice.entity.SellerStatus;
 import com.ecom.userservice.entity.User;
 import com.ecom.userservice.exception.BadRequestException;
@@ -44,6 +46,7 @@ public class UserService implements UserDetailsService {
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
     private final JavaMailSender mailSender;
+    private final RefreshTokenService refreshTokenService;
 
     @Override
     @Transactional(readOnly = true)
@@ -85,8 +88,37 @@ public class UserService implements UserDetailsService {
             throw new BadCredentialsException("Invalid credentials");
         }
 
+        // Access token: short-lived JWT (15 min), validated stateless by every service.
+        // Refresh token: long-lived UUID stored in DB (30 days), used only to get new access tokens.
+        String accessToken = jwtUtil.generateToken(user);
+        RefreshToken refreshToken = refreshTokenService.createRefreshToken(user.getId());
+
         log.info("Login successful: {}", user.getEmail());
-        return AuthResponse.fromUser(user, jwtUtil.generateToken(user));
+        return AuthResponse.fromUser(user, accessToken, refreshToken.getToken());
+    }
+
+    // Called by POST /api/auth/refresh.
+    // Validates the refresh token, rotates it (issues a new one, deletes the old),
+    // and generates a fresh 15-minute access token. Token rotation means each
+    // refresh token can only be used ONCE — reuse by an attacker is detected immediately.
+    public TokenRefreshResponse refreshAccessToken(String rawRefreshToken) {
+        RefreshToken newRefreshToken = refreshTokenService.rotateRefreshToken(rawRefreshToken);
+        User user = newRefreshToken.getUser();
+        String newAccessToken = jwtUtil.generateToken(user);
+
+        log.info("Access token refreshed for user {}", user.getEmail());
+        return TokenRefreshResponse.builder()
+            .accessToken(newAccessToken)
+            .refreshToken(newRefreshToken.getToken())
+            .build();
+    }
+
+    // Called by POST /api/auth/logout.
+    // Deletes the refresh token from DB so it can never be used again.
+    // The access token will naturally expire in 15 minutes.
+    public void logout(String rawRefreshToken) {
+        refreshTokenService.deleteByToken(rawRefreshToken);
+        log.info("Refresh token deleted (logout)");
     }
 
     // Security note: we return the same message whether the email exists or not,

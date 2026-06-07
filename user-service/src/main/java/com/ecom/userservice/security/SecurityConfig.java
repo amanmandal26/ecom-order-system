@@ -31,7 +31,17 @@ public class SecurityConfig {
         http
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/auth/**").permitAll()
+                // Public auth endpoints — no JWT needed
+                .requestMatchers(
+                    "/api/auth/register",
+                    "/api/auth/login",
+                    "/api/auth/forgot-password",
+                    "/api/auth/reset-password",
+                    // /refresh has its own auth mechanism: the refresh token in the body
+                    "/api/auth/refresh"
+                ).permitAll()
+                // /logout requires a valid access token (the JwtAuthFilter validates it).
+                // If the access token is expired, the frontend will refresh first and retry.
                 .requestMatchers("/api/sellers/register").permitAll()
                 .requestMatchers("/actuator/health").permitAll()
                 .requestMatchers("/swagger-ui.html", "/swagger-ui/**", "/api-docs", "/api-docs/**").permitAll()

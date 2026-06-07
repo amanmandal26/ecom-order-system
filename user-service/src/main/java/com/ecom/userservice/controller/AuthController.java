@@ -4,8 +4,10 @@ import com.ecom.userservice.dto.ApiResponse;
 import com.ecom.userservice.dto.AuthResponse;
 import com.ecom.userservice.dto.ForgotPasswordRequest;
 import com.ecom.userservice.dto.LoginRequest;
+import com.ecom.userservice.dto.RefreshTokenRequest;
 import com.ecom.userservice.dto.RegisterRequest;
 import com.ecom.userservice.dto.ResetPasswordRequest;
+import com.ecom.userservice.dto.TokenRefreshResponse;
 import com.ecom.userservice.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -57,5 +59,24 @@ public class AuthController {
         log.info("Reset password request with token: {}", request.getToken());
         String message = userService.resetPassword(request);
         return ResponseEntity.ok(ApiResponse.ok(message, null));
+    }
+
+    @Operation(summary = "Refresh access token",
+        description = "Exchanges a valid refresh token for a new access token (15 min) and a new refresh token (30 days). " +
+                      "The old refresh token is deleted immediately — token rotation prevents replay attacks.")
+    @PostMapping("/refresh")
+    public ResponseEntity<ApiResponse<TokenRefreshResponse>> refreshToken(
+            @Valid @RequestBody RefreshTokenRequest request) {
+        TokenRefreshResponse response = userService.refreshAccessToken(request.getRefreshToken());
+        return ResponseEntity.ok(ApiResponse.ok("Token refreshed successfully", response));
+    }
+
+    @Operation(summary = "Logout",
+        description = "Deletes the refresh token from the database. The access token will expire naturally in 15 minutes. " +
+                      "Requires a valid JWT in the Authorization header.")
+    @PostMapping("/logout")
+    public ResponseEntity<ApiResponse<Void>> logout(@Valid @RequestBody RefreshTokenRequest request) {
+        userService.logout(request.getRefreshToken());
+        return ResponseEntity.ok(ApiResponse.ok("Logged out successfully", null));
     }
 }

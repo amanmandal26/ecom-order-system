@@ -39,7 +39,11 @@ eureka:
 
 jwt:
   secret: ecom-super-secret-key-that-is-long-enough-for-hs256-algorithm
-  expiration: 86400000
+  # Access token: 15 minutes (15 * 60 * 1000). Short-lived so a stolen token expires quickly.
+  expiration: 900000
+  # Refresh token: 30 days (30 * 24 * 60 * 60 * 1000). Long-lived but stored in DB so
+  # it can be revoked server-side at any time (logout, password change, suspicious activity).
+  refresh-expiration: 2592000000
 
 springdoc:
   api-docs:
