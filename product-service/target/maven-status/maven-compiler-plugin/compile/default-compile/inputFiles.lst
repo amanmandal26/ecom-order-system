@@ -8,6 +8,7 @@
 /Users/aman/ecom-order-system/product-service/src/main/java/com/ecom/productservice/security/SecurityConfig.java
 /Users/aman/ecom-order-system/product-service/src/main/java/com/ecom/productservice/specification/ProductSpecification.java
 /Users/aman/ecom-order-system/product-service/src/main/java/com/ecom/productservice/exception/ForbiddenException.java
+/Users/aman/ecom-order-system/product-service/src/main/java/com/ecom/productservice/config/RedisConfig.java
 /Users/aman/ecom-order-system/product-service/src/main/java/com/ecom/productservice/repository/ProductRepository.java
 /Users/aman/ecom-order-system/product-service/src/main/java/com/ecom/productservice/security/JwtAuthFilter.java
 /Users/aman/ecom-order-system/product-service/src/main/java/com/ecom/productservice/config/AppConfig.java

@@ -12,6 +12,9 @@ import com.ecom.productservice.repository.ProductRepository;
 import com.ecom.productservice.specification.ProductSpecification;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
@@ -30,7 +33,12 @@ public class ProductService {
 
     // ─── Admin / public endpoints ──────────────────────────────────────────────
 
+    @Caching(evict = {
+        @CacheEvict(value = "products",       allEntries = true),
+        @CacheEvict(value = "sellerProducts", allEntries = true)
+    })
     public ProductResponse createProduct(ProductRequest request) {
+        log.info("Cache EVICTED — new product created");
         log.info("Creating product: {} (sellerId={})", request.getName(), request.getSellerId());
         Product product = Product.builder()
             .name(request.getName())
@@ -47,8 +55,18 @@ public class ProductService {
     }
 
     @Transactional(readOnly = true)
+    @Cacheable(
+        value = "products",
+        key = "T(String).valueOf(#request.page) + ':' + T(String).valueOf(#request.size) + ':'"
+            + "+ (#request.search ?: 'null') + ':'"
+            + "+ (#request.sortBy ?: 'createdAt') + ':' + (#request.sortDir ?: 'desc') + ':'"
+            + "+ T(String).valueOf(#request.inStockOnly) + ':'"
+            + "+ (#request.minPrice != null ? #request.minPrice.toPlainString() : 'null') + ':'"
+            + "+ (#request.maxPrice != null ? #request.maxPrice.toPlainString() : 'null') + ':'"
+            + "+ (#request.sellerName ?: 'null')"
+    )
     public PagedResponse<ProductResponse> searchProducts(ProductSearchRequest request) {
-        // Build specification dynamically — only active filters are added
+        log.info("Cache MISS — fetching products from database");
         Specification<Product> spec = Specification.where(null);
 
         if (request.getSearch() != null && !request.getSearch().isBlank()) {
@@ -83,10 +101,17 @@ public class ProductService {
     }
 
     @Transactional(readOnly = true)
+    @Cacheable(value = "product", key = "#id")
     public ProductResponse getProductById(Long id) {
+        log.info("Cache MISS — fetching product {} from database", id);
         return ProductResponse.fromProduct(findProductOrThrow(id));
     }
 
+    @Caching(evict = {
+        @CacheEvict(value = "products",       allEntries = true),
+        @CacheEvict(value = "product",        key = "#id"),
+        @CacheEvict(value = "sellerProducts", allEntries = true)
+    })
     public ProductResponse updateProduct(Long id, ProductRequest request) {
         log.info("Updating product id: {}", id);
         Product product = findProductOrThrow(id);
@@ -97,6 +122,11 @@ public class ProductService {
         return ProductResponse.fromProduct(product);
     }
 
+    @Caching(evict = {
+        @CacheEvict(value = "products",       allEntries = true),
+        @CacheEvict(value = "product",        key = "#id"),
+        @CacheEvict(value = "sellerProducts", allEntries = true)
+    })
     public void deleteProduct(Long id) {
         log.info("Deleting product id: {}", id);
         productRepository.delete(findProductOrThrow(id));
@@ -106,7 +136,9 @@ public class ProductService {
     // ─── Seller-scoped endpoints ───────────────────────────────────────────────
 
     @Transactional(readOnly = true)
+    @Cacheable(value = "sellerProducts", key = "#sellerId + ':' + #page + ':' + #size")
     public PagedResponse<ProductResponse> getMyProducts(Long sellerId, int page, int size) {
+        log.info("Cache MISS — fetching seller {} products from database", sellerId);
         return PagedResponse.of(
             productRepository.findBySellerId(sellerId,
                     PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt")))
@@ -114,6 +146,11 @@ public class ProductService {
         );
     }
 
+    @Caching(evict = {
+        @CacheEvict(value = "products",       allEntries = true),
+        @CacheEvict(value = "product",        key = "#productId"),
+        @CacheEvict(value = "sellerProducts", allEntries = true)
+    })
     public ProductResponse updateMyProduct(Long productId, ProductRequest request, Long sellerId) {
         Product product = findProductOrThrow(productId);
         assertOwnership(product, sellerId);
@@ -125,6 +162,11 @@ public class ProductService {
         return ProductResponse.fromProduct(product);
     }
 
+    @Caching(evict = {
+        @CacheEvict(value = "products",       allEntries = true),
+        @CacheEvict(value = "product",        key = "#productId"),
+        @CacheEvict(value = "sellerProducts", allEntries = true)
+    })
     public void deleteMyProduct(Long productId, Long sellerId) {
         Product product = findProductOrThrow(productId);
         assertOwnership(product, sellerId);
@@ -132,6 +174,11 @@ public class ProductService {
         log.info("Seller {} deleted product {}", sellerId, productId);
     }
 
+    @Caching(evict = {
+        @CacheEvict(value = "products",       allEntries = true),
+        @CacheEvict(value = "product",        key = "#productId"),
+        @CacheEvict(value = "sellerProducts", allEntries = true)
+    })
     public ProductResponse restockProduct(Long productId, Integer quantity, Long sellerId, String sellerName) {
         Product product = findProductOrThrow(productId);
         assertOwnership(product, sellerId);
@@ -144,6 +191,11 @@ public class ProductService {
 
     // ─── Internal (order-service) ──────────────────────────────────────────────
 
+    @Caching(evict = {
+        @CacheEvict(value = "products",       allEntries = true),
+        @CacheEvict(value = "product",        key = "#productId"),
+        @CacheEvict(value = "sellerProducts", allEntries = true)
+    })
     public ProductResponse reduceStock(Long productId, Integer quantity) {
         Product product = findProductOrThrow(productId);
         if (product.getStockQuantity() < quantity) {
@@ -152,10 +204,14 @@ public class ProductService {
         product.setStockQuantity(product.getStockQuantity() - quantity);
         log.info("Stock reduced for product {}: -{} (remaining: {})",
             productId, quantity, product.getStockQuantity());
-        // Return the updated product so order-service gets remaining stock in the same call
         return ProductResponse.fromProduct(product);
     }
 
+    @Caching(evict = {
+        @CacheEvict(value = "products",       allEntries = true),
+        @CacheEvict(value = "product",        key = "#productId"),
+        @CacheEvict(value = "sellerProducts", allEntries = true)
+    })
     public void restoreStock(Long productId, Integer quantity) {
         Product product = findProductOrThrow(productId);
         product.setStockQuantity(product.getStockQuantity() + quantity);
