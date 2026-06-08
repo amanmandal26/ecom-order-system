@@ -89,19 +89,6 @@
             <version>5.11.0</version>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>net.bytebuddy</groupId>
-            <artifactId>byte-buddy</artifactId>
-            <version>1.14.17</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>net.bytebuddy</groupId>
-            <artifactId>byte-buddy-agent</artifactId>
-            <version>1.14.17</version>
-            <scope>test</scope>
-        </dependency>
-
         <!-- Email sending -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

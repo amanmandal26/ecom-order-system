@@ -15,6 +15,7 @@ import AdminDashboard from './pages/AdminDashboard';
 import SellerDashboard from './pages/SellerDashboard';
 import Landing from './pages/Landing';
 import ProductDetail from './pages/ProductDetail';
+import PaymentSuccess from './pages/PaymentSuccess';
 import './App.css';
 
 function ProtectedRoute({ children }) {
@@ -66,6 +67,7 @@ function AppRoutes() {
         <Route path="/orders" element={<CustomerRoute><Orders /></CustomerRoute>} />
         <Route path="/admin" element={<AdminRoute><AdminDashboard /></AdminRoute>} />
         <Route path="/seller-dashboard" element={<SellerRoute><SellerDashboard /></SellerRoute>} />
+        <Route path="/payment-success" element={<CustomerRoute><PaymentSuccess /></CustomerRoute>} />
       </Routes>
     </>
   );

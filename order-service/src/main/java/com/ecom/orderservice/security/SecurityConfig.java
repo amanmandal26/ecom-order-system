@@ -27,6 +27,8 @@ public class SecurityConfig {
                 .requestMatchers("/actuator/health", "/actuator/circuitbreakers").permitAll()
                 .requestMatchers("/swagger-ui.html", "/swagger-ui/**", "/api-docs", "/api-docs/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/orders/health/**").hasRole("ADMIN")
+                // Payment endpoints — CUSTOMER only
+                .requestMatchers(HttpMethod.POST, "/api/payments/**").hasRole("CUSTOMER")
                 // Place order — CUSTOMER only; ADMIN and SELLER must use separate customer accounts
                 .requestMatchers(HttpMethod.POST, "/api/orders").hasRole("CUSTOMER")
                 // View own orders — CUSTOMER only (admins use /admin endpoints for platform management)

@@ -10,11 +10,13 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RabbitMQConfig {
 
-    public static final String EXCHANGE      = "ecom.exchange";
-    public static final String QUEUE_PLACED  = "order.placed.queue";
-    public static final String QUEUE_SHIPPED = "order.shipped.queue";
-    public static final String KEY_PLACED    = "order.placed";
-    public static final String KEY_SHIPPED   = "order.shipped";
+    public static final String EXCHANGE           = "ecom.exchange";
+    public static final String QUEUE_PLACED       = "order.placed.queue";
+    public static final String QUEUE_SHIPPED      = "order.shipped.queue";
+    public static final String QUEUE_CONFIRMED    = "order.confirmed.queue";
+    public static final String KEY_PLACED         = "order.placed";
+    public static final String KEY_SHIPPED        = "order.shipped";
+    public static final String KEY_CONFIRMED      = "order.confirmed";
 
     @Bean
     public TopicExchange ecomExchange() {
@@ -32,6 +34,11 @@ public class RabbitMQConfig {
     }
 
     @Bean
+    public Queue orderConfirmedQueue() {
+        return new Queue(QUEUE_CONFIRMED);
+    }
+
+    @Bean
     public Binding orderPlacedBinding(Queue orderPlacedQueue, TopicExchange ecomExchange) {
         return BindingBuilder.bind(orderPlacedQueue).to(ecomExchange).with(KEY_PLACED);
     }
@@ -39,6 +46,11 @@ public class RabbitMQConfig {
     @Bean
     public Binding orderShippedBinding(Queue orderShippedQueue, TopicExchange ecomExchange) {
         return BindingBuilder.bind(orderShippedQueue).to(ecomExchange).with(KEY_SHIPPED);
+    }
+
+    @Bean
+    public Binding orderConfirmedBinding(Queue orderConfirmedQueue, TopicExchange ecomExchange) {
+        return BindingBuilder.bind(orderConfirmedQueue).to(ecomExchange).with(KEY_CONFIRMED);
     }
 
     @Bean

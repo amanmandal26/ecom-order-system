@@ -96,19 +96,6 @@
             <version>5.11.0</version>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>net.bytebuddy</groupId>
-            <artifactId>byte-buddy</artifactId>
-            <version>1.14.17</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>net.bytebuddy</groupId>
-            <artifactId>byte-buddy-agent</artifactId>
-            <version>1.14.17</version>
-            <scope>test</scope>
-        </dependency>
-
         <!-- Jackson Java 8 date/time support for Redis serialization -->
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>

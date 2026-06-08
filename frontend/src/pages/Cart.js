@@ -27,6 +27,15 @@ export default function Cart() {
   const navigate = useNavigate();
   const { user } = useAuth();
 
+  // Load Razorpay checkout script once when the cart mounts
+  useEffect(() => {
+    const script = document.createElement('script');
+    script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+    script.async = true;
+    document.body.appendChild(script);
+    return () => document.body.removeChild(script);
+  }, []);
+
   useEffect(() => { setCart(getCart()); }, []);
 
   if (user?.role === 'ADMIN') {
@@ -71,16 +80,74 @@ export default function Cart() {
   const subtotal  = cart.reduce((sum, i) => sum + Number(i.price) * i.quantity, 0);
   const itemCount = cart.reduce((sum, i) => sum + i.quantity, 0);
 
-  const placeOrder = async () => {
+  const handlePlaceOrder = async () => {
     if (!cart.length) return;
     setError(''); setLoading(true);
+
     try {
-      await api.post('/api/orders', { items: cart.map(i => ({ productId: i.productId, quantity: i.quantity })) });
-      saveCart([]);
-      navigate('/orders');
+      // Step 1: Create the order in our backend → get an order ID and the real total
+      const orderRes = await api.post('/api/orders', {
+        items: cart.map(i => ({ productId: i.productId, quantity: i.quantity }))
+      });
+      const appOrderId = orderRes.data.data.id;
+
+      // Step 2: Ask our backend to create a Razorpay order for that order ID
+      const paymentRes = await api.post('/api/payments/create-order', {
+        orderId: appOrderId
+      });
+      const { razorpayOrderId, amount, currency, keyId } = paymentRes.data.data;
+
+      // Step 3: Open the Razorpay checkout popup
+      const options = {
+        key: keyId,
+        amount,
+        currency,
+        name: 'EcomShop',
+        description: 'Order Payment',
+        order_id: razorpayOrderId,
+        handler: async function (paymentResponse) {
+          try {
+            const verifyRes = await api.post('/api/payments/verify', {
+              razorpayOrderId:   paymentResponse.razorpay_order_id,
+              razorpayPaymentId: paymentResponse.razorpay_payment_id,
+              razorpaySignature: paymentResponse.razorpay_signature,
+              appOrderId: appOrderId
+            });
+
+            if (verifyRes.data.success) {
+              saveCart([]);
+              setCart([]);
+              navigate('/orders');
+            } else {
+              alert('Payment verification failed. Please contact support.');
+            }
+          } catch (error) {
+            console.error('Payment verification error:', error);
+            alert('Payment verification failed: ' +
+              (error.response?.data?.message || error.message));
+          }
+        },
+        prefill: {
+          name:  user?.name  || '',
+          email: user?.email || ''
+        },
+        theme: { color: '#6C63FF' },
+        modal: {
+          ondismiss: function () {
+            setError('Payment cancelled. Your order has been created — retry payment from Orders page.');
+            setLoading(false);
+          }
+        }
+      };
+
+      const razorpay = new window.Razorpay(options);
+      razorpay.open();
+
     } catch (err) {
-      setError(err.response?.data?.message || 'Failed to place order. Please try again.');
-    } finally { setLoading(false); }
+      setError(err.response?.data?.message || 'Failed to initiate payment. Please try again.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   if (!cart.length) {
@@ -142,8 +209,8 @@ export default function Cart() {
           ))}
 
           <div className="cart-place-row">
-            <button className="btn btn-secondary btn-lg" onClick={placeOrder} disabled={loading}>
-              {loading ? 'Placing Order…' : 'PLACE ORDER'}
+            <button className="btn btn-secondary btn-lg" onClick={handlePlaceOrder} disabled={loading}>
+              {loading ? 'Processing…' : `Pay ₹${subtotal.toFixed(2)}`}
             </button>
           </div>
         </div>
@@ -170,8 +237,8 @@ export default function Cart() {
               <span>Total Amount</span>
               <span>₹{subtotal.toFixed(2)}</span>
             </div>
-            <button className="price-card-btn" onClick={placeOrder} disabled={loading}>
-              {loading ? 'PLACING ORDER…' : 'PLACE ORDER'}
+            <button className="price-card-btn" onClick={handlePlaceOrder} disabled={loading}>
+              {loading ? 'PROCESSING…' : `PROCEED TO PAY ₹${subtotal.toFixed(2)}`}
             </button>
           </div>
           <div className="price-safe">🔒 Safe and Secure Payments. Easy returns.</div>

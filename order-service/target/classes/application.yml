@@ -34,6 +34,9 @@ jwt:
   secret: ecom-super-secret-key-that-is-long-enough-for-hs256-algorithm
   expiration: 86400000
 
+razorpay:
+  key-id:  rzp_test_SzEGD4Zkqq7PNy
+  key-secret: 53YQueUWJtfMorDuwB54iYWW
 springdoc:
   api-docs:
     path: /api-docs
