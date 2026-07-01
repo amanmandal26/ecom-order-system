@@ -9,15 +9,24 @@ function saveCart(cart) { localStorage.setItem('cart', JSON.stringify(cart)); wi
 function getEmoji(name = '') {
   const n = name.toLowerCase();
   if (/phone|mobile|iphone|samsung/.test(n)) return '📱';
-  if (/laptop|macbook|notebook/.test(n))     return '💻';
-  if (/tv|television|monitor/.test(n))       return '📺';
-  if (/headphone|earphone|speaker/.test(n))  return '🎧';
-  if (/camera|dslr/.test(n))                 return '📷';
-  if (/watch/.test(n))                       return '⌚';
-  if (/shoe|sneaker/.test(n))                return '👟';
-  if (/shirt|cloth|dress/.test(n))           return '👕';
-  if (/book/.test(n))                        return '📚';
+  if (/laptop|macbook|notebook/.test(n))      return '💻';
+  if (/tv|television|monitor/.test(n))        return '📺';
+  if (/headphone|earphone|speaker/.test(n))   return '🎧';
+  if (/camera|dslr/.test(n))                  return '📷';
+  if (/watch/.test(n))                        return '⌚';
+  if (/shoe|sneaker/.test(n))                 return '👟';
+  if (/shirt|cloth|dress/.test(n))            return '👕';
+  if (/book/.test(n))                         return '📚';
   return '🛍️';
+}
+
+function getGradient(name = '') {
+  const n = name.toLowerCase();
+  if (/phone|mobile/.test(n))    return 'linear-gradient(135deg,#667eea,#764ba2)';
+  if (/laptop|computer/.test(n)) return 'linear-gradient(135deg,#11998e,#38ef7d)';
+  if (/headphone|audio/.test(n)) return 'linear-gradient(135deg,#f093fb,#f5576c)';
+  if (/watch/.test(n))           return 'linear-gradient(135deg,#4facfe,#00f2fe)';
+  return 'linear-gradient(135deg,#a18cd1,#fbc2eb)';
 }
 
 export default function Cart() {
@@ -27,7 +36,6 @@ export default function Cart() {
   const navigate = useNavigate();
   const { user } = useAuth();
 
-  // Load Razorpay checkout script once when the cart mounts
   useEffect(() => {
     const script = document.createElement('script');
     script.src = 'https://checkout.razorpay.com/v1/checkout.js';
@@ -38,30 +46,27 @@ export default function Cart() {
 
   useEffect(() => { setCart(getCart()); }, []);
 
-  if (user?.role === 'ADMIN') {
-    return (
-      <div className="page">
-        <div className="empty-state">
-          <div className="empty-state-icon">🛡️</div>
-          <h3>Admin accounts cannot place orders</h3>
-          <p>Admin accounts are for platform management only.</p>
-          <Link to="/admin" className="btn btn-primary">Go to Admin Panel</Link>
-        </div>
+  if (user?.role === 'ADMIN') return (
+    <div className="page">
+      <div className="empty-state">
+        <div className="empty-state-icon">🛡️</div>
+        <h3>Admin accounts cannot place orders</h3>
+        <p>Admin accounts are for platform management only.</p>
+        <Link to="/admin" className="btn btn-primary">Go to Admin Panel</Link>
       </div>
-    );
-  }
-  if (user?.role === 'SELLER') {
-    return (
-      <div className="page">
-        <div className="empty-state">
-          <div className="empty-state-icon">🏪</div>
-          <h3>Seller accounts cannot place orders</h3>
-          <p>To shop, register a separate customer account.</p>
-          <Link to="/seller-dashboard" className="btn btn-primary">Go to Seller Dashboard</Link>
-        </div>
+    </div>
+  );
+
+  if (user?.role === 'SELLER') return (
+    <div className="page">
+      <div className="empty-state">
+        <div className="empty-state-icon">🏪</div>
+        <h3>Seller accounts cannot place orders</h3>
+        <p>To shop, register a separate customer account.</p>
+        <Link to="/seller-dashboard" className="btn btn-primary">Go to Seller Dashboard</Link>
       </div>
-    );
-  }
+    </div>
+  );
 
   const updateQty = (productId, delta) => {
     const updated = cart.map(item =>
@@ -83,27 +88,18 @@ export default function Cart() {
   const handlePlaceOrder = async () => {
     if (!cart.length) return;
     setError(''); setLoading(true);
-
     try {
-      // Step 1: Create the order in our backend → get an order ID and the real total
       const orderRes = await api.post('/api/orders', {
         items: cart.map(i => ({ productId: i.productId, quantity: i.quantity }))
       });
       const appOrderId = orderRes.data.data.id;
 
-      // Step 2: Ask our backend to create a Razorpay order for that order ID
-      const paymentRes = await api.post('/api/payments/create-order', {
-        orderId: appOrderId
-      });
+      const paymentRes = await api.post('/api/payments/create-order', { orderId: appOrderId });
       const { razorpayOrderId, amount, currency, keyId } = paymentRes.data.data;
 
-      // Step 3: Open the Razorpay checkout popup
       const options = {
-        key: keyId,
-        amount,
-        currency,
-        name: 'EcomShop',
-        description: 'Order Payment',
+        key: keyId, amount, currency,
+        name: 'EcomShop', description: 'Order Payment',
         order_id: razorpayOrderId,
         handler: async function (paymentResponse) {
           try {
@@ -111,27 +107,20 @@ export default function Cart() {
               razorpayOrderId:   paymentResponse.razorpay_order_id,
               razorpayPaymentId: paymentResponse.razorpay_payment_id,
               razorpaySignature: paymentResponse.razorpay_signature,
-              appOrderId: appOrderId
+              appOrderId,
             });
-
             if (verifyRes.data.success) {
-              saveCart([]);
-              setCart([]);
+              saveCart([]); setCart([]);
               navigate('/orders');
             } else {
               alert('Payment verification failed. Please contact support.');
             }
-          } catch (error) {
-            console.error('Payment verification error:', error);
-            alert('Payment verification failed: ' +
-              (error.response?.data?.message || error.message));
+          } catch (err) {
+            alert('Payment verification failed: ' + (err.response?.data?.message || err.message));
           }
         },
-        prefill: {
-          name:  user?.name  || '',
-          email: user?.email || ''
-        },
-        theme: { color: '#6C63FF' },
+        prefill: { name: user?.name || '', email: user?.email || '' },
+        theme: { color: '#2874F0' },
         modal: {
           ondismiss: function () {
             setError('Payment cancelled. Your order has been created — retry payment from Orders page.');
@@ -142,7 +131,6 @@ export default function Cart() {
 
       const razorpay = new window.Razorpay(options);
       razorpay.open();
-
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to initiate payment. Please try again.');
     } finally {
@@ -150,18 +138,16 @@ export default function Cart() {
     }
   };
 
-  if (!cart.length) {
-    return (
-      <div className="page">
-        <div className="empty-state">
-          <div className="empty-state-icon">🛒</div>
-          <h3>Your cart is empty!</h3>
-          <p>Add items to it now.</p>
-          <Link to="/products" className="btn btn-primary">Shop Now</Link>
-        </div>
+  if (!cart.length) return (
+    <div className="page">
+      <div className="empty-state">
+        <div className="empty-state-icon">🛒</div>
+        <h3>Your cart is empty!</h3>
+        <p>Looks like you haven't added anything yet.</p>
+        <Link to="/products" className="btn btn-primary">Start Shopping</Link>
       </div>
-    );
-  }
+    </div>
+  );
 
   return (
     <div className="cart-page">
@@ -173,8 +159,9 @@ export default function Cart() {
           <span className="badge badge-info">{itemCount} item{itemCount !== 1 ? 's' : ''}</span>
         </div>
 
-        <div className="cart-deliver" style={{ marginBottom: '1px' }}>
-          📍 Deliver to: <strong>Your Location</strong>
+        <div className="cart-deliver">
+          📍 Deliver to: <strong>Bengaluru 560001</strong>
+          <span className="cart-deliver-change" style={{ marginLeft: 12 }}>Change</span>
         </div>
 
         {error && <div className="alert alert-error" style={{ margin: '8px 0' }}>{error}</div>}
@@ -182,15 +169,20 @@ export default function Cart() {
         <div className="cart-items-box">
           {cart.map(item => (
             <div key={item.productId} className="cart-item">
-              <div className="cart-item-img">{getEmoji(item.name)}</div>
+              <div
+                className="cart-item-img"
+                style={{ background: getGradient(item.name) }}
+              >
+                {getEmoji(item.name)}
+              </div>
 
               <div className="cart-item-details">
                 <div className="cart-item-name">{item.name}</div>
-                <div className="cart-item-seller">Seller: EcomShop Official</div>
+                <div className="cart-item-seller">🏪 Seller: EcomShop Official</div>
                 <div className="cart-item-price">
-                  ₹{(Number(item.price) * item.quantity).toFixed(2)}
-                  <span style={{ fontSize: '12px', color: 'var(--text-light)', marginLeft: '8px', fontWeight: 400 }}>
-                    ₹{Number(item.price).toFixed(2)} each
+                  ₹{(Number(item.price) * item.quantity).toLocaleString('en-IN')}
+                  <span style={{ fontSize: 12, color: 'var(--text-light)', marginLeft: 8, fontWeight: 400 }}>
+                    ₹{Number(item.price).toLocaleString('en-IN')} each
                   </span>
                 </div>
 
@@ -201,7 +193,9 @@ export default function Cart() {
                 </div>
 
                 <div className="cart-item-actions">
-                  <button className="cart-action-btn" onClick={() => removeItem(item.productId)}>REMOVE</button>
+                  <button className="cart-action-btn" onClick={() => removeItem(item.productId)}>
+                    REMOVE
+                  </button>
                   <button className="cart-action-btn">SAVE FOR LATER</button>
                 </div>
               </div>
@@ -209,8 +203,12 @@ export default function Cart() {
           ))}
 
           <div className="cart-place-row">
-            <button className="btn btn-secondary btn-lg" onClick={handlePlaceOrder} disabled={loading}>
-              {loading ? 'Processing…' : `Pay ₹${subtotal.toFixed(2)}`}
+            <button
+              className="btn btn-secondary btn-lg"
+              onClick={handlePlaceOrder}
+              disabled={loading}
+            >
+              {loading ? 'Processing…' : `PLACE ORDER  ₹${subtotal.toLocaleString('en-IN')}`}
             </button>
           </div>
         </div>
@@ -223,11 +221,11 @@ export default function Cart() {
           <div className="price-card-body">
             <div className="price-row">
               <span>Price ({itemCount} item{itemCount !== 1 ? 's' : ''})</span>
-              <span>₹{subtotal.toFixed(2)}</span>
+              <span>₹{Math.round(subtotal * 1.0).toLocaleString('en-IN')}</span>
             </div>
             <div className="price-row">
               <span>Discount</span>
-              <span className="price-green">−&nbsp;₹0</span>
+              <span className="price-green">− ₹0</span>
             </div>
             <div className="price-row">
               <span>Delivery Charges</span>
@@ -235,13 +233,36 @@ export default function Cart() {
             </div>
             <div className="price-row total">
               <span>Total Amount</span>
-              <span>₹{subtotal.toFixed(2)}</span>
+              <span>₹{subtotal.toLocaleString('en-IN')}</span>
             </div>
-            <button className="price-card-btn" onClick={handlePlaceOrder} disabled={loading}>
-              {loading ? 'PROCESSING…' : `PROCEED TO PAY ₹${subtotal.toFixed(2)}`}
+            <button
+              className="price-card-btn"
+              onClick={handlePlaceOrder}
+              disabled={loading}
+            >
+              {loading ? 'PROCESSING…' : `PROCEED TO PAY  ₹${subtotal.toLocaleString('en-IN')}`}
             </button>
           </div>
           <div className="price-safe">🔒 Safe and Secure Payments. Easy returns.</div>
+        </div>
+
+        <div style={{
+          marginTop: 16, background: '#fff',
+          border: '1px solid var(--border)',
+          borderRadius: 4, padding: 16,
+          fontSize: 13, color: 'var(--text-medium)',
+        }}>
+          <div style={{ fontWeight: 700, color: 'var(--success)', marginBottom: 8, fontSize: 14 }}>
+            ✓ Why shop with us?
+          </div>
+          {[
+            '🔒 100% secure payments',
+            '🚚 Free delivery on all orders',
+            '↩️ Easy 7-day returns',
+            '⭐ 4.8★ customer rating',
+          ].map(p => (
+            <div key={p} style={{ marginBottom: 6 }}>{p}</div>
+          ))}
         </div>
       </div>
 

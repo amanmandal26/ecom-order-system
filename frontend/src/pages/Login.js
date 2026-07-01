@@ -4,10 +4,12 @@ import { useAuth } from '../context/AuthContext';
 
 export default function Login() {
   const { login } = useAuth();
-  const navigate = useNavigate();
-  const location = useLocation();
+  const navigate  = useNavigate();
+  const location  = useLocation();
+
   const [email,    setEmail]    = useState('');
   const [password, setPassword] = useState('');
+  const [showPw,   setShowPw]   = useState(false);
   const [error,    setError]    = useState('');
   const [loading,  setLoading]  = useState(false);
 
@@ -36,54 +38,101 @@ export default function Login() {
   };
 
   return (
-    <div className="auth-page">
-      <div className="auth-card">
-        <div className="auth-logo">🛍️</div>
-        <h2>Welcome Back</h2>
-        <p className="auth-subtitle">Sign in to your EcomShop account</p>
+    <div className="auth-split">
 
-        {error && <div className="alert alert-error">{error}</div>}
+      {/* ── Left: illustration panel ────────────────────────────── */}
+      <div className="auth-split-left">
+        <div className="auth-left-logo">🛍️</div>
+        <div className="auth-left-title">India's Most<br />Trusted</div>
+        <div className="auth-left-sub">Online Marketplace</div>
+        <div className="auth-left-pills">
+          <div className="auth-left-pill">✓ 10,000+ Products</div>
+          <div className="auth-left-pill">✓ Secure Payments</div>
+          <div className="auth-left-pill">✓ Fast Delivery</div>
+        </div>
+      </div>
 
-        <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label>Email Address</label>
-            <div className="input-icon-wrap">
-              <span className="field-icon">✉️</span>
-              <input
-                type="email"
-                value={email}
-                onChange={e => { setEmail(e.target.value); setError(''); }}
-                placeholder="you@example.com"
-                required
-              />
+      {/* ── Right: form ─────────────────────────────────────────── */}
+      <div className="auth-split-right">
+        <div className="auth-form-wrap">
+
+          <div className="auth-logo-text">🛍️ EcomShop</div>
+          <div className="auth-title">Welcome back!</div>
+          <div className="auth-subtitle">Sign in to your account to continue</div>
+
+          {error && (
+            <div className="alert alert-error">
+              ⚠️ {error}
             </div>
-          </div>
-          <div className="form-group">
-            <label>Password</label>
-            <div className="input-icon-wrap">
-              <span className="field-icon">🔒</span>
-              <input
-                type="password"
-                value={password}
-                onChange={e => { setPassword(e.target.value); setError(''); }}
-                placeholder="••••••••"
-                required
-              />
+          )}
+
+          <form onSubmit={handleSubmit}>
+            <div className="form-group">
+              <label>Email Address</label>
+              <div className="input-icon-wrap">
+                <span className="field-icon">✉️</span>
+                <input
+                  type="email"
+                  value={email}
+                  onChange={e => { setEmail(e.target.value); setError(''); }}
+                  placeholder="you@example.com"
+                  required
+                />
+              </div>
             </div>
+
+            <div className="form-group">
+              <label>Password</label>
+              <div className="input-icon-wrap">
+                <span className="field-icon">🔒</span>
+                <input
+                  type={showPw ? 'text' : 'password'}
+                  value={password}
+                  onChange={e => { setPassword(e.target.value); setError(''); }}
+                  placeholder="••••••••"
+                  required
+                  style={{ paddingRight: 44 }}
+                />
+                <button
+                  type="button"
+                  className="field-icon-right"
+                  onClick={() => setShowPw(v => !v)}
+                  tabIndex={-1}
+                >
+                  {showPw ? '🙈' : '👁️'}
+                </button>
+              </div>
+            </div>
+
+            <div style={{
+              display: 'flex', justifyContent: 'space-between',
+              alignItems: 'center', marginBottom: 20, fontSize: 13,
+            }}>
+              <label style={{ display: 'flex', alignItems: 'center', gap: 6, cursor: 'pointer' }}>
+                <input type="checkbox" style={{ accentColor: 'var(--primary)' }} />
+                <span style={{ color: 'var(--text-medium)' }}>Remember me</span>
+              </label>
+              <Link to="/forgot-password" style={{ color: 'var(--primary)', fontWeight: 600 }}>
+                Forgot Password?
+              </Link>
+            </div>
+
+            <button
+              type="submit"
+              className="btn btn-primary btn-full btn-lg"
+              disabled={loading}
+            >
+              {loading ? 'Signing in…' : 'SIGN IN'}
+            </button>
+          </form>
+
+          <div className="auth-divider">OR</div>
+
+          <div className="auth-links">
+            <span>New to EcomShop? <Link to="/register">Create account</Link></span>
+            <span>Want to sell? <Link to="/seller-register">Seller Registration</Link></span>
           </div>
 
-          <button type="submit" className="btn btn-primary btn-full" disabled={loading}
-            style={{ marginTop: '0.5rem' }}>
-            {loading ? 'Signing in...' : 'Sign In'}
-          </button>
-        </form>
-
-        <div className="auth-divider">or</div>
-
-        <div className="auth-links">
-          <span><Link to="/forgot-password">Forgot Password?</Link></span>
-          <span>New here? <Link to="/register">Create an account</Link></span>
-          <span>Want to sell? <Link to="/seller-register">Register as Seller</Link></span>
         </div>
       </div>
     </div>

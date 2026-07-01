@@ -6,6 +6,7 @@ import com.ecom.productservice.dto.ProductRequest;
 import com.ecom.productservice.dto.ProductResponse;
 import com.ecom.productservice.dto.ProductSearchRequest;
 import com.ecom.productservice.dto.StockRequest;
+import com.ecom.productservice.exception.BadRequestException;
 import com.ecom.productservice.service.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -14,9 +15,11 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigDecimal;
 import java.util.Map;
@@ -103,12 +106,13 @@ public class ProductController {
     // ─── SELLER or ADMIN endpoints ─────────────────────────────────────────────
 
     @Operation(summary = "Create product — SELLER or ADMIN",
-               description = "Seller identity is extracted from the JWT token, not from the request body.")
+               description = "Multipart form-data: 'product' part is JSON, 'images' part is 1–4 image files.")
     @SecurityRequirement(name = "bearerAuth")
-    @PostMapping
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @PreAuthorize("hasAnyRole('ADMIN', 'SELLER')")
     public ResponseEntity<ApiResponse<ProductResponse>> createProduct(
-            @Valid @RequestBody ProductRequest request,
+            @Valid @RequestPart("product") ProductRequest request,
+            @RequestPart(value = "images", required = false) MultipartFile[] images,
             @RequestHeader(value = "X-User-Id",              required = false) String userIdStr,
             @RequestHeader(value = "X-User-Email",           required = false) String userEmail,
             @RequestHeader(value = "X-Seller-Business-Name", required = false) String businessName) {
@@ -120,7 +124,41 @@ public class ProductController {
         log.info("Creating product: {} (seller={})", request.getName(), request.getSellerId());
         return ResponseEntity
             .status(HttpStatus.CREATED)
-            .body(ApiResponse.ok("Product created successfully", productService.createProduct(request)));
+            .body(ApiResponse.ok("Product created successfully", productService.createProduct(request, images)));
+    }
+
+    @Operation(summary = "Add images to a product — SELLER only",
+               description = "Multipart form-data: 'images' part is 1–4 image files. Maximum 4 total per product.")
+    @SecurityRequirement(name = "bearerAuth")
+    @PostMapping(value = "/{id}/images", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PreAuthorize("hasRole('SELLER')")
+    public ResponseEntity<ApiResponse<ProductResponse>> addProductImages(
+            @PathVariable Long id,
+            @RequestPart("images") MultipartFile[] images,
+            @RequestHeader("X-User-Id") String userIdStr) {
+        Long sellerId = Long.parseLong(userIdStr);
+        log.info("Seller {} adding {} image(s) to product {}", sellerId, images.length, id);
+        return ResponseEntity.ok(ApiResponse.ok("Images added successfully",
+            productService.addProductImages(id, images, sellerId)));
+    }
+
+    @Operation(summary = "Remove an image from a product — SELLER only",
+               description = "Body: {\"imageUrl\": \"https://...\"}. At least 1 image must remain.")
+    @SecurityRequirement(name = "bearerAuth")
+    @DeleteMapping("/{id}/images")
+    @PreAuthorize("hasRole('SELLER')")
+    public ResponseEntity<ApiResponse<ProductResponse>> removeProductImage(
+            @PathVariable Long id,
+            @RequestBody Map<String, String> body,
+            @RequestHeader("X-User-Id") String userIdStr) {
+        Long sellerId = Long.parseLong(userIdStr);
+        String imageUrl = body.get("imageUrl");
+        if (imageUrl == null || imageUrl.isBlank()) {
+            throw new BadRequestException("imageUrl is required in the request body");
+        }
+        log.info("Seller {} removing image from product {}", sellerId, id);
+        return ResponseEntity.ok(ApiResponse.ok("Image removed successfully",
+            productService.removeProductImage(id, imageUrl, sellerId)));
     }
 
     @Operation(summary = "Update product — SELLER (own) or ADMIN")

@@ -10,6 +10,8 @@ import lombok.NoArgsConstructor;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Builder
@@ -18,7 +20,8 @@ import java.time.LocalDateTime;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ProductResponse implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    // Bumped to 2L because imageUrls was added — forces old Redis entries to be treated as stale.
+    private static final long serialVersionUID = 2L;
 
     private Long id;
     private String name;
@@ -29,6 +32,7 @@ public class ProductResponse implements Serializable {
     private String sellerName;
     private String sellerEmail;
     private LocalDateTime createdAt;
+    private List<String> imageUrls;
 
     public static ProductResponse fromProduct(Product product) {
         return ProductResponse.builder()
@@ -41,6 +45,7 @@ public class ProductResponse implements Serializable {
             .sellerName(product.getSellerName())
             .sellerEmail(product.getSellerEmail())
             .createdAt(product.getCreatedAt())
+            .imageUrls(product.getImageUrls() != null ? new ArrayList<>(product.getImageUrls()) : new ArrayList<>())
             .build();
     }
 }

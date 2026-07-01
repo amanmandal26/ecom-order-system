@@ -1,9 +1,18 @@
 server:
   port: 8082
 
+cloudinary:
+  cloud-name: ${CLOUDINARY_CLOUD_NAME:dlrg4bnbo}
+  api-key: ${CLOUDINARY_API_KEY:221278244747351}
+  api-secret: ${CLOUDINARY_API_SECRET:DC8u94pt8t0IwpOO785A-uPif6s}
+
 spring:
   application:
     name: product-service
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 40MB
   data:
     redis:
       host: ${REDIS_HOST:localhost}

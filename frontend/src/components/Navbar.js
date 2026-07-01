@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import UserAvatar from './UserAvatar';
@@ -12,6 +12,7 @@ const CATEGORIES = [
   { icon: '⭐', label: 'For You',      query: ''          },
   { icon: '📱', label: 'Mobiles',      query: 'phone'     },
   { icon: '👗', label: 'Fashion',      query: 'shirt'     },
+  { icon: '💄', label: 'Beauty',       query: 'beauty'    },
   { icon: '💻', label: 'Electronics',  query: 'laptop'    },
   { icon: '🏠', label: 'Home',         query: 'home'      },
   { icon: '🍳', label: 'Appliances',   query: 'appliance' },
@@ -26,7 +27,9 @@ export default function Navbar() {
   const { isAuthenticated, user } = useAuth();
   const navigate = useNavigate();
   const [searchInput, setSearchInput] = useState('');
-  const [cartCount, setCartCount] = useState(getCartCount());
+  const [cartCount, setCartCount]     = useState(getCartCount());
+  const [cartBounce, setCartBounce]   = useState(false);
+  const prevCountRef = useRef(cartCount);
 
   useEffect(() => {
     const update = () => setCartCount(getCartCount());
@@ -37,6 +40,15 @@ export default function Navbar() {
       window.removeEventListener('storage', update);
     };
   }, []);
+
+  useEffect(() => {
+    if (cartCount > prevCountRef.current) {
+      setCartBounce(true);
+      const t = setTimeout(() => setCartBounce(false), 600);
+      return () => clearTimeout(t);
+    }
+    prevCountRef.current = cartCount;
+  }, [cartCount]);
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -52,14 +64,12 @@ export default function Navbar() {
 
       {/* ── Row 1: main bar ──────────────────────────────────────────── */}
       <div className="navbar-top">
-        <Link to="/" className="navbar-brand">
-          🛍️ EcomShop
-        </Link>
+        <Link to="/" className="navbar-brand">🛍️ EcomShop</Link>
 
         <form className="navbar-search" onSubmit={handleSearch}>
           <input
             type="text"
-            placeholder="Search for products, brands and more..."
+            placeholder="Search products, brands and more..."
             value={searchInput}
             onChange={e => setSearchInput(e.target.value)}
           />
@@ -70,6 +80,13 @@ export default function Navbar() {
 
         <div className="navbar-actions">
           <UserAvatar />
+
+          {!isAuthenticated && (
+            <>
+              <Link to="/login"    className="navbar-auth-btn navbar-auth-outline">Sign In</Link>
+              <Link to="/register" className="navbar-auth-btn navbar-auth-filled">Register</Link>
+            </>
+          )}
 
           {showSeller && (
             <Link to="/seller-register" className="navbar-action-link">
@@ -84,7 +101,9 @@ export default function Navbar() {
             >
               <span className="navbar-cart-icon">🛒</span>
               <span>Cart</span>
-              {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
+              {cartCount > 0 && (
+                <span className={`cart-badge${cartBounce ? ' cart-badge-bounce' : ''}`}>{cartCount}</span>
+              )}
             </Link>
           )}
         </div>

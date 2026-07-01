@@ -54,6 +54,9 @@ class ProductServiceTest {
     @Mock
     private ProductRepository productRepository;
 
+    @Mock
+    private ImageUploadService imageUploadService;
+
     @InjectMocks
     private ProductService productService;
 
@@ -94,13 +97,13 @@ class ProductServiceTest {
         request.setSellerName("Rajesh Electronics");
         request.setSellerEmail("rajesh@seller.com");
 
-        // Act
-        ProductResponse response = productService.createProduct(request);
+        // Act — pass null for images (no upload in this unit test)
+        ProductResponse response = productService.createProduct(request, null);
 
         // Assert
         assertEquals(1L, response.getId());
         assertEquals("Rajesh Electronics", response.getSellerName());
-        // Verify save() was called exactly once — createProduct does an explicit save
+        // With null images the upload block is skipped — save() is called exactly once
         verify(productRepository, times(1)).save(any(Product.class));
     }
 

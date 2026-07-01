@@ -8,6 +8,8 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "products")
@@ -39,6 +41,13 @@ public class Product {
     private Long   sellerId;
     private String sellerName;   // seller's business name, denormalised for display speed
     private String sellerEmail;
+
+    // Up to 4 Cloudinary URLs stored in a joined table so the products table stays lean.
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "product_images", joinColumns = @JoinColumn(name = "product_id"))
+    @Column(name = "image_url", length = 1024)
+    @Builder.Default
+    private List<String> imageUrls = new ArrayList<>();
 
     @CreatedDate
     @Column(nullable = false, updatable = false)

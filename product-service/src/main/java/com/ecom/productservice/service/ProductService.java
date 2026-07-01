@@ -5,6 +5,7 @@ import com.ecom.productservice.dto.ProductRequest;
 import com.ecom.productservice.dto.ProductResponse;
 import com.ecom.productservice.dto.ProductSearchRequest;
 import com.ecom.productservice.entity.Product;
+import com.ecom.productservice.exception.BadRequestException;
 import com.ecom.productservice.exception.ForbiddenException;
 import com.ecom.productservice.exception.InsufficientStockException;
 import com.ecom.productservice.exception.ResourceNotFoundException;
@@ -20,6 +21,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -30,6 +32,7 @@ import java.util.List;
 public class ProductService {
 
     private final ProductRepository productRepository;
+    private final ImageUploadService imageUploadService;
 
     // ─── Admin / public endpoints ──────────────────────────────────────────────
 
@@ -37,7 +40,7 @@ public class ProductService {
         @CacheEvict(value = "products",       allEntries = true),
         @CacheEvict(value = "sellerProducts", allEntries = true)
     })
-    public ProductResponse createProduct(ProductRequest request) {
+    public ProductResponse createProduct(ProductRequest request, MultipartFile[] images) {
         log.info("Cache EVICTED — new product created");
         log.info("Creating product: {} (sellerId={})", request.getName(), request.getSellerId());
         Product product = Product.builder()
@@ -51,6 +54,20 @@ public class ProductService {
             .build();
         product = productRepository.save(product);
         log.info("Product created with id: {}", product.getId());
+
+        if (images != null && images.length > 0) {
+            try {
+                List<String> urls = imageUploadService.uploadImages(images, product.getId());
+                product.setImageUrls(urls);
+                product = productRepository.save(product);
+            } catch (BadRequestException e) {
+                throw e;  // validation failures (wrong type, count) must surface to the caller
+            } catch (Exception e) {
+                log.error("Image upload failed for product {}, keeping product without images: {}",
+                    product.getId(), e.getMessage());
+            }
+        }
+
         return ProductResponse.fromProduct(product);
     }
 
@@ -159,6 +176,48 @@ public class ProductService {
         product.setPrice(request.getPrice());
         product.setStockQuantity(request.getStockQuantity());
         log.info("Seller {} updated product {}", sellerId, productId);
+        return ProductResponse.fromProduct(product);
+    }
+
+    @Caching(evict = {
+        @CacheEvict(value = "products",       allEntries = true),
+        @CacheEvict(value = "product",        key = "#productId"),
+        @CacheEvict(value = "sellerProducts", allEntries = true)
+    })
+    public ProductResponse addProductImages(Long productId, MultipartFile[] images, Long sellerId) {
+        Product product = findProductOrThrow(productId);
+        assertOwnership(product, sellerId);
+        int existing = product.getImageUrls().size();
+        if (images == null || images.length == 0) {
+            throw new BadRequestException("Please upload between 1 and 4 images");
+        }
+        if (existing + images.length > 4) {
+            throw new BadRequestException("Cannot add " + images.length + " image(s). Product already has "
+                + existing + " — maximum is 4 total.");
+        }
+        List<String> newUrls = imageUploadService.uploadImages(images, productId);
+        product.getImageUrls().addAll(newUrls);
+        log.info("Seller {} added {} image(s) to product {}", sellerId, newUrls.size(), productId);
+        return ProductResponse.fromProduct(product);
+    }
+
+    @Caching(evict = {
+        @CacheEvict(value = "products",       allEntries = true),
+        @CacheEvict(value = "product",        key = "#productId"),
+        @CacheEvict(value = "sellerProducts", allEntries = true)
+    })
+    public ProductResponse removeProductImage(Long productId, String imageUrl, Long sellerId) {
+        Product product = findProductOrThrow(productId);
+        assertOwnership(product, sellerId);
+        if (product.getImageUrls().size() <= 1) {
+            throw new BadRequestException("Cannot remove the last image — a product must have at least 1 image");
+        }
+        if (!product.getImageUrls().contains(imageUrl)) {
+            throw new BadRequestException("Image URL not found on this product");
+        }
+        imageUploadService.deleteImage(imageUrl);
+        product.getImageUrls().remove(imageUrl);
+        log.info("Seller {} removed an image from product {}", sellerId, productId);
         return ProductResponse.fromProduct(product);
     }
 

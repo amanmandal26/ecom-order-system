@@ -24,6 +24,30 @@ function getEmoji(name = '') {
   return '🛍️';
 }
 
+function getGradient(name = '') {
+  const n = name.toLowerCase();
+  if (/phone|mobile/.test(n))    return 'linear-gradient(135deg,#667eea,#764ba2)';
+  if (/laptop|computer/.test(n)) return 'linear-gradient(135deg,#11998e,#38ef7d)';
+  if (/headphone|audio/.test(n)) return 'linear-gradient(135deg,#f093fb,#f5576c)';
+  if (/watch/.test(n))           return 'linear-gradient(135deg,#4facfe,#00f2fe)';
+  if (/tv|television/.test(n))   return 'linear-gradient(135deg,#fa709a,#fee140)';
+  if (/camera/.test(n))          return 'linear-gradient(135deg,#43e97b,#38f9d7)';
+  return 'linear-gradient(135deg,#a18cd1,#fbc2eb)';
+}
+
+function fakeRating(id) {
+  const x = (Math.sin(Number(id) * 127.1 + 311.7) + 1) / 2;
+  return (3.5 + x * 1.4).toFixed(1);
+}
+function fakeReviews(id) {
+  const x = (Math.sin(Number(id) * 311.7 + 127.1) + 1) / 2;
+  return Math.floor(50 + x * 1950);
+}
+function fakeDiscount(id) {
+  const x = (Math.sin(Number(id) * 211.3) + 1) / 2;
+  return Math.floor(10 + x * 18);
+}
+
 function pageRange(current, total) {
   if (total <= 7) return Array.from({ length: total }, (_, i) => i);
   if (current <= 3) return [0, 1, 2, 3, 4, '…', total - 1];
@@ -39,10 +63,10 @@ const SORTS = [
 ];
 
 const PRICE_RANGES = [
-  { label: 'Under ₹500',        min: '',     max: '500'   },
-  { label: '₹500 – ₹2,000',    min: '500',  max: '2000'  },
-  { label: '₹2,000 – ₹10,000', min: '2000', max: '10000' },
-  { label: 'Above ₹10,000',     min: '10000', max: ''     },
+  { label: 'Under ₹500',         min: '',      max: '500'   },
+  { label: '₹500 – ₹2,000',     min: '500',   max: '2000'  },
+  { label: '₹2,000 – ₹10,000',  min: '2000',  max: '10000' },
+  { label: 'Above ₹10,000',      min: '10000', max: ''      },
 ];
 
 const DEFAULT_FILTERS = { search: '', minPrice: '', maxPrice: '', inStockOnly: false, sortIndex: 0 };
@@ -52,35 +76,33 @@ function saveCart(cart) { localStorage.setItem('cart', JSON.stringify(cart)); wi
 
 function SkeletonGrid() {
   return (
-    <div className="p-grid-wrapper">
-      <div className="p-grid">
-        {Array(8).fill(null).map((_, i) => (
-          <div key={i} className="p-card" style={{ cursor: 'default' }}>
-            <div className="p-card-img">
-              <span className="skeleton sk-img" style={{ position: 'absolute', inset: 0 }} />
-            </div>
-            <div className="p-card-body" style={{ paddingBottom: 0 }}>
-              <span className="skeleton sk-line" />
-              <span className="skeleton sk-line" style={{ width: '70%' }} />
-              <span className="skeleton sk-price" />
-            </div>
-            <div style={{ height: 36, margin: '10px 0 0' }} className="skeleton" />
+    <div className="p-grid">
+      {Array(8).fill(null).map((_, i) => (
+        <div key={i} className="p-card" style={{ cursor: 'default' }}>
+          <div className="p-card-img" style={{ position: 'relative' }}>
+            <span className="skeleton sk-img" />
           </div>
-        ))}
-      </div>
+          <div className="p-card-body">
+            <span className="skeleton sk-line" />
+            <span className="skeleton sk-line" style={{ width: '70%' }} />
+            <span className="skeleton sk-price" />
+          </div>
+          <div style={{ height: 42, margin: 0 }} className="skeleton" />
+        </div>
+      ))}
     </div>
   );
 }
 
 export default function Products() {
-  const [products, setProducts]       = useState([]);
-  const [currentPage, setCurrentPage] = useState(0);
-  const [totalPages, setTotalPages]   = useState(0);
-  const [totalItems, setTotalItems]   = useState(0);
-  const [loading, setLoading]         = useState(true);
-  const [error, setError]             = useState('');
-  const [addedId, setAddedId]         = useState(null);
-  const [filters, setFilters]         = useState(DEFAULT_FILTERS);
+  const [products, setProducts]             = useState([]);
+  const [currentPage, setCurrentPage]       = useState(0);
+  const [totalPages, setTotalPages]         = useState(0);
+  const [totalItems, setTotalItems]         = useState(0);
+  const [loading, setLoading]               = useState(true);
+  const [error, setError]                   = useState('');
+  const [addedId, setAddedId]               = useState(null);
+  const [filters, setFilters]               = useState(DEFAULT_FILTERS);
   const [showLoginModal, setShowLoginModal] = useState(false);
 
   const [searchParams] = useSearchParams();
@@ -145,9 +167,8 @@ export default function Products() {
   };
 
   const clearSearch = () => {
-    const cleared = DEFAULT_FILTERS;
-    setFilters(cleared);
-    fetchProducts(cleared, 0);
+    setFilters(DEFAULT_FILTERS);
+    fetchProducts(DEFAULT_FILTERS, 0);
     navigate('/products', { replace: true });
   };
 
@@ -172,7 +193,16 @@ export default function Products() {
 
   const hasNonSearchFilters = filters.minPrice || filters.maxPrice || filters.inStockOnly || filters.sortIndex !== 0;
 
-  if (error) return <div className="page"><div className="alert alert-error">{error}</div></div>;
+  if (error) return (
+    <div className="page">
+      <div className="empty-state">
+        <div className="empty-state-icon">⚠️</div>
+        <h3>Something went wrong</h3>
+        <p>{error}</p>
+        <button className="btn btn-primary" onClick={() => fetchProducts(DEFAULT_FILTERS, 0)}>Try Again</button>
+      </div>
+    </div>
+  );
 
   return (
     <>
@@ -189,17 +219,14 @@ export default function Products() {
             )}
           </div>
 
-          {/* Price Range */}
           <div className="filter-section">
-            <div className="filter-section-title">Price</div>
+            <div className="filter-section-title">Price Range</div>
             <div className="price-chips">
               {PRICE_RANGES.map(r => (
                 <button
                   key={r.label}
                   className={`price-chip${activePriceRange === r ? ' active' : ''}`}
-                  onClick={() => activePriceRange === r
-                    ? setPriceRange('', '')
-                    : setPriceRange(r.min, r.max)}
+                  onClick={() => activePriceRange === r ? setPriceRange('', '') : setPriceRange(r.min, r.max)}
                 >
                   {r.label}
                 </button>
@@ -207,20 +234,19 @@ export default function Products() {
             </div>
             <div className="price-inputs">
               <input
-                type="number" min="0" placeholder="Min"
+                type="number" min="0" placeholder="Min ₹"
                 value={filters.minPrice}
                 onChange={e => handleFilterChange('minPrice', e.target.value)}
               />
               <span>—</span>
               <input
-                type="number" min="0" placeholder="Max"
+                type="number" min="0" placeholder="Max ₹"
                 value={filters.maxPrice}
                 onChange={e => handleFilterChange('maxPrice', e.target.value)}
               />
             </div>
           </div>
 
-          {/* Availability */}
           <div className="filter-section">
             <div className="filter-section-title">Availability</div>
             <div className="filter-opts">
@@ -235,7 +261,6 @@ export default function Products() {
             </div>
           </div>
 
-          {/* Sort */}
           <div className="filter-section">
             <div className="filter-section-title">Sort By</div>
             <div className="filter-opts">
@@ -256,15 +281,14 @@ export default function Products() {
         {/* ── Products Main Panel ───────────────────────────────────── */}
         <main className="products-main">
 
-          {/* Results bar */}
           <div className="results-bar">
             <span className="results-count">
               {loading ? 'Loading…' : (
                 <>
-                  <strong>{totalItems}</strong> result{totalItems !== 1 ? 's' : ''}
+                  <strong>{totalItems.toLocaleString('en-IN')}</strong>{' '}
+                  result{totalItems !== 1 ? 's' : ''}
                   {filters.search && (
-                    <>
-                      {' for '}
+                    <> for{' '}
                       <span className="active-search-chip">
                         {filters.search}
                         <button className="chip-close" onClick={clearSearch}>×</button>
@@ -276,7 +300,6 @@ export default function Products() {
             </span>
           </div>
 
-          {/* Grid or empty state */}
           {loading ? (
             <SkeletonGrid />
           ) : products.length === 0 ? (
@@ -285,57 +308,89 @@ export default function Products() {
               <h3>No results found{filters.search ? ` for "${filters.search}"` : ''}</h3>
               <p>Try different keywords or remove filters</p>
               {(filters.search || hasNonSearchFilters) && (
-                <button className="btn btn-primary" onClick={() => { setFilters(DEFAULT_FILTERS); fetchProducts(DEFAULT_FILTERS, 0); navigate('/products', { replace: true }); }}>
+                <button className="btn btn-primary" onClick={() => {
+                  setFilters(DEFAULT_FILTERS);
+                  fetchProducts(DEFAULT_FILTERS, 0);
+                  navigate('/products', { replace: true });
+                }}>
                   Clear All Filters
                 </button>
               )}
             </div>
           ) : (
             <>
-              <div className="p-grid-wrapper">
-                <div className="p-grid">
-                  {products.map(product => (
+              <div className="p-grid">
+                {products.map(product => (
+                  <div
+                    key={product.id}
+                    className="p-card"
+                    onClick={() => navigate(`/products/${product.id}`)}
+                  >
                     <div
-                      key={product.id}
-                      className="p-card"
-                      onClick={() => navigate(`/products/${product.id}`)}
+                      className="p-card-img"
+                      style={{ background: product.imageUrls?.length > 0 ? '#f0f0f0' : getGradient(product.name) }}
                     >
-                      <div className="p-card-img">
-                        {getEmoji(product.name)}
-                        <span className={`p-card-stock badge ${
-                          product.stockQuantity === 0 ? 'badge-danger'
-                          : product.stockQuantity <= 10 ? 'badge-warning'
-                          : 'badge-success'
-                        }`}>
-                          {product.stockQuantity === 0 ? 'Out of Stock'
-                            : product.stockQuantity <= 10 ? `Only ${product.stockQuantity} left`
-                            : 'In Stock'}
-                        </span>
-                      </div>
-                      <div className="p-card-body">
-                        <div className="p-card-name">{product.name}</div>
-                        <div className="p-card-desc">{product.description}</div>
-                        {product.sellerName && (
-                          <div className="p-card-seller">⭐ {product.sellerName}</div>
-                        )}
-                        <div className="p-card-price">₹{Number(product.price).toFixed(2)}</div>
-                      </div>
-                      {isSeller || isAdmin ? (
-                        <span className="p-card-restrict">
-                          {isAdmin ? 'Admin cannot purchase' : 'Use customer account'}
-                        </span>
+                      {product.imageUrls?.length > 0 ? (
+                        <img
+                          src={product.imageUrls[0]}
+                          alt={product.name}
+                          loading="lazy"
+                          style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0, transition: 'opacity 0.3s' }}
+                          onLoad={e => { e.currentTarget.style.opacity = 1; }}
+                        />
                       ) : (
-                        <button
-                          className={`p-card-btn${addedId === product.id ? ' added' : ''}`}
-                          disabled={product.stockQuantity === 0}
-                          onClick={e => addToCart(product, e)}
-                        >
-                          {addedId === product.id ? '✓ Added!' : 'ADD TO CART'}
-                        </button>
+                        <span className="p-card-emoji">{getEmoji(product.name)}</span>
                       )}
+                      <span className={`p-card-stock badge ${
+                        product.stockQuantity === 0 ? 'badge-danger'
+                        : product.stockQuantity <= 10 ? 'badge-warning'
+                        : 'badge-success'
+                      }`}>
+                        {product.stockQuantity === 0 ? 'Out of Stock'
+                          : product.stockQuantity <= 10 ? `Only ${product.stockQuantity} left`
+                          : 'In Stock'}
+                      </span>
+                      <div className="p-card-img-overlay">
+                        <button
+                          className="p-card-quick-view-btn"
+                          onClick={e => { e.stopPropagation(); navigate(`/products/${product.id}`); }}
+                        >
+                          👁 Quick View
+                        </button>
+                      </div>
+                      <button className="p-card-wishlist" onClick={e => e.stopPropagation()}>♡</button>
                     </div>
-                  ))}
-                </div>
+                    <div className="p-card-body">
+                      {product.sellerName && (
+                        <div className="p-card-seller">🏪 {product.sellerName}</div>
+                      )}
+                      <div className="p-card-name">{product.name}</div>
+                      <div className="p-card-desc">{product.description}</div>
+                      <div className="p-card-rating">
+                        ⭐ {fakeRating(product.id)}{' '}
+                        <span style={{ color: 'var(--text-light)' }}>({fakeReviews(product.id).toLocaleString('en-IN')})</span>
+                      </div>
+                      <div className="p-card-price-row">
+                        <span className="p-card-price">₹{Number(product.price).toLocaleString('en-IN')}</span>
+                        <span className="p-card-mrp">₹{Math.floor(product.price * (1 + fakeDiscount(product.id) / 100)).toLocaleString('en-IN')}</span>
+                        <span className="p-card-off">{fakeDiscount(product.id)}% off</span>
+                      </div>
+                    </div>
+                    {isSeller || isAdmin ? (
+                      <span className="p-card-restrict">
+                        {isAdmin ? 'Admin cannot purchase' : 'Use customer account'}
+                      </span>
+                    ) : (
+                      <button
+                        className={`p-card-btn${addedId === product.id ? ' added' : ''}`}
+                        disabled={product.stockQuantity === 0}
+                        onClick={e => addToCart(product, e)}
+                      >
+                        {addedId === product.id ? '✓ ADDED!' : 'ADD TO CART'}
+                      </button>
+                    )}
+                  </div>
+                ))}
               </div>
 
               {totalPages > 1 && (

@@ -31,23 +31,23 @@ function getStepClass(stepStatus, orderStatus) {
 function getEmoji(name = '') {
   const n = (name || '').toLowerCase();
   if (/phone|mobile|iphone|samsung/.test(n)) return '📱';
-  if (/laptop|macbook|notebook/.test(n))     return '💻';
-  if (/tv|television|monitor/.test(n))       return '📺';
-  if (/headphone|earphone|speaker/.test(n))  return '🎧';
-  if (/camera|dslr/.test(n))                 return '📷';
-  if (/watch/.test(n))                       return '⌚';
-  if (/shoe|sneaker/.test(n))                return '👟';
-  if (/shirt|cloth|dress/.test(n))           return '👕';
-  if (/book/.test(n))                        return '📚';
+  if (/laptop|macbook|notebook/.test(n))      return '💻';
+  if (/tv|television|monitor/.test(n))        return '📺';
+  if (/headphone|earphone|speaker/.test(n))   return '🎧';
+  if (/camera|dslr/.test(n))                  return '📷';
+  if (/watch/.test(n))                        return '⌚';
+  if (/shoe|sneaker/.test(n))                 return '👟';
+  if (/shirt|cloth|dress/.test(n))            return '👕';
+  if (/book/.test(n))                         return '📚';
   return '🛍️';
 }
 
-const STATUS_BADGE = {
-  PENDING:   'badge badge-warning',
-  CONFIRMED: 'badge badge-info',
-  SHIPPED:   'badge badge-purple',
-  DELIVERED: 'badge badge-success',
-  CANCELLED: 'badge badge-danger',
+const STATUS_META = {
+  PENDING:   { cls: 'badge-warning', label: 'PENDING',   bg: '#fef3c7', color: '#92400e' },
+  CONFIRMED: { cls: 'badge-info',    label: 'CONFIRMED', bg: '#dbeafe', color: '#1e40af' },
+  SHIPPED:   { cls: 'badge-purple',  label: 'SHIPPED',   bg: '#ede9fe', color: '#5b21b6' },
+  DELIVERED: { cls: 'badge-success', label: 'DELIVERED', bg: '#d1fae5', color: '#065f46' },
+  CANCELLED: { cls: 'badge-danger',  label: 'CANCELLED', bg: '#fee2e2', color: '#991b1b' },
 };
 
 export default function Orders() {
@@ -81,19 +81,31 @@ export default function Orders() {
     fetchPage(page);
   };
 
-  if (loading) return <div className="page-loading">Loading orders…</div>;
-  if (error)   return <div className="page"><div className="alert alert-error">{error}</div></div>;
+  if (loading) return (
+    <div className="page-loading">
+      <div style={{ textAlign: 'center' }}>
+        <div style={{ fontSize: 48, marginBottom: 16 }}>📦</div>
+        <p>Loading your orders…</p>
+      </div>
+    </div>
+  );
+
+  if (error) return (
+    <div className="page">
+      <div className="alert alert-error">{error}</div>
+    </div>
+  );
 
   return (
     <div className="orders-page">
-      <h1>
-        My Orders
+      <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 24 }}>
+        <h1 style={{ margin: 0 }}>My Orders</h1>
         {totalItems > 0 && (
-          <span style={{ fontSize: '14px', fontWeight: 400, color: 'var(--text-light)', marginLeft: '10px' }}>
+          <span className="badge badge-info" style={{ fontSize: 13 }}>
             {totalItems} order{totalItems !== 1 ? 's' : ''}
           </span>
         )}
-      </h1>
+      </div>
 
       {orders.length === 0 ? (
         <div className="empty-state">
@@ -104,98 +116,139 @@ export default function Orders() {
         </div>
       ) : (
         <>
-          {orders.map(order => (
-            <div key={order.id} className="order-card">
+          {orders.map(order => {
+            const meta = STATUS_META[order.status] || STATUS_META.PENDING;
+            return (
+              <div key={order.id} className="order-card">
 
-              {/* Header */}
-              <div
-                className="order-card-header"
-                onClick={() => setExpandedId(expandedId === order.id ? null : order.id)}
-              >
-                <div>
-                  <div className="order-id">Order #{order.id}</div>
-                  <div className="order-date">{formatDate(order.createdAt)}</div>
+                {/* Header */}
+                <div
+                  className="order-card-header"
+                  onClick={() => setExpandedId(expandedId === order.id ? null : order.id)}
+                >
+                  <div>
+                    <div className="order-id">Order #{order.id}</div>
+                    <div className="order-date">{formatDate(order.createdAt)}</div>
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
+                    <span style={{
+                      background: meta.bg, color: meta.color,
+                      padding: '4px 12px', borderRadius: 20,
+                      fontSize: 11, fontWeight: 800, letterSpacing: '0.5px',
+                    }}>
+                      {meta.label}
+                    </span>
+                    <span className="order-total">
+                      ₹{Number(order.totalAmount).toLocaleString('en-IN')}
+                    </span>
+                    <span className={`expand-icon${expandedId === order.id ? ' open' : ''}`}>▼</span>
+                  </div>
                 </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                  <span className={STATUS_BADGE[order.status] || 'badge badge-gray'}>
-                    {order.status}
+
+                {/* Timeline */}
+                {order.status !== 'CANCELLED' && (
+                  <div className="order-timeline">
+                    {TIMELINE_STEPS.map((step, i) => {
+                      const cls = getStepClass(step, order.status);
+                      return (
+                        <div key={step} className={`timeline-step${cls ? ' ' + cls : ''}`}>
+                          <div className="timeline-dot">
+                            {cls === 'done' ? '✓' : i + 1}
+                          </div>
+                          <div className="timeline-label">{STEP_LABELS[i]}</div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+
+                {order.status === 'CANCELLED' && (
+                  <div style={{
+                    padding: '12px 20px',
+                    background: 'var(--danger-light)',
+                    borderBottom: '1px solid #fca5a5',
+                    display: 'flex', alignItems: 'center', gap: 8,
+                    fontSize: 13, color: '#991b1b', fontWeight: 600,
+                  }}>
+                    ✕ Order Cancelled
+                  </div>
+                )}
+
+                {order.status === 'SHIPPED' && (
+                  <div style={{
+                    padding: '10px 20px', background: '#f5f3ff',
+                    borderTop: '1px solid #ede9fe', fontSize: 13, color: '#5b21b6',
+                  }}>
+                    🚚 <strong>Shipped by: </strong>
+                    {order.items?.find(i => i.sellerName)?.sellerName || order.sellerName || 'Seller'}
+                  </div>
+                )}
+
+                {/* Items (expanded) */}
+                {expandedId === order.id && (
+                  <div className="order-items-section">
+                    {order.items.map(item => (
+                      <div key={item.id} className="order-item-row">
+                        <div className="order-item-img">{getEmoji(item.productName)}</div>
+                        <div style={{ flex: 1 }}>
+                          <div className="order-item-name">{item.productName}</div>
+                          <div className="order-item-meta">
+                            Qty: {item.quantity} × ₹{Number(item.unitPrice).toLocaleString('en-IN')}
+                          </div>
+                        </div>
+                        <div className="order-item-price">
+                          ₹{Number(item.subtotal).toLocaleString('en-IN')}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                {/* Footer */}
+                <div className="order-card-footer">
+                  <span style={{ fontSize: 13, color: 'var(--text-light)' }}>
+                    {order.items?.length || 0} item{(order.items?.length || 0) !== 1 ? 's' : ''}
                   </span>
-                  <span className="order-total">₹{Number(order.totalAmount).toFixed(2)}</span>
-                  <span className={`expand-icon${expandedId === order.id ? ' open' : ''}`}>▼</span>
+                  <div style={{ display: 'flex', gap: 8 }}>
+                    <button className="order-track-btn">TRACK ORDER</button>
+                    {order.status === 'DELIVERED' && (
+                      <button
+                        className="order-track-btn"
+                        style={{ borderColor: 'var(--text-light)', color: 'var(--text-medium)' }}
+                      >
+                        RETURN
+                      </button>
+                    )}
+                  </div>
                 </div>
+
               </div>
-
-              {/* Timeline (always visible) */}
-              {order.status !== 'CANCELLED' && (
-                <div className="order-timeline">
-                  {TIMELINE_STEPS.map((step, i) => (
-                    <div key={step} className={`timeline-step ${getStepClass(step, order.status)}`}>
-                      <div className="timeline-dot">
-                        {getStepClass(step, order.status) === 'done' ? '✓' : i + 1}
-                      </div>
-                      <div className="timeline-label">{STEP_LABELS[i]}</div>
-                    </div>
-                  ))}
-                </div>
-              )}
-              {order.status === 'CANCELLED' && (
-                <div style={{ padding: '12px 16px', background: 'var(--danger-light)' }}>
-                  <span className="badge badge-danger">Order Cancelled</span>
-                </div>
-              )}
-
-              {/* Shipped-by notice — appears when order has been dispatched */}
-              {order.status === 'SHIPPED' && (
-                <div style={{
-                  padding: '8px 16px',
-                  background: '#f5f3ff',
-                  borderTop: '1px solid #ede9fe',
-                  fontSize: '13px',
-                  color: '#5b21b6',
-                }}>
-                  🚚 <strong>Shipped by: </strong>
-                  {order.items?.find(i => i.sellerName)?.sellerName || order.sellerName || 'Seller'}
-                </div>
-              )}
-
-              {/* Items (expanded) */}
-              {expandedId === order.id && (
-                <div className="order-items-section">
-                  {order.items.map(item => (
-                    <div key={item.id} className="order-item-row">
-                      <div className="order-item-img">{getEmoji(item.productName)}</div>
-                      <div style={{ flex: 1 }}>
-                        <div className="order-item-name">{item.productName}</div>
-                        <div className="order-item-meta">Qty: {item.quantity} × ₹{Number(item.unitPrice).toFixed(2)}</div>
-                      </div>
-                      <div className="order-item-price">₹{Number(item.subtotal).toFixed(2)}</div>
-                    </div>
-                  ))}
-                </div>
-              )}
-
-              {/* Footer */}
-              <div className="order-card-footer">
-                <span style={{ fontSize: '13px', color: 'var(--text-light)' }}>
-                  {order.items?.length || 0} item{(order.items?.length || 0) !== 1 ? 's' : ''}
-                </span>
-                <button className="order-track-btn">TRACK ORDER</button>
-              </div>
-
-            </div>
-          ))}
+            );
+          })}
 
           {totalPages > 1 && (
             <div className="pagination">
-              <button className="page-btn page-btn-arrow" onClick={() => goToPage(currentPage - 1)} disabled={currentPage === 0}>← Prev</button>
+              <button
+                className="page-btn page-btn-arrow"
+                onClick={() => goToPage(currentPage - 1)}
+                disabled={currentPage === 0}
+              >← Prev</button>
               {pageRange(currentPage, totalPages).map((p, i) =>
                 p === '…' ? (
                   <span key={`e${i}`} className="page-ellipsis">…</span>
                 ) : (
-                  <button key={p} className={`page-btn${p === currentPage ? ' active' : ''}`} onClick={() => goToPage(p)}>{p + 1}</button>
+                  <button
+                    key={p}
+                    className={`page-btn${p === currentPage ? ' active' : ''}`}
+                    onClick={() => goToPage(p)}
+                  >{p + 1}</button>
                 )
               )}
-              <button className="page-btn page-btn-arrow" onClick={() => goToPage(currentPage + 1)} disabled={currentPage >= totalPages - 1}>Next →</button>
+              <button
+                className="page-btn page-btn-arrow"
+                onClick={() => goToPage(currentPage + 1)}
+                disabled={currentPage >= totalPages - 1}
+              >Next →</button>
             </div>
           )}
         </>

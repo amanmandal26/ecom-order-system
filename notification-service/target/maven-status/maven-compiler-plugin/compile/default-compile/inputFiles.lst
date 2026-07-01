@@ -1,5 +1,0 @@
-/Users/aman/ecom-order-system/notification-service/src/main/java/com/ecom/notificationservice/service/EmailService.java
-/Users/aman/ecom-order-system/notification-service/src/main/java/com/ecom/notificationservice/NotificationServiceApplication.java
-/Users/aman/ecom-order-system/notification-service/src/main/java/com/ecom/notificationservice/config/RabbitMQConfig.java
-/Users/aman/ecom-order-system/notification-service/src/main/java/com/ecom/notificationservice/event/OrderPlacedEvent.java
-/Users/aman/ecom-order-system/notification-service/src/main/java/com/ecom/notificationservice/listener/OrderEventListener.java

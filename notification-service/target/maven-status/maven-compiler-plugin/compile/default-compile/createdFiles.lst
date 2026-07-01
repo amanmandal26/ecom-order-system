@@ -1,8 +1,0 @@
-com/ecom/notificationservice/listener/OrderEventListener.class
-com/ecom/notificationservice/NotificationServiceApplication.class
-com/ecom/notificationservice/event/OrderPlacedEvent$OrderItemInfo.class
-com/ecom/notificationservice/event/OrderPlacedEvent$OrderItemInfo$OrderItemInfoBuilder.class
-com/ecom/notificationservice/service/EmailService.class
-com/ecom/notificationservice/event/OrderPlacedEvent.class
-com/ecom/notificationservice/event/OrderPlacedEvent$OrderPlacedEventBuilder.class
-com/ecom/notificationservice/config/RabbitMQConfig.class

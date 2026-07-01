@@ -6,15 +6,19 @@ export default function LoginPromptModal({ onClose }) {
 
   return (
     <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-box" style={{ maxWidth: 400, textAlign: 'center' }} onClick={e => e.stopPropagation()}>
-        <div className="modal-header" style={{ justifyContent: 'center', position: 'relative' }}>
-          <h3>🔒 Sign in to continue</h3>
-          <button className="modal-close" onClick={onClose} style={{ position: 'absolute', right: 0 }}>×</button>
-        </div>
-        <p style={{ color: 'var(--text-secondary)', marginBottom: '1.5rem', fontSize: '0.9rem' }}>
+      <div
+        className="modal-box"
+        style={{ maxWidth: 400, textAlign: 'center' }}
+        onClick={e => e.stopPropagation()}
+      >
+        <div style={{ fontSize: 48, marginBottom: 16 }}>🔒</div>
+        <h3 style={{ fontSize: 20, fontWeight: 700, color: 'var(--text-dark)', marginBottom: 8 }}>
+          Sign in to continue
+        </h3>
+        <p style={{ color: 'var(--text-medium)', marginBottom: 28, fontSize: 14, lineHeight: 1.6 }}>
           Create a free account or sign in to add items to your cart and place orders.
         </p>
-        <div style={{ display: 'flex', gap: '0.75rem', justifyContent: 'center' }}>
+        <div style={{ display: 'flex', gap: 12, justifyContent: 'center' }}>
           <Link
             to="/login"
             state={{ from: location }}
@@ -32,6 +36,16 @@ export default function LoginPromptModal({ onClose }) {
             Create Account
           </Link>
         </div>
+        <button
+          onClick={onClose}
+          style={{
+            marginTop: 20, background: 'none', border: 'none',
+            color: 'var(--text-light)', fontSize: 13, cursor: 'pointer',
+            fontFamily: 'inherit',
+          }}
+        >
+          Maybe later
+        </button>
       </div>
     </div>
   );
